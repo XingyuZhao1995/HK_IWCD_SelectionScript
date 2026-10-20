@@ -22,4 +22,3 @@ Once installation is done, add executable path to `PATH` so that you can run the
 ```
 export PATH=/path/to/package/install/bin:${PATH}
 ```
-

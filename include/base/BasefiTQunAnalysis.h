@@ -16,6 +16,7 @@
 
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
+#include "utils/FillInfoUtils.h"
 
 const int NMAXCLUS = 6;
 const int NMAXTIMEWIN = 7;

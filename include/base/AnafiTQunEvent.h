@@ -3,6 +3,8 @@
 
 #include <algorithm>
 
+#include <TVector3.h>
+
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 
 // A fiTQun event class used for analysis
@@ -23,13 +25,17 @@ public:
   ND::NRooTrackerVtx *nrootrackervtx;
 
   // Interaction information
+  int nu_pdg;
+  double nu_energy; // In MeV
+  int nu_neut_code;
 
-  
   // Geometry information
+  TVector3 nu_vtx_pos; // In cm
 
-
-  // Primary particle information
-
+  // Primary lepton information
+  int nu_pri_lep_pdg;
+  double nu_pri_lep_mom; // In MeV
+  TVector3 nu_pri_lep_dir;
 
   // ----------------------------------------
   // Reconstruction information

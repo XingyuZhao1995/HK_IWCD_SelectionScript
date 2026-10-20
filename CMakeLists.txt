@@ -57,6 +57,8 @@ target_sources(selection_script_lib
     src/base/AnafiTQunEvent.cpp
 
     src/analysis/fiTQunEventCheck.cpp
+
+    src/utils/FillInfoUtils.cpp
 )
 
 target_include_directories(selection_script_lib
