@@ -53,7 +53,7 @@ public:
    float                fSumQ;                        //Sum of digitised hit charge in this trigger
    TClonesArray*        fCherenkovDigiHits;           //Array of WCSimRootCherenkovDigiHit's
    Int_t                fTriggerType;                 //Trigger algorithm that created this trigger
-   vector<double>       fTriggerInfo;                 //Information about how it passed the trigger (e.g. how many hits in the NDigits window)
+   std::vector<double>       fTriggerInfo;                 //Information about how it passed the trigger (e.g. how many hits in the NDigits window)
    bool                 IsZombie;                     //Will be true if unfilled, false if filled
 
    WCSimRootTrigger();

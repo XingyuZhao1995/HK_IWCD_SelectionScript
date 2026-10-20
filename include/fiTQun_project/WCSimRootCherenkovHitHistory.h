@@ -38,11 +38,11 @@ public:
    int         fNRayScat;    //Number of Rayliegh scatters the photon that created this hit underwent
    int         fNRamScat;    //Number of Raman scatters the photon that created this hit underwent
    int         fNMieScat;    //Number of Mie scatters the photon that created this hit underwent
-   vector<EReflectionSurface> fReflec;      //Surfaces of reflections that the photon that created this hit underwent
-   vector<float>              fStepsX;      //Positon X of steps in the path of the photon that created this hit
-   vector<float>              fStepsY;      //Positon Y of steps in the path of the photon that created this hit
-   vector<float>              fStepsZ;      //Positon Z of steps in the path of the photon that created this hit
-   vector<EStepType>          fStepsType;    //Type of steps in the path of the photon that created this hit
+   std::vector<EReflectionSurface> fReflec;      //Surfaces of reflections that the photon that created this hit underwent
+   std::vector<float>              fStepsX;      //Positon X of steps in the path of the photon that created this hit
+   std::vector<float>              fStepsY;      //Positon Y of steps in the path of the photon that created this hit
+   std::vector<float>              fStepsZ;      //Positon Z of steps in the path of the photon that created this hit
+   std::vector<EStepType>          fStepsType;    //Type of steps in the path of the photon that created this hit
 
    WCSimRootCherenkovHitHistory();
    WCSimRootCherenkovHitHistory(WCSimRootCherenkovHitHistory && ) = default;

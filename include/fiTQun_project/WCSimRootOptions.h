@@ -26,19 +26,19 @@ public:
 
 public:
 // Data Members.
-   string      WCSimVersion;    //WCSim version. Includes latest tag, number of commits since last tag, and git hash
-   string      DetectorName;    //Name of the detector geometry
+   std::string      WCSimVersion;    //WCSim version. Includes latest tag, number of commits since last tag, and git hash
+   std::string      DetectorName;    //Name of the detector geometry
    bool        GeomHasOD;       //Does the detector contain active OD PMTs?
    bool        SavePi0;         //Is more information about Pi0 decays saved?
    int         PMTQEMethod;     //
    int         PMTCollEff;      //Is the PMT collection efficiency turned on?
    std::vector<std::pair<std::string,WCSimDarkNoiseOptions> > DarkOptMap;      //Maps active PMT types (string) with information on that PMT types' dark noise running options (WCSimDarkNoiseOptions)
-   string                                                     DigitizerClassName;    //The active digitiser
+   std::string                                                     DigitizerClassName;    //The active digitiser
    int                                                        DigitizerDeadTime;     //The digitiser dead time (digitiser cannot integrate hits for this duration after a hit) (unit: ns)
    int                                                        DigitizerIntegrationWindow;    //The digitiser integration time (unit: ns)
    int                                                        DigitizerTimingPrecision;      //The digitiser timing precision. Hit times are truncated to this level (unit: ns)
    int                                                        DigitizerPEPrecision;          //The digitiser charge precision. Hit charges are truncated to this level (unit: same as digitised charge (p.e.?))
-   string                                                     TriggerClassName;              //The active trigger
+   std::string                                                     TriggerClassName;              //The active trigger
    bool                                                       MultiDigitsPerTrigger;         //Are multiple digits from the same PMT allowed to be read out in the same trigger readout window?
    double                                                     TriggerOffset;                 //Triggered digit time = digit time - trigger time + this offset (unit: ns)
    int                                                        NDigitsThreshold;              //For the NDigits trigger, how many digitised hits in the trigger decision window will make the trigger fire?
@@ -60,9 +60,9 @@ public:
    double                                                     PmtSatur;                         //p.e. threshold where saturation starts to occur
    double                                                     Tvspacing;                        //Top veto PMT spacing
    bool                                                       Topveto;                          //Is the top veto defined in the simulation?
-   string                                                     PhysicsListName;                  //The active physics list
-   string                                                     VectorFileName;                   //The name of the input vector file (used for some generators e.g. muline, rootracker, datatable, ...)
-   string                                                     GeneratorType;                    //The active generator type
+   std::string                                                     PhysicsListName;                  //The active physics list
+   std::string                                                     VectorFileName;                   //The name of the input vector file (used for some generators e.g. muline, rootracker, datatable, ...)
+   std::string                                                     GeneratorType;                    //The active generator type
    int                                                        RandomSeed;                       //The initial seed for one of the random number generators
    Int_t                                                      RandomGenerator;                  //The random number generator type
 

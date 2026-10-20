@@ -26,7 +26,7 @@ public:
    int         fTubeId;     //PMT ID. WARNING: Runs from 1 to N (not 0 to N-1, which is how you access elements from WCSimRootGeom)
    int         fmPMTId;     //The mPMT number this 3" PMT is in (Equivalent to fTubeId for 20" & OD PMTs)
    int         fmPMT_PMTId;    //The 3" PMT position ID inside this mPMT (runs from 1-19 for 3" PMTs inside mPMTs. Is 0 for 20" & OD PMTs)
-   vector<int> fPhotonIds;     //Truth matching. Position(s) in the CherenkovHitTime array that contains the true hit(s) that created this digit
+   std::vector<int> fPhotonIds;     //Truth matching. Position(s) in the CherenkovHitTime array that contains the true hit(s) that created this digit
 
    WCSimRootCherenkovDigiHit();
    WCSimRootCherenkovDigiHit(WCSimRootCherenkovDigiHit && ) = default;
