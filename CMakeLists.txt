@@ -54,6 +54,7 @@ add_library(selection_script_lib)
 target_sources(selection_script_lib
   PRIVATE
     src/base/BasefiTQunAnalysis.cpp
+    src/base/AnafiTQunEvent.cpp
 
     src/analysis/fiTQunEventCheck.cpp
 )
