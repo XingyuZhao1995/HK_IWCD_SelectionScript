@@ -1,6 +1,16 @@
 #include "utils/GeomUtils.h"
 
 // ********************************************************
+TVector3 GeomUtils::CorrectPosition(TVector3 pos){
+// ********************************************************
+
+  TVector3 corr_pos(pos.X() - WCDetCentre.X(),pos.Y(),pos.Z() - WCDetCentre.Z());
+  
+  return corr_pos;
+
+}
+
+// ********************************************************
 double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir, bool apply_corr){
 // ********************************************************
 
@@ -9,9 +19,7 @@ double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir, bool apply_corr){
 
   // Correct the position if needed
   TVector3 rel_pos;
-  if(apply_corr){
-    rel_pos.SetXYZ(pos.X() - WCDetCentre.X(),pos.Y(),pos.Z() - WCDetCentre.Z());
-  }
+  if(apply_corr) rel_pos = CorrectPosition(pos);
   else rel_pos = pos;
 
   double sZ = 0;
@@ -39,9 +47,7 @@ double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
 
   // Correct the position if needed
   TVector3 rel_pos;
-  if(apply_corr){
-    rel_pos.SetXYZ(pos.X() - WCDetCentre.X(),pos.Y(),pos.Z() - WCDetCentre.Z());
-  }
+  if(apply_corr) rel_pos = CorrectPosition(pos);
   else rel_pos = pos;
 
   double vtxRadius = std::sqrt(std::pow(rel_pos.X(),2) + std::pow(rel_pos.Z(),2));
@@ -51,6 +57,23 @@ double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
   // Result is negative if outside ID
   if(dWallZ < dWallR) return dWallZ;
   return dWallR;
+
+}
+
+// ********************************************************
+bool GeomUtils::IsPointContained(TVector3 pos, bool apply_corr = false){
+// ********************************************************
+
+  // Correct the position if needed
+  TVector3 rel_pos;
+  if(apply_corr) rel_pos = CorrectPosition(pos);
+  else rel_pos = pos;
+
+  double radius = std::sqrt(std::pow(rel_pos.X(),2) + std::pow(rel_pos.Z(),2));
+  double height = std::fabs(rel_pos.Y() - IDCenterY);
+
+  if(radius < IDRadius && height < IDHalfLength) return true;
+  return false;
 
 }
 

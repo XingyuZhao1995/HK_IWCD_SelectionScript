@@ -17,6 +17,12 @@ namespace GeomUtils{
   const double IDCenterY = WCDetCentre.Y();
 
   // ----------------------------------------
+  // Position utils
+
+  // Correct position
+  TVector3 CorrectPosition(TVector3 pos);
+
+  // ----------------------------------------
   // Distance utils
 
   // Towall and dwall distances
@@ -24,8 +30,11 @@ namespace GeomUtils{
   double CalcDWallDis(TVector3 pos, bool apply_corr = false);
 
   // ----------------------------------------
-  // Containment utils
+  // (ID) Containment utils
   
+  // Point position containment
+  bool IsPointContained(TVector3 pos, bool apply_corr = false);
+
   // General track containment
   bool IsTrueTrackContained(double momentum, TVector3 pos, TVector3 dir, bool apply_corr = false);
 

@@ -17,6 +17,9 @@ CategoryUtils::InterCate CategoryUtils::GetInterCateType(AnafiTQunEvent &event){
 
   if(!event.nrootrackervtx) return InterCate::kOther;
 
+  // Not contained in ID
+  if(!GeomUtils::IsPointContained(event.nu_vtx_pos,true)) return InterCate::kOther;
+
   // NC
   if(std::abs(event.nu_neut_code) > 30){
     return InterCate::kNC;
