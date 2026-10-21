@@ -165,8 +165,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_name){
     AnafiTQunEvent event;    
 
     // NEUT RooTracker tree
-    ND::NRooTrackerVtx *NRooTracker_event = (ND::NRooTrackerVtx*)NRooTrackerVtx->At(0);
-    event.nrootrackervtx = NRooTracker_event;
+    event.nrootrackervtx = NRooTrackerVtx;
 
     // (Fill vertex information)
     FillInfoUtils::FillNEUTRooTrkVtxInfo(event);

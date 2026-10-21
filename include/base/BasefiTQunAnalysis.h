@@ -71,7 +71,7 @@ private:
   // Input tree branch variables
 
   // NEUT RooTracker tree
-  TClonesArray *NRooTrackerVtx;
+  ND::NRooTrackerVtx *NRooTrackerVtx;
 
   // fiTQun tree
   int cluster_ncand;
