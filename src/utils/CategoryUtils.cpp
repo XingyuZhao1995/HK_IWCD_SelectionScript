@@ -7,7 +7,7 @@ CategoryUtils::PIDCate CategoryUtils::GetPIDCateType(AnafiTQunEvent &event){
   if(std::abs(event.nu_pri_lep_pdg) == 11) return PIDCate::kElectron;
   else if(std::abs(event.nu_pri_lep_pdg) == 13) return PIDCate::kMuon;
 
-  return PIDCate::kOther;
+  return PIDCate::kRest;
 
 }
 

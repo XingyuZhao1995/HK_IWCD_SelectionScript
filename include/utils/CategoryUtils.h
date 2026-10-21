@@ -17,7 +17,7 @@ namespace CategoryUtils{
     kPion,
     kKaon,
     kProton,
-    kOther
+    kRest
   };
 
   // Get PID category type

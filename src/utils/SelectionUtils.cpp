@@ -14,7 +14,7 @@ double SelectionUtils::ComputePIDemuRatio(AnafiTQunEvent &event){
 double SelectionUtils::GetMinNegLLH1Ring(AnafiTQunEvent &event, PIDCate par_type){
 // ********************************************************
 
-  return par_type == PIDCate::kOther ? event.reco_pi0_nllh : event.reco_1r_nllh[par_type];
+  return par_type == PIDCate::kRest ? event.reco_pi0_nllh : event.reco_1r_nllh[par_type];
 
 }
 

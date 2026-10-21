@@ -34,7 +34,7 @@ double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir, bool apply_corr){
 }
 
 // ********************************************************
-double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr = false){
+double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
 // ********************************************************
 
   // Correct the position if needed
