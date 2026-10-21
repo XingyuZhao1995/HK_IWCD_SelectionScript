@@ -6,7 +6,7 @@ Option=${1}
 
 # Input file path
 InputPath="/vols/hyperk/hk-neut.5.6.4.4-1_p7c1/IWCD_geom_v3_hz4930_r4640/wcsim_v1.12.35_cwcs1.1.1.1/fitqun_6.4.4_cfqni.1.1.1.1.2/ID/flux23av1_p320_nd25/rfqn"
-FileListPath="./file_list"
+FileListPath="/home/hep/xzhao6/HK/IWCD/SelectionScript/scripts/analysis/file_list"
 
 # Create file list directory if not exist
 if [ ! -d ${FileListPath} ]
@@ -61,7 +61,7 @@ do
 
   # Make output file name
   FileNameFull="${List##*/}"
-  FileName="${FileNameFull%.root}.root"
+  FileName="${FileNameFull%.txt}.root"
 
   # Save input and output path to the file list
   echo "${Option} ${List} ${OutputPath}/${FileName}" >> ${SummaryFile}
