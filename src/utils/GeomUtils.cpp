@@ -61,7 +61,7 @@ double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
 }
 
 // ********************************************************
-bool GeomUtils::IsPointContained(TVector3 pos, bool apply_corr = false){
+bool GeomUtils::IsPointContained(TVector3 pos, bool apply_corr){
 // ********************************************************
 
   // Correct the position if needed
