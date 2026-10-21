@@ -1,0 +1,10 @@
+executable = /home/hep/xzhao6/HK/IWCD/SelectionScript/scripts/analysis/run_analysis.sh
+arguments = $(option) $(input_url) $(output_url)
+
+initialdir = /vols/hyperk/users/xzhao/HK/IWCD/selection_output/logs/
+log = $(CLUSTER).log
+output = $(CLUSTER).$(PROCESS).out
+error = $(CLUSTER).$(PROCESS).error
++MaxRuntime = 3600
+
+queue option, input_url, output_url from file_list.txt
