@@ -102,6 +102,7 @@ private:
   float fqmrnll[NMAXMRFIT];
 
   int fqpi0pcflg[2];
+  float fqpi0nll[2];
 
   int muechk_ncand[NMAXCLUS];
 

@@ -60,6 +60,9 @@ public:
   std::vector<int> reco_mr_nring;
   std::vector<double> reco_mr_nllh;
 
+  // Pi0 tagging information
+  double reco_pi0_nllh = -1;
+
 };
 
 #endif

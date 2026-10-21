@@ -15,6 +15,17 @@ namespace SelectionUtils{
   // Compute PID likelihood ratio
   double ComputePIDemuRatio(AnafiTQunEvent &event);
 
+  // ----------------------------------------
+  // Ring cut
+
+  // Get minimum negative LLH for each ring hypothesis
+  double GetMinNegLLH1Ring(AnafiTQunEvent &event, PIDCate par_type);
+  double GetMinNegLLH2Ring(AnafiTQunEvent &event);
+  double GetMinNegLLH3Ring(AnafiTQunEvent &event);
+
+  // Get number of reconstructed rings
+  int GetNRecoRing(AnafiTQunEvent &event, PIDCate par_type);
+
 };
 
 #endif

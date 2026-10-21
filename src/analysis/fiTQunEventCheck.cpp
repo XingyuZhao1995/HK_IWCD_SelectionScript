@@ -49,6 +49,9 @@ void fiTQunEventCheck::OverallInitialization(){
 
   tout->Branch("nsubeve_reco",&nsubeve_reco,"nsubeve_reco/I");
   tout->Branch("nring_reco",&nring_reco,"nring_reco/I");
+  tout->Branch("nllh_1ring_reco",&nllh_1ring_reco,"nllh_1ring_reco/D");
+  tout->Branch("nllh_2ring_reco",&nllh_2ring_reco,"nllh_2ring_reco/D");
+  tout->Branch("nllh_3ring_reco",&nllh_3ring_reco,"nllh_3ring_reco/D");
 
 }
 
@@ -85,7 +88,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   vtx_pos_true[1] = event.nu_vtx_pos.Y();
   vtx_pos_true[2] = event.nu_vtx_pos.Z();
 
-  int par_index = CategoryUtils::GetPIDCateType(event);
+  CategoryUtils::PIDCate par_index = CategoryUtils::GetPIDCateType(event);
   vtx_pos_reco[0] = event.reco_1r_pos[par_index].X();
   vtx_pos_reco[1] = event.reco_1r_pos[par_index].Y();
   vtx_pos_reco[2] = event.reco_1r_pos[par_index].Z();
@@ -113,6 +116,10 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
 
   // Event general information
   nsubeve_reco = event.reco_nsubeve;
+  nring_reco = SelectionUtils::GetNRecoRing(event,par_index);
+  nllh_1ring_reco = SelectionUtils::GetMinNegLLH1Ring(event,par_index);
+  nllh_2ring_reco = SelectionUtils::GetMinNegLLH2Ring(event);
+  nllh_3ring_reco = SelectionUtils::GetMinNegLLH3Ring(event);
 
   tout->Fill();
 

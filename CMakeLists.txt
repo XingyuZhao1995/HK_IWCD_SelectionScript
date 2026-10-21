@@ -59,6 +59,9 @@ target_sources(selection_script_lib
     src/analysis/fiTQunEventCheck.cpp
 
     src/utils/FillInfoUtils.cpp
+    src/utils/CategoryUtils.cpp
+    src/utils/GeomUtils.cpp
+    src/utils/SelectionUtils.cpp
 )
 
 target_include_directories(selection_script_lib

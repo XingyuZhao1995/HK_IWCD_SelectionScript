@@ -66,6 +66,9 @@ private:
 
   int nsubeve_reco;
   int nring_reco;
+  double nllh_1ring_reco;
+  double nllh_2ring_reco;
+  double nllh_3ring_reco;
 
 };
 

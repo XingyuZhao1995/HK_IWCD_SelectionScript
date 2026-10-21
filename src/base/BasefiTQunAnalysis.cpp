@@ -143,6 +143,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_name){
   tin_fiTQun->SetBranchAddress("fqmrnll",&fqmrnll);
 
   tin_fiTQun->SetBranchAddress("fqpi0pcflg",&fqpi0pcflg);
+  tin_fiTQun->SetBranchAddress("fqpi0nll",&fqpi0nll);
 
   tin_fiTQun->SetBranchAddress("muechk_ncand",&muechk_ncand);
 
@@ -212,6 +213,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_name){
         event.reco_mr_nring.push_back(fqmrnring[i]);
         event.reco_mr_nllh.push_back(fqmrnll[i]);
       }
+
+      // Pi0
+      event.reco_pi0_nllh = fqpi0nll[0];
 
     }
 
