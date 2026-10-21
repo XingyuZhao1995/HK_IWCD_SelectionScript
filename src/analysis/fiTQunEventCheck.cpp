@@ -15,7 +15,6 @@ fiTQunEventCheck::fiTQunEventCheck(std::string in_list_name, std::string out_nam
 fiTQunEventCheck::~fiTQunEventCheck(){
 // ********************************************************
 
-  delete tout;
   delete fout;
 
 }
@@ -28,30 +27,30 @@ void fiTQunEventCheck::OverallInitialization(){
   fout = new TFile(fout_name.data(),"recreate");
 
   // Create output tree
-  tout = new TTree("events","events");
+  tout.SetNameTitle("events","events");
 
   // Create output tree branches
-  tout->Branch("cate_type",&cate_type,"cate_type/I");
+  tout.Branch("cate_type",&cate_type,"cate_type/I");
 
-  tout->Branch("vtx_pos_true",&vtx_pos_true,"vtx_pos_true[3]/D");
-  tout->Branch("vtx_pos_reco",&vtx_pos_reco,"vtx_pos_reco[3]/D");
+  tout.Branch("vtx_pos_true",&vtx_pos_true,"vtx_pos_true[3]/D");
+  tout.Branch("vtx_pos_reco",&vtx_pos_reco,"vtx_pos_reco[3]/D");
 
-  tout->Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
-  tout->Branch("lep_mom_reco",&lep_mom_reco,"lep_mom_reco/D");
-  tout->Branch("lep_dir_true",&lep_dir_true,"lep_dir_true[3]/D");
-  tout->Branch("lep_dir_reco",&lep_dir_reco,"lep_dir_reco[3]/D");
-  tout->Branch("lep_PID_emu_reco",&lep_PID_emu_reco,"lep_PID_emu_reco/D");
+  tout.Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
+  tout.Branch("lep_mom_reco",&lep_mom_reco,"lep_mom_reco/D");
+  tout.Branch("lep_dir_true",&lep_dir_true,"lep_dir_true[3]/D");
+  tout.Branch("lep_dir_reco",&lep_dir_reco,"lep_dir_reco[3]/D");
+  tout.Branch("lep_PID_emu_reco",&lep_PID_emu_reco,"lep_PID_emu_reco/D");
 
-  tout->Branch("towall_true",&towall_true,"towall_true/D");
-  tout->Branch("towall_reco",&towall_reco,"towall_reco/D");
-  tout->Branch("dwall_true",&dwall_true,"dwall_true/D");
-  tout->Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
+  tout.Branch("towall_true",&towall_true,"towall_true/D");
+  tout.Branch("towall_reco",&towall_reco,"towall_reco/D");
+  tout.Branch("dwall_true",&dwall_true,"dwall_true/D");
+  tout.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
 
-  tout->Branch("nsubeve_reco",&nsubeve_reco,"nsubeve_reco/I");
-  tout->Branch("nring_reco",&nring_reco,"nring_reco/I");
-  tout->Branch("nllh_1ring_reco",&nllh_1ring_reco,"nllh_1ring_reco/D");
-  tout->Branch("nllh_2ring_reco",&nllh_2ring_reco,"nllh_2ring_reco/D");
-  tout->Branch("nllh_3ring_reco",&nllh_3ring_reco,"nllh_3ring_reco/D");
+  tout.Branch("nsubeve_reco",&nsubeve_reco,"nsubeve_reco/I");
+  tout.Branch("nring_reco",&nring_reco,"nring_reco/I");
+  tout.Branch("nllh_1ring_reco",&nllh_1ring_reco,"nllh_1ring_reco/D");
+  tout.Branch("nllh_2ring_reco",&nllh_2ring_reco,"nllh_2ring_reco/D");
+  tout.Branch("nllh_3ring_reco",&nllh_3ring_reco,"nllh_3ring_reco/D");
 
 }
 
@@ -73,7 +72,7 @@ void fiTQunEventCheck::SaveOutputFile(){
 // ********************************************************
 
   fout->cd();
-  tout->Write();
+  tout.Write();
   fout->Close();
 
 }
@@ -83,6 +82,9 @@ void fiTQunEventCheck::SaveOutputFile(){
 // ********************************************************
 bool fiTQunEventCheck::ApplyEventCut(AnafiTQunEvent &event){
 // ********************************************************
+
+  // Should have true NEUT vertex
+  if(!event.nrootrackervtx) return false;
 
   // Should have reconstruction result
   if(!event.reco_tag) return false;
@@ -136,6 +138,6 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   nllh_2ring_reco = SelectionUtils::GetMinNegLLH2Ring(event);
   nllh_3ring_reco = SelectionUtils::GetMinNegLLH3Ring(event);
 
-  tout->Fill();
+  tout.Fill();
 
 }

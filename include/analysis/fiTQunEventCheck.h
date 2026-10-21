@@ -37,7 +37,7 @@ private:
   TFile *fout;
 
   // Output tree
-  TTree *tout;
+  TTree tout;
 
   // ----------------------------------------------
   // Auxiliary functions
