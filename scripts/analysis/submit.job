@@ -1,7 +1,7 @@
-executable = /home/hep/xzhao6/HK/IWCD/SelectionScript/scripts/analysis/run_analysis.sh
+executable = /vols/hyperk/users/xzhao/HK/IWCD/SelectionScript/scripts/analysis/run_analysis.sh
 arguments = $(option) $(input_url) $(output_url)
 
-initialdir = /vols/hyperk/users/xzhao/HK/IWCD/selection_output/logs/
+initialdir = /vols/hyperk/users/xzhao/HK/IWCD/OutputFiles/selection_output/logs/
 log = $(CLUSTER).log
 output = $(CLUSTER).$(PROCESS).out
 error = $(CLUSTER).$(PROCESS).error

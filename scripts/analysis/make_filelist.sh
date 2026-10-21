@@ -6,7 +6,7 @@ Option=${1}
 
 # Input file path
 InputPath="/vols/hyperk/hk-neut.5.6.4.4-1_p7c1/IWCD_geom_v3_hz4930_r4640/wcsim_v1.12.35_cwcs1.1.1.1/fitqun_6.4.4_cfqni.1.1.1.1.2/ID/flux23av1_p320_nd25/rfqn"
-FileListPath="/home/hep/xzhao6/HK/IWCD/SelectionScript/scripts/analysis/file_list"
+FileListPath="/vols/hyperk/users/xzhao/HK/IWCD/SelectionScript/scripts/analysis/file_list"
 
 # Create file list directory if not exist
 if [ ! -d ${FileListPath} ]
@@ -42,7 +42,7 @@ do
 done
 
 # Output file path
-OutputPath="/vols/hyperk/users/xzhao/HK/IWCD/selection_output"
+OutputPath="/vols/hyperk/users/xzhao/HK/IWCD/OutputFiles/selection_output"
 if [ ${Option} = "1" ]
 then
   OutputPath="${OutputPath}/fiTQun_event_check"
@@ -67,3 +67,6 @@ do
   echo "${Option} ${List} ${OutputPath}/${FileName}" >> ${SummaryFile}
 
 done
+
+# Delete existing log files as well
+rm -rf /vols/hyperk/users/xzhao/HK/IWCD/OutputFiles/selection_output/logs/*
