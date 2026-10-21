@@ -99,6 +99,7 @@ private:
   int fqmrifit[NMAXMRFIT];
   int fqmrnring[NMAXMRFIT];
   int fqmrpcflg[NMAXMRFIT];
+  float fqmrnll[NMAXMRFIT];
 
   int fqpi0pcflg[2];
 

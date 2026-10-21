@@ -140,6 +140,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_name){
   tin_fiTQun->SetBranchAddress("fqmrifit",&fqmrifit);
   tin_fiTQun->SetBranchAddress("fqmrnring",&fqmrnring);
   tin_fiTQun->SetBranchAddress("fqmrpcflg",&fqmrpcflg);
+  tin_fiTQun->SetBranchAddress("fqmrnll",&fqmrnll);
 
   tin_fiTQun->SetBranchAddress("fqpi0pcflg",&fqpi0pcflg);
 
@@ -170,7 +171,49 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_name){
     FillInfoUtils::FillNEUTRooTrkVtxInfo(event);
 
     // fiTQun tree
+    int max_index = -1;
+    double max_charge = 0;
+    for(int i = 0; i < fqnse; i++){
+      if(fqtotq[i] > max_charge){
+        max_charge = fqtotq[i];
+        max_index = i;
+      }
+    }
+    if(max_index < 0) event.reco_tag = false;
 
+    // (Fill reco information)
+    if(event.reco_tag){
+    
+      // Subevent
+      event.reco_nsubeve = fqnse;
+
+      // Max subevent
+      // (Single ring)
+      for(int i = 0; i < NPIDHYPO; i++){
+        event.reco_1r_flag.push_back(fq1rpcflg[max_index][i]);
+        event.reco_1r_mom.push_back(fq1rmom[max_index][i]);
+        event.reco_1r_nllh.push_back(fq1rnll[max_index][i]);
+
+        TVector3 pos_tmp(fq1rpos[max_index][i][0],fq1rpos[max_index][i][1],fq1rpos[max_index][i][2]);
+        event.reco_1r_pos.push_back(pos_tmp);
+
+        TVector3 dir_tmp(fq1rdir[max_index][i][0],fq1rdir[max_index][i][1],fq1rdir[max_index][i][2]);
+        if(dir_tmp.Mag() > 0) dir_tmp *= (1.0 / dir_tmp.Mag());
+        event.reco_1r_dir.push_back(dir_tmp);
+      }
+
+      // (Multi ring)
+      event.reco_mr_nfit = 0;
+      for(int i = 0; i < fqnmrfit; i++){
+        if(fqmrpcflg[i] != 0) continue;
+
+        event.reco_mr_nfit += 1;
+        event.reco_mr_ifit.push_back(fqmrifit[i]);
+        event.reco_mr_nring.push_back(fqmrnring[i]);
+        event.reco_mr_nllh.push_back(fqmrnll[i]);
+      }
+
+    }
 
     // ---------------------------------------
     // Analyze event
