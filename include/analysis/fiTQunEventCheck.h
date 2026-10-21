@@ -42,6 +42,9 @@ private:
   // ----------------------------------------------
   // Auxiliary functions
 
+  // Apply event cut
+  bool ApplyEventCut(AnafiTQunEvent &event);
+
   // Fill output tree
   void FillOutputTree(AnafiTQunEvent &event);
 

@@ -59,6 +59,10 @@ void fiTQunEventCheck::OverallInitialization(){
 void fiTQunEventCheck::RunEventAnalysis(AnafiTQunEvent &event){
 // ********************************************************
 
+  // Apply event cut
+  bool ok = ApplyEventCut(event);
+  if(!ok) return;
+
   // Fill output tree
   FillOutputTree(event);
 
@@ -75,6 +79,17 @@ void fiTQunEventCheck::SaveOutputFile(){
 }
 
 // -------- Private member functions --------
+
+// ********************************************************
+bool fiTQunEventCheck::ApplyEventCut(AnafiTQunEvent &event){
+// ********************************************************
+
+  // Should have reconstruction result
+  if(!event.reco_tag) return false;
+
+  return true;
+
+}
 
 // ********************************************************
 void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
