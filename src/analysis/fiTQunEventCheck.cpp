@@ -37,6 +37,7 @@ void fiTQunEventCheck::OverallInitialization(){
 
   tout.Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
   tout.Branch("lep_mom_reco",&lep_mom_reco,"lep_mom_reco/D");
+  tout.Branch("lep_mom_reco_hypo",&lep_mom_reco_hypo,"lep_mom_reco_hypo[2]/D");
   tout.Branch("lep_dir_true",&lep_dir_true,"lep_dir_true[3]/D");
   tout.Branch("lep_dir_reco",&lep_dir_reco,"lep_dir_reco[3]/D");
   tout.Branch("lep_PID_emu_reco",&lep_PID_emu_reco,"lep_PID_emu_reco/D");
@@ -113,6 +114,8 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   // Lepton information
   lep_mom_true = event.nu_pri_lep_mom;
   lep_mom_reco = event.reco_1r_mom[par_index];
+  lep_mom_reco_hypo[0] = event.reco_1r_mom[PIDCate::kElectron];
+  lep_mom_reco_hypo[1] = event.reco_1r_mom[PIDCate::kMuon];
 
   lep_dir_true[0] = event.nu_pri_lep_dir.X();
   lep_dir_true[1] = event.nu_pri_lep_dir.Y();

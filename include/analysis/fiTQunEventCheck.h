@@ -58,6 +58,7 @@ private:
 
   double lep_mom_true;
   double lep_mom_reco;
+  double lep_mom_reco_hypo[2]; // 0 = electron, 1 = muon
   double lep_dir_true[3];
   double lep_dir_reco[3];
   double lep_PID_emu_reco;
