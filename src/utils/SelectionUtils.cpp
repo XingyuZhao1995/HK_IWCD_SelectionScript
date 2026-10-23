@@ -1,6 +1,28 @@
 #include "utils/SelectionUtils.h"
 
 // ********************************************************
+bool SelectionUtils::IsTrueNumuCCQESignal(AnafiTQunEvent &event){
+// ********************************************************
+
+  if(!event.nrootrackervtx) return false;
+
+  // Interaction type
+  int cate_type = CategoryUtils::GetInterCateType(event);
+  bool cut_inte = (cate_type == 0);
+
+  // FV
+  double towall = GeomUtils::CalcToWallDis(event.nu_vtx_pos,event.nu_pri_lep_dir,true);
+  double dwall = GeomUtils::CalcDWallDis(event.nu_vtx_pos,true);
+  bool cut_FV = (towall > 200) && (dwall > 100);
+
+  // Momentum
+  bool cut_momentum = (event.nu_pri_lep_mom > 200);
+
+  return cut_inte && cut_FV && cut_momentum;
+
+}
+
+// ********************************************************
 double SelectionUtils::ComputePIDemuRatio(AnafiTQunEvent &event){
 // ********************************************************
 

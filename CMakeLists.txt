@@ -62,6 +62,8 @@ target_sources(selection_script_lib
     src/utils/CategoryUtils.cpp
     src/utils/GeomUtils.cpp
     src/utils/SelectionUtils.cpp
+
+    src/selection/NumuCCQESelection.cpp
 )
 
 target_include_directories(selection_script_lib
@@ -95,9 +97,11 @@ add_library(selection_script::selection_script_lib ALIAS selection_script_lib)
 # -------------------------------
 
 add_executable(RunfiTQunEventCheck app/RunfiTQunEventCheck.cpp)
+add_executable(RunNumuCCQESelection app/RunNumuCCQESelection.cpp)
 
 # Link to the library created above
 target_link_libraries(RunfiTQunEventCheck PRIVATE selection_script_lib)
+target_link_libraries(RunNumuCCQESelection PRIVATE selection_script_lib)
 
 # -------------------------------
 # Install configurations
@@ -134,6 +138,9 @@ install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Executable install is added here
 install(TARGETS RunfiTQunEventCheck 
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+install(TARGETS RunNumuCCQESelection 
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 

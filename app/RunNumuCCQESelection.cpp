@@ -1,0 +1,40 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "selection/NumuCCQESelection.h"
+
+// This script runs numu CCQE event selection
+
+int main(int argc, char **argv){
+
+  // Input should have 3 arguments
+  if(argc != 3){
+    std::cout << "Command should include executable, input file list, and output file!" << std::endl;
+    exit(1);
+  }
+
+  // Read input arguments
+  std::string fin_list_name = argv[1];
+  std::string fout_name = argv[2];  
+
+  std::cout << "---------------------------------" << std::endl;
+  std::cout << "Start running numu CCQE event selection" << std::endl;
+  std::cout << "---------------------------------" << std::endl;
+
+  // Initialize the analysis class
+  NumuCCQESelection *analysis = new NumuCCQESelection(fin_list_name,fout_name);
+
+  // Run the analysis
+  analysis->RunAnalysis();
+
+  // Delete analysis
+  delete analysis;
+
+  std::cout << "---------------------------------" << std::endl;
+  std::cout << "Finish running numu CCQE event selection" << std::endl;
+  std::cout << "---------------------------------" << std::endl;
+
+  return 0;
+
+}

@@ -63,6 +63,12 @@ public:
   // Pi0 tagging information
   double reco_pi0_nllh = -1;
 
+  // ----------------------------------------
+  // Selection information
+
+  // Tag to indicate if this event passed the selection
+  bool passed_selection = false;
+
 };
 
 #endif

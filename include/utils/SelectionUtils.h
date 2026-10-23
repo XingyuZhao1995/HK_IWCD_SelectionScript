@@ -4,10 +4,17 @@
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
 #include "utils/CategoryUtils.h"
+#include "utils/GeomUtils.h"
 
 using namespace CategoryUtils;
 
 namespace SelectionUtils{
+
+  // ----------------------------------------
+  // Signal cut
+
+  // Cut at truth level
+  bool IsTrueNumuCCQESignal(AnafiTQunEvent &event);
 
   // ----------------------------------------
   // PID cut
