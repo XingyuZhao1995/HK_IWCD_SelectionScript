@@ -74,6 +74,9 @@ void NumuCCQESelection::SaveOutputFile(){
 bool NumuCCQESelection::PassSignalSelection(AnafiTQunEvent &event){
 // ********************************************************
 
+  // Should have reco results
+  if(!event.reco_tag) return false;
+
   // Number of reconstructed ring cut
   int n_ring = SelectionUtils::GetNRecoRing(event,PIDCate::kMuon);  
   if(n_ring != 1) return false;
