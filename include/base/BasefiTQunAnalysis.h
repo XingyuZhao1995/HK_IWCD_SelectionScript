@@ -65,15 +65,29 @@ private:
   // Loop over input files
   void RunInputFileLoop();
   // Single file analysis
-  void RunSingleFile(std::string file_name);  
+  void RunSingleFile(std::string file_WCSim_name, std::string file_fiTQun_name);  
+
+  // Examine if WCSim and fiTQun entries correspond to the same event
+  bool IsSameEvent();
 
   // ----------------------------------------------
   // Input tree branch variables
 
-  // NEUT RooTracker tree
+  // WCSim file
+  // (Geometry tree)
+  WCSimRootGeom *WCSim_geom;
+
+  // (WCSim tree)
+  WCSimRootEvent *WCSim_event;
+  WCSimRootTrigger *WCSim_trigger;
+
+  // fiTQun file
+  // (NEUT RooTracker tree)
   ND::NRooTrackerVtx *NRooTrackerVtx;
 
-  // fiTQun tree
+  // (fiTQun tree)
+  int nevt;
+
   int cluster_ncand;
   float cluster_tstart[NMAXCLUS];
   float cluster_tend[NMAXCLUS];

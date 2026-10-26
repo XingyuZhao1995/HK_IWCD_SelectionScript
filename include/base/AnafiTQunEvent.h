@@ -19,7 +19,7 @@ public:
   void Reset();  
 
   // ----------------------------------------
-  // Vertex information
+  // True vertex information
 
   // General pointer
   ND::NRooTrackerVtx *nrootrackervtx;
@@ -36,6 +36,12 @@ public:
   int nu_pri_lep_pdg = 0;
   double nu_pri_lep_mom = -999; // In MeV
   TVector3 nu_pri_lep_dir;
+
+  // ----------------------------------------
+  // True track / hit information
+
+  // General pointer
+  WCSimRootTrigger *wcsim_event;
 
   // ----------------------------------------
   // Reconstruction information

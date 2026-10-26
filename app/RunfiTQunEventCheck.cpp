@@ -5,6 +5,7 @@
 #include "analysis/fiTQunEventCheck.h"
 
 // This script checks fiTQun reconstructed events
+// The corresponding WCSim output is also needed
 
 int main(int argc, char **argv){
 

@@ -8,6 +8,8 @@ AnafiTQunEvent::AnafiTQunEvent(){
 
   nrootrackervtx = nullptr;
 
+  wcsim_event = nullptr;
+
   reco_1r_flag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
@@ -26,6 +28,8 @@ AnafiTQunEvent::~AnafiTQunEvent(){
 
   nrootrackervtx = nullptr;
 
+  wcsim_event = nullptr;
+
   reco_1r_flag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
@@ -43,6 +47,8 @@ void AnafiTQunEvent::Reset(){
 // ********************************************************  
 
   nrootrackervtx = nullptr;
+
+  wcsim_event = nullptr;
 
   reco_1r_flag.clear();
   reco_1r_mom.clear();
