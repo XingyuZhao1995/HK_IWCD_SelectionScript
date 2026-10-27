@@ -3,6 +3,35 @@
 // -------- Public member functions --------
 
 // ********************************************************
+BasefiTQunAnalysis::BasefiTQunAnalysis(std::string in_list_name){
+// ********************************************************
+
+  fin_list_name = in_list_name;
+    
+  // Branch objects are owned by this class and reused for every input file
+  WCSim_geom = new WCSimRootGeom();
+
+  WCSim_ID_event = new WCSimRootEvent();
+  WCSim_OD_event = new WCSimRootEvent();
+
+  NRooTrackerVtx = new ND::NRooTrackerVtx();
+
+}
+
+// ********************************************************
+BasefiTQunAnalysis::~BasefiTQunAnalysis(){
+// ********************************************************
+
+  delete WCSim_geom;
+
+  delete WCSim_ID_event;
+  delete WCSim_OD_event;
+
+  delete NRooTrackerVtx;
+
+}
+
+// ********************************************************
 void BasefiTQunAnalysis::RunAnalysis(){
 // ********************************************************
 
@@ -81,8 +110,8 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   // ---------------------------------------
 
   // Open the WCSim file and tree
-  TFile *fin_WCSim = new TFile(file_WCSim_name.data(),"read");
-  if(!fin_WCSim){
+  std::unique_ptr<TFile> fin_WCSim(TFile::Open(file_WCSim_name.data(),"read"));
+  if(!fin_WCSim || fin_WCSim->IsZombie()){
     std::cout << "ERROR: can't open file "<< file_WCSim_name << std::endl;
     return;
   }
@@ -102,8 +131,8 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   }    
 
   // Open the fiTQun file and tree
-  TFile *fin_fiTQun = new TFile(file_fiTQun_name.data(),"read");
-  if(!fin_fiTQun){
+  std::unique_ptr<TFile> fin_fiTQun(TFile::Open(file_fiTQun_name.data(),"read"));
+  if(!fin_fiTQun || fin_fiTQun->IsZombie()){
     std::cout << "ERROR: can't open file "<< file_fiTQun_name << std::endl;
     return;
   }
@@ -297,8 +326,6 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     RunEventAnalysis(event);
 
   } // End of event loop
-
-  delete fin_WCSim, fin_fiTQun;
 
 }
 

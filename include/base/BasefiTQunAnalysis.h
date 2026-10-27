@@ -32,11 +32,9 @@ class BasefiTQunAnalysis{
 public:
 
   // Constructor
-  BasefiTQunAnalysis(std::string in_list_name){
-    fin_list_name = in_list_name;
-  };
+  BasefiTQunAnalysis(std::string in_list_name);
   // Destructor
-  virtual ~BasefiTQunAnalysis(){};
+  virtual ~BasefiTQunAnalysis();
 
   // Debug tag
   const bool DEBUG = false;
@@ -77,17 +75,17 @@ private:
 
   // WCSim file
   // (Geometry tree)
-  WCSimRootGeom *WCSim_geom;
+  WCSimRootGeom *WCSim_geom = nullptr;
 
   // (WCSim tree)
-  WCSimRootEvent *WCSim_ID_event;
-  WCSimRootTrigger *WCSim_ID_trigger;
-  WCSimRootEvent *WCSim_OD_event;
-  WCSimRootTrigger *WCSim_OD_trigger;
+  WCSimRootEvent *WCSim_ID_event = nullptr;
+  WCSimRootTrigger *WCSim_ID_trigger = nullptr;
+  WCSimRootEvent *WCSim_OD_event = nullptr;
+  WCSimRootTrigger *WCSim_OD_trigger = nullptr;
 
   // fiTQun file
   // (NEUT RooTracker tree)
-  ND::NRooTrackerVtx *NRooTrackerVtx;
+  ND::NRooTrackerVtx *NRooTrackerVtx = nullptr;
 
   // (fiTQun tree)
   int nevt;

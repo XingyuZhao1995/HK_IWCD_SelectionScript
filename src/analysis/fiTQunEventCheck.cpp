@@ -27,7 +27,9 @@ void fiTQunEventCheck::OverallInitialization(){
   fout = new TFile(fout_name.data(),"recreate");
 
   // Create output tree
+  // (Attach it to the output file so full baskets are flushed to disk instead of kept in memory)
   tout.SetNameTitle("events","events");
+  tout.SetDirectory(fout);
 
   // Create output tree branches
   tout.Branch("cate_type",&cate_type,"cate_type/I");
@@ -93,6 +95,8 @@ void fiTQunEventCheck::SaveOutputFile(){
 
   fout->cd();
   tout.Write();
+  // Detach before closing, otherwise TFile::Close() would delete this member tree
+  tout.SetDirectory(nullptr);
   fout->Close();
 
 }

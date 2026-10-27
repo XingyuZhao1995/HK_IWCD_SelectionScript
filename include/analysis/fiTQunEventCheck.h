@@ -34,7 +34,7 @@ private:
   std::string fout_name;  
 
   // Output file
-  TFile *fout;
+  TFile *fout = nullptr;
 
   // Output tree
   TTree tout;

@@ -27,8 +27,12 @@ void NumuCCQESelection::OverallInitialization(){
   fout = new TFile(fout_name.data(),"recreate");
 
   // Create output trees
+  // (Attach them to the output file so full baskets are flushed to disk instead of kept in memory)
   tout_sele.SetNameTitle("selection","selection");
+  tout_sele.SetDirectory(fout);
+  
   tout_true.SetNameTitle("true_signal","true_signal");
+  tout_true.SetDirectory(fout);
 
   // Create output tree branches
   // (Selection tree)
@@ -64,6 +68,9 @@ void NumuCCQESelection::SaveOutputFile(){
   fout->cd();
   tout_sele.Write();
   tout_true.Write();
+  // Detach before closing, otherwise TFile::Close() would delete these member trees
+  tout_sele.SetDirectory(nullptr);
+  tout_true.SetDirectory(nullptr);
   fout->Close();
 
 }
