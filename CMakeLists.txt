@@ -62,6 +62,7 @@ target_sources(selection_script_lib
     src/utils/CategoryUtils.cpp
     src/utils/GeomUtils.cpp
     src/utils/SelectionUtils.cpp
+    src/utils/MiscUtils.cpp
 
     src/selection/NumuCCQESelection.cpp
 )

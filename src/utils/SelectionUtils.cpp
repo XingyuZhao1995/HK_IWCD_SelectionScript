@@ -4,21 +4,39 @@
 bool SelectionUtils::IsTrueNumuCCQESignal(AnafiTQunEvent &event){
 // ********************************************************
 
-  if(!event.nrootrackervtx) return false;
-
   // Interaction type
-  int cate_type = CategoryUtils::GetInterCateType(event);
-  bool cut_inte = (cate_type == 0);
+  bool cut_inte = (event.cate_type == 0);
+
+  // Lepton containment
+  bool cut_contain = event.trk_pri_lep_stop_ID;
 
   // FV
-  double towall = GeomUtils::CalcToWallDis(event.nu_vtx_pos,event.nu_pri_lep_dir,true);
-  double dwall = GeomUtils::CalcDWallDis(event.nu_vtx_pos,true);
-  bool cut_FV = (towall > 200) && (dwall > 100);
+  bool cut_FV = (event.trk_pri_lep_towall > 200) && (event.trk_pri_lep_dwall > 100);
 
   // Momentum
-  bool cut_momentum = (event.nu_pri_lep_mom > 200);
+  bool cut_momentum = (event.trk_pri_lep_mom > 200);
 
-  return cut_inte && cut_FV && cut_momentum;
+  return cut_inte && cut_contain && cut_FV && cut_momentum;
+
+}
+
+// ********************************************************
+bool SelectionUtils::IsTrueNueCCQESignal(AnafiTQunEvent &event){
+// ********************************************************
+
+  // Interaction type
+  bool cut_inte = (event.cate_type == 2);
+
+  // Lepton containment
+  bool cut_contain = event.trk_pri_lep_stop_ID;
+
+  // FV
+  bool cut_FV = (event.trk_pri_lep_towall > 200) && (event.trk_pri_lep_dwall > 100);
+
+  // Momentum
+  bool cut_momentum = (event.trk_pri_lep_mom > 100);
+
+  return cut_inte && cut_contain && cut_FV && cut_momentum;
 
 }
 

@@ -61,7 +61,7 @@ double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
 }
 
 // ********************************************************
-bool GeomUtils::IsPointContained(TVector3 pos, bool apply_corr){
+bool GeomUtils::IsPointIDContained(TVector3 pos, bool apply_corr){
 // ********************************************************
 
   // Correct the position if needed
@@ -78,7 +78,7 @@ bool GeomUtils::IsPointContained(TVector3 pos, bool apply_corr){
 }
 
 // ********************************************************
-bool GeomUtils::IsTrueTrackContained(double momentum, TVector3 pos, TVector3 dir, bool apply_corr){
+bool GeomUtils::IsTrkIDContainedByRange(double momentum, TVector3 pos, TVector3 dir, bool apply_corr){
 // ********************************************************
 
   // TODO: The containment check needs Geant4 true trajectory information

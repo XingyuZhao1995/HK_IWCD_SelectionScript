@@ -52,9 +52,24 @@ private:
   // Output tree branch variables
 
   int cate_type;
+  int sig_index; // 0 = numu CCQE, 1 = nue CCQE, -1 = other
 
   double vtx_pos_true[3];
   double vtx_pos_reco[3];
+
+  int trk_npri_lep;
+  int trk_npri_lep_thres;
+  int trk_npri_p;
+  int trk_npri_n;
+  int trk_npri_piplus;
+  int trk_npri_piplus_thres;
+  int trk_npri_piminus;
+  int trk_npri_piminus_thres;
+  int trk_npri_pi0;
+  int trk_npri_other;  
+
+  int OD_nhit;
+  double OD_charge_tot;
 
   double lep_mom_true;
   double lep_mom_reco;
@@ -69,6 +84,10 @@ private:
   double dwall_reco;
 
   int nsubeve_reco;
+  int subeve_max_index;
+  std::vector<int> subeve_max_PDG;
+  std::vector<int> subeve_max_pri;
+
   int nring_reco;
   double nllh_1ring_reco;
   double nllh_2ring_reco;

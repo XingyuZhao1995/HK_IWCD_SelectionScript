@@ -30,13 +30,13 @@ namespace GeomUtils{
   double CalcDWallDis(TVector3 pos, bool apply_corr = false);
 
   // ----------------------------------------
-  // (ID) Containment utils
+  // Containment utils
   
   // Point position containment
-  bool IsPointContained(TVector3 pos, bool apply_corr = false);
+  bool IsPointIDContained(TVector3 pos, bool apply_corr = false);
 
   // General track containment
-  bool IsTrueTrackContained(double momentum, TVector3 pos, TVector3 dir, bool apply_corr = false);
+  bool IsTrkIDContainedByRange(double momentum, TVector3 pos, TVector3 dir, bool apply_corr = false);
 
 };
 

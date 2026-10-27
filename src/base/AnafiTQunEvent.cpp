@@ -8,7 +8,11 @@ AnafiTQunEvent::AnafiTQunEvent(){
 
   nrootrackervtx = nullptr;
 
-  wcsim_event = nullptr;
+  wcsim_ID_event = nullptr;
+  wcsim_OD_event = nullptr;
+
+  reco_subeve_max_PDG.clear();
+  reco_subeve_max_pri.clear();
 
   reco_1r_flag.clear();
   reco_1r_mom.clear();
@@ -28,7 +32,11 @@ AnafiTQunEvent::~AnafiTQunEvent(){
 
   nrootrackervtx = nullptr;
 
-  wcsim_event = nullptr;
+  wcsim_ID_event = nullptr;
+  wcsim_OD_event = nullptr;
+
+  reco_subeve_max_PDG.clear();
+  reco_subeve_max_pri.clear();
 
   reco_1r_flag.clear();
   reco_1r_mom.clear();
@@ -48,7 +56,11 @@ void AnafiTQunEvent::Reset(){
 
   nrootrackervtx = nullptr;
 
-  wcsim_event = nullptr;
+  wcsim_ID_event = nullptr;
+  wcsim_OD_event = nullptr;
+
+  reco_subeve_max_PDG.clear();
+  reco_subeve_max_pri.clear();
 
   reco_1r_flag.clear();
   reco_1r_mom.clear();

@@ -138,10 +138,11 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
 
   // WCsim file
   // (Geometry tree)
-  tin_geom->SetBranchAddress("WCSim_geom",&WCSim_geom);
+  tin_geom->SetBranchAddress("wcsimrootgeom",&WCSim_geom);
 
   // (WCSim tree)
-  tin_WCSim->SetBranchAddress("WCSim_event",&WCSim_event);
+  tin_WCSim->SetBranchAddress("wcsimrootevent",&WCSim_ID_event);
+  tin_WCSim->SetBranchAddress("wcsimrootevent_OD",&WCSim_OD_event);
 
   // fiTQun file
   // (NEUT RooTracker tree)
@@ -160,10 +161,13 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   tin_fiTQun->SetBranchAddress("fqtwnd_iclstr",&fqtwnd_iclstr);
   tin_fiTQun->SetBranchAddress("fqtwnd_npeak",&fqtwnd_npeak);
   tin_fiTQun->SetBranchAddress("fqtwnd",&fqtwnd);
+  tin_fiTQun->SetBranchAddress("fqtwnd_peakt0",&fqtwnd_peakt0);
 
   tin_fiTQun->SetBranchAddress("fqnse",&fqnse);
   tin_fiTQun->SetBranchAddress("fqnhitpmt",&fqnhitpmt);
   tin_fiTQun->SetBranchAddress("fqtotq",&fqtotq);
+  tin_fiTQun->SetBranchAddress("fqitwnd",&fqitwnd);
+  tin_fiTQun->SetBranchAddress("fqipeak",&fqipeak);
 
   tin_fiTQun->SetBranchAddress("fq1rpcflg",&fq1rpcflg);
   tin_fiTQun->SetBranchAddress("fq1rmom",&fq1rmom);
@@ -193,7 +197,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     tin_WCSim->GetEntry(n);
     tin_NRooTrk->GetEntry(n);
     tin_fiTQun->GetEntry(n);
-    WCSim_trigger = (WCSimRootTrigger*)WCSim_event->fEventList->At(0);
+
+    WCSim_ID_trigger = (WCSimRootTrigger*)WCSim_ID_event->fEventList->At(0);
+    WCSim_OD_trigger = (WCSimRootTrigger*)WCSim_OD_event->fEventList->At(0);
 
     // Examine if WCSim and fiTQun entries correspond to the same event
     if(!IsSameEvent()) continue;
@@ -204,14 +210,21 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
 
     AnafiTQunEvent event;    
 
-    // WCSim tree
-    event.wcsim_event = WCSim_trigger;
-
     // NEUT RooTracker tree
     event.nrootrackervtx = NRooTrackerVtx;
 
     // (Fill vertex information)
     FillInfoUtils::FillNEUTRooTrkVtxInfo(event);
+
+    // WCSim tree
+    event.wcsim_ID_event = WCSim_ID_trigger;
+    event.wcsim_OD_event = WCSim_OD_trigger;
+
+    // (Fill track information)
+    FillInfoUtils::FillG4TrkInfo(event);
+
+    // (Fill OD hits information)
+    FillInfoUtils::FillODHitsInfo(event);
 
     // fiTQun tree
     int max_index = -1;
@@ -229,6 +242,21 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     
       // Subevent
       event.reco_nsubeve = fqnse;
+      event.reco_subeve_max_index = max_index;
+      for(int i = 0; i < fqnse; i++){
+        double peak_t0 = fqtwnd_peakt0[fqitwnd[i]][fqipeak[i]];
+        int G4_trk_id = MiscUtils::GetSubeventMaxG4TrkID(peak_t0,event);
+        WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event);
+        if(G4_track){
+          event.reco_subeve_max_PDG.push_back(G4_track->fIpnu);
+          int is_pri = G4_track->fParenttype == 0 ? 1 : 0;
+          event.reco_subeve_max_pri.push_back(is_pri);    
+        }
+        else{
+          event.reco_subeve_max_PDG.push_back(0);
+          event.reco_subeve_max_pri.push_back(false);          
+        }
+      }
 
       // Max subevent
       // (Single ring)
@@ -278,9 +306,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
 bool BasefiTQunAnalysis::IsSameEvent(){
 // ********************************************************
 
-  if(WCSim_trigger->fEvtHdr.fEvtNum != nevt){
-    std::cout << "ERROR: WCSim (" << WCSim_trigger->fEvtHdr.fEvtNum
-              << ") and fiTQun (" << nevt
+  if(WCSim_ID_trigger->fEvtHdr.fEvtNum != (nevt - 1)){
+    std::cout << "ERROR: WCSim (" << WCSim_ID_trigger->fEvtHdr.fEvtNum
+              << ") and fiTQun (" << nevt - 1
               << ") event number not match" << std::endl;
     return false;
   }

@@ -17,9 +17,11 @@
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
 #include "utils/FillInfoUtils.h"
+#include "utils/MiscUtils.h"
 
 const int NMAXCLUS = 6;
 const int NMAXTIMEWIN = 7;
+const int NMAXPEAK = 10;
 const int NMAXSUBEVE = 10;
 const int NPIDHYPO = 7;
 const int NMAXMRFIT = 50;
@@ -78,8 +80,10 @@ private:
   WCSimRootGeom *WCSim_geom;
 
   // (WCSim tree)
-  WCSimRootEvent *WCSim_event;
-  WCSimRootTrigger *WCSim_trigger;
+  WCSimRootEvent *WCSim_ID_event;
+  WCSimRootTrigger *WCSim_ID_trigger;
+  WCSimRootEvent *WCSim_OD_event;
+  WCSimRootTrigger *WCSim_OD_trigger;
 
   // fiTQun file
   // (NEUT RooTracker tree)
@@ -98,10 +102,13 @@ private:
   int fqtwnd_iclstr[NMAXTIMEWIN];
   int fqtwnd_npeak[NMAXTIMEWIN];
   float fqtwnd[NMAXTIMEWIN][2];
+  float fqtwnd_peakt0[NMAXTIMEWIN][NMAXPEAK];  
 
   int fqnse;
   int fqnhitpmt[NMAXSUBEVE];
   float fqtotq[NMAXSUBEVE];
+  int fqitwnd[NMAXSUBEVE];
+  int fqipeak[NMAXSUBEVE];  
 
   int fq1rpcflg[NMAXSUBEVE][NPIDHYPO]; 
   float fq1rmom[NMAXSUBEVE][NPIDHYPO];

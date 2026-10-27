@@ -4,8 +4,8 @@
 CategoryUtils::PIDCate CategoryUtils::GetPIDCateType(AnafiTQunEvent &event){
 // ********************************************************
 
-  if(std::abs(event.nu_pri_lep_pdg) == 11) return PIDCate::kElectron;
-  else if(std::abs(event.nu_pri_lep_pdg) == 13) return PIDCate::kMuon;
+  if(std::abs(event.trk_pri_lep_pdg) == 11) return PIDCate::kElectron;
+  else if(std::abs(event.trk_pri_lep_pdg) == 13) return PIDCate::kMuon;
 
   return PIDCate::kRest;
 
@@ -17,8 +17,8 @@ CategoryUtils::InterCate CategoryUtils::GetInterCateType(AnafiTQunEvent &event){
 
   if(!event.nrootrackervtx) return InterCate::kOther;
 
-  // Not contained in ID
-  if(!GeomUtils::IsPointContained(event.nu_vtx_pos,true)) return InterCate::kOther;
+  // Vertex not contained in ID
+  if(!GeomUtils::IsPointIDContained(event.nu_vtx_pos,true)) return InterCate::kOther;
 
   // NC
   if(std::abs(event.nu_neut_code) > 30){

@@ -15,6 +15,7 @@ namespace SelectionUtils{
 
   // Cut at truth level
   bool IsTrueNumuCCQESignal(AnafiTQunEvent &event);
+  bool IsTrueNueCCQESignal(AnafiTQunEvent &event);
 
   // ----------------------------------------
   // PID cut
