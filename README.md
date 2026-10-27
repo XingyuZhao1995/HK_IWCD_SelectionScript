@@ -18,7 +18,8 @@ $ cd build
 $ cmake ../ -DCMAKE_INSTALL_PREFIX=../install/
 $ make install -jN
 ```
-Once installation is done, add executable path to `PATH` so that you can run the program at any place:
+Once installation is done, add executable path to `PATH` and library path to `LD_LIBRARY_PATH` so that you can run the program at any place:
 ```
 export PATH=/path/to/package/install/bin:${PATH}
+export LD_LIBRARY_PATH=/path/to/package/install/lib64:${LD_LIBRARY_PATH}
 ```
