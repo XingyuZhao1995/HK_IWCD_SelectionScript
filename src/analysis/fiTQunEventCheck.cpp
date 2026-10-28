@@ -39,7 +39,7 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("sig_index",&sig_index,"sig_index/I");
 
   tout.Branch("nu_energy",&nu_energy,"nu_energy/D");
-  tout.Branch("offaxis_ang",&offaxis_ang,"offaxis_ang/D");
+  tout.Branch("nu_offang",&nu_offang,"nu_offang/D");
 
   tout.Branch("vtx_pos_true",&vtx_pos_true,"vtx_pos_true[3]/D");
   tout.Branch("vtx_pos_reco",&vtx_pos_reco,"vtx_pos_reco[3]/D");
@@ -159,7 +159,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
 
   // Neutrino information
   nu_energy = event.nu_energy;
-  offaxis_ang = GeomUtils::CalcOffAxisAngle(event.nu_vtx_pos);
+  nu_offang = GeomUtils::CalcOffAxisAngle(event.nu_vtx_pos);
 
   // Vertex information
   vtx_pos_true[0] = event.nu_vtx_pos.X();
