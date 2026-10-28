@@ -11,47 +11,59 @@ TVector3 GeomUtils::CorrectPosition(TVector3 pos){
 }
 
 // ********************************************************
-double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir, bool apply_corr){
+double GeomUtils::CalcOffAxisAngle(TVector3 pos){
+// ********************************************************
+
+  TVector3 dir_tmp = pos - BeamDecayPos;
+  dir_tmp = dir_tmp.Unit();
+
+  return TMath::ACos(dir_tmp.Dot(OnAxisNuDir)) * 180.0 / TMath::Pi();
+
+}
+
+// ********************************************************
+double GeomUtils::CalcIncludedAngle(TVector3 dir_1, TVector3 dir_2){
+// ********************************************************
+
+  dir_1 = dir_1.Unit();
+  dir_2 = dir_2.Unit();
+
+  return TMath::ACos(dir_1.Dot(dir_2)) * 180.0 / TMath::Pi();
+
+}
+
+// ********************************************************
+double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir){
 // ********************************************************
 
   // Outside ID
-  if(CalcDWallDis(pos,apply_corr) < 0) return -1;
-
-  // Correct the position if needed
-  TVector3 rel_pos;
-  if(apply_corr) rel_pos = CorrectPosition(pos);
-  else rel_pos = pos;
+  if(CalcDWallDis(pos) < 0) return -1;
 
   double sZ = 0;
   if(dir.Y() > 0){
-    sZ = (IDHalfLength - (rel_pos.Y() - IDCenterY)) / dir.Y();
+    sZ = (IDHalfLength - (pos.Y() - IDCenterY)) / dir.Y();
   }
   else{
-    sZ = (-1 * IDHalfLength - (rel_pos.Y() - IDCenterY)) / dir.Y();
+    sZ = (-1 * IDHalfLength - (pos.Y() - IDCenterY)) / dir.Y();
   }
 
-  if(std::pow(rel_pos.X() + sZ * dir.X(),2) + std::pow(rel_pos.Z() + sZ * dir.Z(),2)
+  if(std::pow(pos.X() + sZ * dir.X(),2) + std::pow(pos.Z() + sZ * dir.Z(),2)
      <= std::pow(IDRadius,2)) return sZ;
 
   double a = std::pow(dir.X(),2) + std::pow(dir.Z(),2);
-  double b = 2 * (dir.X() * rel_pos.X() + dir.Z() * rel_pos.Z());
-  double c = std::pow(rel_pos.X(),2) + std::pow(rel_pos.Z(),2) - std::pow(IDRadius,2);
+  double b = 2 * (dir.X() * pos.X() + dir.Z() * pos.Z());
+  double c = std::pow(pos.X(),2) + std::pow(pos.Z(),2) - std::pow(IDRadius,2);
 
   return (-1 * b + std::sqrt(b * b - 4 * a * c)) / (2 * a);
 
 }
 
 // ********************************************************
-double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
+double GeomUtils::CalcDWallDis(TVector3 pos){
 // ********************************************************
 
-  // Correct the position if needed
-  TVector3 rel_pos;
-  if(apply_corr) rel_pos = CorrectPosition(pos);
-  else rel_pos = pos;
-
-  double vtxRadius = std::sqrt(std::pow(rel_pos.X(),2) + std::pow(rel_pos.Z(),2));
-  double dWallZ = IDHalfLength - std::fabs(rel_pos.Y() - IDCenterY);
+  double vtxRadius = std::sqrt(std::pow(pos.X(),2) + std::pow(pos.Z(),2));
+  double dWallZ = IDHalfLength - std::fabs(pos.Y() - IDCenterY);
   double dWallR = IDRadius - vtxRadius;
 
   // Result is negative if outside ID
@@ -61,16 +73,11 @@ double GeomUtils::CalcDWallDis(TVector3 pos, bool apply_corr){
 }
 
 // ********************************************************
-bool GeomUtils::IsPointIDContained(TVector3 pos, bool apply_corr){
+bool GeomUtils::IsPointIDContained(TVector3 pos){
 // ********************************************************
 
-  // Correct the position if needed
-  TVector3 rel_pos;
-  if(apply_corr) rel_pos = CorrectPosition(pos);
-  else rel_pos = pos;
-
-  double radius = std::sqrt(std::pow(rel_pos.X(),2) + std::pow(rel_pos.Z(),2));
-  double height = std::fabs(rel_pos.Y() - IDCenterY);
+  double radius = std::sqrt(std::pow(pos.X(),2) + std::pow(pos.Z(),2));
+  double height = std::fabs(pos.Y() - IDCenterY);
 
   if(radius < IDRadius && height < IDHalfLength) return true;
   return false;
@@ -78,16 +85,13 @@ bool GeomUtils::IsPointIDContained(TVector3 pos, bool apply_corr){
 }
 
 // ********************************************************
-bool GeomUtils::IsTrkIDContainedByRange(double momentum, TVector3 pos, TVector3 dir, bool apply_corr){
+bool GeomUtils::IsTrkIDContainedByRange(double momentum, TVector3 pos, TVector3 dir){
 // ********************************************************
 
-  // TODO: The containment check needs Geant4 true trajectory information
-  // This has to be propagated to fiTQun output
-
   // Get towall distance
-  double tWall = CalcToWallDis(pos,dir,apply_corr);
+  double tWall = CalcToWallDis(pos,dir);
 
-  // TODO: This depends on particle type
+  // This depends on particle type
   if(momentum > 2 * tWall) return false;
   return true;
 

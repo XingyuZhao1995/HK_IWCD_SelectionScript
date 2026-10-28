@@ -32,6 +32,7 @@ public:
 
   // Geometry information
   TVector3 nu_vtx_pos; // In cm
+  TVector3 nu_dir;
 
   // ----------------------------------------
   // True track information
@@ -45,21 +46,21 @@ public:
   double trk_pri_lep_mom = -999; // In MeV
   TVector3 trk_pri_lep_dir;  
   bool trk_pri_lep_stop_ID = false;
-  double trk_pri_lep_towall;
-  double trk_pri_lep_dwall;
+  double trk_pri_lep_towall = -999;
+  double trk_pri_lep_dwall = -999;
 
   // Primary track count
   // (_thres means above water Cherenkov threshold)
-  int trk_npri_lep;
-  int trk_npri_lep_thres;
-  int trk_npri_p;
-  int trk_npri_n;
-  int trk_npri_piplus;
-  int trk_npri_piplus_thres;
-  int trk_npri_piminus;
-  int trk_npri_piminus_thres;
-  int trk_npri_pi0;
-  int trk_npri_other;
+  int trk_npri_lep = -1;
+  int trk_npri_lep_thres = -1;
+  int trk_npri_p = -1;
+  int trk_npri_n = -1;
+  int trk_npri_piplus = -1;
+  int trk_npri_piplus_thres = -1;
+  int trk_npri_piminus = -1;
+  int trk_npri_piminus_thres = -1;
+  int trk_npri_pi0 = -1;
+  int trk_npri_other = -1;
 
   // ----------------------------------------
   // PMT hit information
@@ -68,8 +69,8 @@ public:
 
   // OD
   // (General information)
-  int OD_nhit;
-  double OD_charge_tot;
+  int OD_nhit = -1;
+  double OD_charge_tot = -999;
 
   // ----------------------------------------
   // Reconstruction information
@@ -93,7 +94,7 @@ public:
   std::vector<TVector3> reco_1r_dir;
 
   // (Multi ring)
-  int reco_mr_nfit;
+  int reco_mr_nfit = -1;
   std::vector<int> reco_mr_ifit;
   std::vector<int> reco_mr_nring;
   std::vector<double> reco_mr_nllh;

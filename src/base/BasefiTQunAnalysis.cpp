@@ -116,13 +116,20 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     return;
   }
 
-  // (Geometry setting)
+  // (Geometry)
   TTree *tin_geom = (TTree*)fin_WCSim->Get("wcsimGeoT");
   if(!tin_geom){
     std::cout << "ERROR: tree wcsimGeoT not exist" << std::endl;
     return;    
   }  
   
+  // (Setting)
+  TTree *tin_set = (TTree*)fin_WCSim->Get("settings");
+  if(!tin_set){
+    std::cout << "ERROR: tree settings not exist" << std::endl;
+    return;    
+  }    
+
   // (WCSim tree)
   TTree *tin_WCSim = (TTree*)fin_WCSim->Get("wcsimT");
   if(!tin_WCSim){
@@ -169,6 +176,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   // (Geometry tree)
   tin_geom->SetBranchAddress("wcsimrootgeom",&WCSim_geom);
 
+  // (Setting tree)
+  tin_set->SetBranchAddress("NPOT",&NPOT);
+
   // (WCSim tree)
   tin_WCSim->SetBranchAddress("wcsimrootevent",&WCSim_ID_event);
   tin_WCSim->SetBranchAddress("wcsimrootevent_OD",&WCSim_OD_event);
@@ -214,6 +224,22 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   tin_fiTQun->SetBranchAddress("fqpi0nll",&fqpi0nll);
 
   tin_fiTQun->SetBranchAddress("muechk_ncand",&muechk_ncand);
+
+  // ---------------------------------------
+  // File level analysis
+  // ---------------------------------------
+
+  AnaFile file;
+
+  // Record settings
+  for(int n = 0; n < tin_set->GetEntries(); n++){
+
+    tin_set->GetEntry(n);
+
+    // POT information
+    file.POT_tot += NPOT;
+
+  }
 
   // ---------------------------------------
   // Event loop
@@ -325,6 +351,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     RunEventAnalysis(event);
 
   } // End of event loop
+
+  // Run file analysis (implemented in inherited classes)
+  RunFileAnalysis(file);
 
 }
 

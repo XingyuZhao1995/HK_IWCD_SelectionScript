@@ -24,6 +24,10 @@ AnafiTQunEvent::AnafiTQunEvent(){
   reco_mr_nring.clear();
   reco_mr_nllh.clear();
 
+  nu_vtx_pos.SetXYZ(0,0,0);
+  nu_dir.SetXYZ(0,0,1);
+  trk_pri_lep_dir.SetXYZ(0,0,1);
+
 }
 
 // ********************************************************
@@ -48,6 +52,10 @@ AnafiTQunEvent::~AnafiTQunEvent(){
   reco_mr_nring.clear();
   reco_mr_nllh.clear();
 
+  nu_vtx_pos.SetXYZ(0,0,0);
+  nu_dir.SetXYZ(0,0,1);
+  trk_pri_lep_dir.SetXYZ(0,0,1);
+
 }
 
 // ********************************************************
@@ -71,5 +79,9 @@ void AnafiTQunEvent::Reset(){
   reco_mr_ifit.clear();
   reco_mr_nring.clear();
   reco_mr_nllh.clear();
+
+  nu_vtx_pos.SetXYZ(0,0,0);
+  nu_dir.SetXYZ(0,0,1);
+  trk_pri_lep_dir.SetXYZ(0,0,1);
 
 }

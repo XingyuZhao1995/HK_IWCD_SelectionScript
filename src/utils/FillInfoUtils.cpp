@@ -12,8 +12,12 @@ void FillInfoUtils::FillNEUTRooTrkVtxInfo(AnafiTQunEvent &event){
   event.nu_neut_code = vertex->EvtCode->GetString().Atoi();
   event.cate_type = CategoryUtils::GetInterCateType(event);
 
-  event.nu_vtx_pos.SetXYZ(vertex->EvtVtx[0],vertex->EvtVtx[1],vertex->EvtVtx[2]);
-  event.nu_vtx_pos *= 100.0; // Convert into cm
+  TVector3 pos_tmp(vertex->EvtVtx[0],vertex->EvtVtx[1],vertex->EvtVtx[2]);
+  pos_tmp *= 100.0; // Convert into cm
+  event.nu_vtx_pos = GeomUtils::CorrectPosition(pos_tmp);
+
+  TVector3 dir_tmp = pos_tmp - GeomUtils::BeamDecayPos;
+  event.nu_dir = dir_tmp.Unit();
 
   /*
   int index_pri_lep = -1;

@@ -16,6 +16,7 @@
 
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
+#include "base/AnaFile.h"
 #include "utils/FillInfoUtils.h"
 #include "utils/MiscUtils.h"
 
@@ -49,7 +50,9 @@ public:
   virtual void OverallInitialization() = 0;
   
   // Run event analysis
-  virtual void RunEventAnalysis(AnafiTQunEvent &event) = 0;  
+  virtual void RunEventAnalysis(AnafiTQunEvent &event) = 0;
+  // Run file analysis
+  virtual void RunFileAnalysis(AnaFile &file) = 0;
 
   // Save output file
   virtual void SaveOutputFile() = 0;
@@ -76,6 +79,9 @@ private:
   // WCSim file
   // (Geometry tree)
   WCSimRootGeom *WCSim_geom = nullptr;
+
+  // (Setting tree)
+  float NPOT;
 
   // (WCSim tree)
   WCSimRootEvent *WCSim_ID_event = nullptr;

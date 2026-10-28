@@ -24,6 +24,8 @@ public:
   
   // Run event analysis 
   void RunEventAnalysis(AnafiTQunEvent &event);  
+  // Run file analysis
+  void RunFileAnalysis(AnaFile &file);
 
   // Save output file 
   void SaveOutputFile();
@@ -38,6 +40,7 @@ private:
 
   // Output tree
   TTree tout;
+  TTree tout_set;
 
   // ----------------------------------------------
   // Auxiliary functions
@@ -53,6 +56,9 @@ private:
 
   int cate_type;
   int sig_index; // 0 = numu CCQE, 1 = nue CCQE, -1 = other
+
+  double nu_energy;
+  double offaxis_ang;
 
   double vtx_pos_true[3];
   double vtx_pos_reco[3];
@@ -76,7 +82,10 @@ private:
   double lep_mom_reco_hypo[2]; // 0 = electron, 1 = muon
   double lep_dir_true[3];
   double lep_dir_reco[3];
+  double lep_costheta_true;
+  double lep_costheta_reco;
   double lep_PID_emu_reco;
+  double lep_ID_stop;
 
   double towall_true;
   double towall_reco;
@@ -92,6 +101,9 @@ private:
   double nllh_1ring_reco;
   double nllh_2ring_reco;
   double nllh_3ring_reco;
+
+  // (For setting tree only)
+  double pot;
 
 };
 

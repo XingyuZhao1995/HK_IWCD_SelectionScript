@@ -31,9 +31,15 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.SetNameTitle("events","events");
   tout.SetDirectory(fout);
 
+  tout_set.SetNameTitle("settings","settings");
+  tout_set.SetDirectory(fout);  
+
   // Create output tree branches
   tout.Branch("cate_type",&cate_type,"cate_type/I");
   tout.Branch("sig_index",&sig_index,"sig_index/I");
+
+  tout.Branch("nu_energy",&nu_energy,"nu_energy/D");
+  tout.Branch("offaxis_ang",&offaxis_ang,"offaxis_ang/D");
 
   tout.Branch("vtx_pos_true",&vtx_pos_true,"vtx_pos_true[3]/D");
   tout.Branch("vtx_pos_reco",&vtx_pos_reco,"vtx_pos_reco[3]/D");
@@ -57,7 +63,10 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("lep_mom_reco_hypo",&lep_mom_reco_hypo,"lep_mom_reco_hypo[2]/D");
   tout.Branch("lep_dir_true",&lep_dir_true,"lep_dir_true[3]/D");
   tout.Branch("lep_dir_reco",&lep_dir_reco,"lep_dir_reco[3]/D");
+  tout.Branch("lep_costheta_true",&lep_costheta_true,"lep_costheta_true/D");
+  tout.Branch("lep_costheta_reco",&lep_costheta_reco,"lep_costheta_reco/D");
   tout.Branch("lep_PID_emu_reco",&lep_PID_emu_reco,"lep_PID_emu_reco/D");
+  tout.Branch("lep_ID_stop",&lep_ID_stop,"lep_ID_stop/I");
 
   tout.Branch("towall_true",&towall_true,"towall_true/D");
   tout.Branch("towall_reco",&towall_reco,"towall_reco/D");
@@ -73,6 +82,9 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("nllh_1ring_reco",&nllh_1ring_reco,"nllh_1ring_reco/D");
   tout.Branch("nllh_2ring_reco",&nllh_2ring_reco,"nllh_2ring_reco/D");
   tout.Branch("nllh_3ring_reco",&nllh_3ring_reco,"nllh_3ring_reco/D");
+
+  // (For setting tree only)
+  tout_set.Branch("pot",&pot,"pot/D");
 
 }
 
@@ -90,13 +102,28 @@ void fiTQunEventCheck::RunEventAnalysis(AnafiTQunEvent &event){
 }
 
 // ********************************************************
+void fiTQunEventCheck::RunFileAnalysis(AnaFile &file){
+// ********************************************************
+
+  // POT information
+  pot = file.POT_tot;  
+
+  tout_set.Fill();
+
+}
+
+// ********************************************************
 void fiTQunEventCheck::SaveOutputFile(){
 // ********************************************************
 
   fout->cd();
+
   tout.Write();
+  tout_set.Write();
   // Detach before closing, otherwise TFile::Close() would delete this member tree
   tout.SetDirectory(nullptr);
+  tout_set.SetDirectory(nullptr);
+
   fout->Close();
 
 }
@@ -129,6 +156,10 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   if(SelectionUtils::IsTrueNumuCCQESignal(event)) sig_index = 0;
   else if(SelectionUtils::IsTrueNueCCQESignal(event)) sig_index = 1;
   else sig_index = -1;
+
+  // Neutrino information
+  nu_energy = event.nu_energy;
+  offaxis_ang = GeomUtils::CalcOffAxisAngle(event.nu_vtx_pos);
 
   // Vertex information
   vtx_pos_true[0] = event.nu_vtx_pos.X();
@@ -170,7 +201,14 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   lep_dir_reco[1] = event.reco_1r_dir[par_index].Y();
   lep_dir_reco[2] = event.reco_1r_dir[par_index].Z();
 
+  lep_costheta_true = GeomUtils::CalcIncludedAngle( 
+                      event.trk_pri_lep_dir,event.nu_dir);
+  lep_costheta_reco = GeomUtils::CalcIncludedAngle( 
+                      event.reco_1r_dir[par_index],event.reco_1r_pos[par_index]-GeomUtils::BeamDecayPos);
+
   lep_PID_emu_reco = SelectionUtils::ComputePIDemuRatio(event);
+
+  lep_ID_stop = event.trk_pri_lep_stop_ID ? 1 : 0;
 
   // Geometry information
   towall_true = event.trk_pri_lep_towall;
