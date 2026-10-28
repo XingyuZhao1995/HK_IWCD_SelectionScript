@@ -62,6 +62,14 @@ void NumuCCQESelection::RunEventAnalysis(AnafiTQunEvent &event){
 }
 
 // ********************************************************
+void NumuCCQESelection::RunFileAnalysis(AnaFile &file){
+// ********************************************************
+
+
+
+}
+
+// ********************************************************
 void NumuCCQESelection::SaveOutputFile(){
 // ********************************************************
 

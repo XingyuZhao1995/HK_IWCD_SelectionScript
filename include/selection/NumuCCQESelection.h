@@ -22,6 +22,8 @@ public:
   
   // Run event analysis 
   void RunEventAnalysis(AnafiTQunEvent &event);  
+  // Run file analysis
+  void RunFileAnalysis(AnaFile &file);
 
   // Save output file 
   void SaveOutputFile();
