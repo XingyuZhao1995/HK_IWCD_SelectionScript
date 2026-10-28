@@ -82,7 +82,7 @@ public:
   int reco_subeve_max_index = -1;
   // (Particle that contributes most PMT hit charges in each subevent)
   std::vector<int> reco_subeve_max_PDG;
-  std::vector<int> reco_subeve_max_pri;
+  std::vector<int> reco_subeve_max_pri; // 1 (primary), 2 (electron from muon decay), 3 (electron from other sources), 4 (other secondary)
 
   // Information in max subevent
   // (Single ring)

@@ -80,3 +80,27 @@ WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event){
   return track_need;
 
 }
+
+// ********************************************************
+int MiscUtils::GetG4TrkParInterInfo(WCSimRootTrack *track){
+// ********************************************************
+
+  if(!track) return -1;
+
+  // Primary track
+  if(track->fParenttype == 0) return 1;
+
+  // Non-primary track
+  if(std::abs(track->fIpnu) == 11){
+    // Electron, produced by muon decay
+    // To be more precise this should be checked with fCreatorProcess,
+    // but need to check first if this is the same process code from Geant4
+    if(std::abs(track->fParenttype) == 13) return 2;
+    // Others
+    else return 3;
+  }
+  
+  // Others
+  return 4;
+
+}

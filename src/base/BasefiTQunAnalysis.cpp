@@ -278,12 +278,11 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
         WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event);
         if(G4_track){
           event.reco_subeve_max_PDG.push_back(G4_track->fIpnu);
-          int is_pri = G4_track->fParenttype == 0 ? 1 : 0;
-          event.reco_subeve_max_pri.push_back(is_pri);    
+          event.reco_subeve_max_pri.push_back(MiscUtils::GetG4TrkParInterInfo(G4_track));    
         }
         else{
           event.reco_subeve_max_PDG.push_back(0);
-          event.reco_subeve_max_pri.push_back(false);          
+          event.reco_subeve_max_pri.push_back(-1);          
         }
       }
 
