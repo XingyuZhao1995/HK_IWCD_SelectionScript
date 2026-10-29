@@ -215,7 +215,7 @@ void NumuCCQESelection::FillTruthTree(AnafiTQunEvent &event){
 
   pass_full = event.pass_numuCCQE_full ? 1 : 0;
   pass_wall_rmv = event.pass_numuCCQE_wall_rmv ? 1 : 0;
-  pass_wall_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
+  pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
 
   cate_type = event.cate_type;
 
