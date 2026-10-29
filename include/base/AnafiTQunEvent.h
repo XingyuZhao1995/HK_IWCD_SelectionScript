@@ -106,7 +106,10 @@ public:
   // Selection information
 
   // Tag to indicate if this event passed the selection
-  bool passed_selection = false;
+  // (NumuCCQE)
+  bool pass_numuCCQE_full = false;
+  bool pass_numuCCQE_wall_rmv = false; // Remove towall and dwall cut
+  bool pass_numuCCQE_mom_rmv = false; // Remove momentum cut
 
 };
 

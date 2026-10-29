@@ -3,8 +3,21 @@
 
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
+#include "utils/CategoryUtils.h"
+#include "utils/GeomUtils.h"
+
+using namespace CategoryUtils;
 
 namespace MiscUtils{
+
+  // All units in MeV/c2
+  const double MuonMass = 105.658;
+  const double ElectronMass = 0.511;
+
+  const double ProtonMass = 938.272;
+  const double NeutronMass = 939.565;
+
+  const double Eb_Neutron_O = 26; // Mean approx.
 
   // ----------------------------------------
   // Geant4 utils
@@ -17,6 +30,12 @@ namespace MiscUtils{
 
   // Get parent interaction information
   int GetG4TrkParInterInfo(WCSimRootTrack *track);
+
+  // ----------------------------------------
+  // Neutrino energy utils
+
+  // Calculate neutrino energy
+  double CalcEnuNumuCCQE(AnafiTQunEvent &event);
 
 };
 

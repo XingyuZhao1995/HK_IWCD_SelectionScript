@@ -104,3 +104,21 @@ int MiscUtils::GetG4TrkParInterInfo(WCSimRootTrack *track){
   return 4;
 
 }
+
+// ********************************************************
+double MiscUtils::CalcEnuNumuCCQE(AnafiTQunEvent &event){
+// ********************************************************
+
+  double mn_eff = NeutronMass - Eb_Neutron_O;
+  double p_mu = event.reco_1r_mom[PIDCate::kMuon];
+  double E_mu = std::sqrt(p_mu * p_mu + MuonMass * MuonMass);
+  double cos_mu = GeomUtils::CalcIncludedCosAng(
+                  event.reco_1r_dir[PIDCate::kMuon],event.reco_1r_pos[PIDCate::kMuon]-GeomUtils::BeamDecayPos);
+
+  double numerator = MuonMass * MuonMass + mn_eff * mn_eff - ProtonMass * ProtonMass
+                     - 2 * E_mu * mn_eff;
+  double denominator = 2 * (E_mu - p_mu * cos_mu - mn_eff);
+
+  return numerator / denominator;
+
+}

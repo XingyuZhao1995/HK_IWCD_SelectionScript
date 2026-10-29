@@ -3,6 +3,7 @@
 
 #include "base/BasefiTQunAnalysis.h"
 #include "utils/SelectionUtils.h"
+#include "utils/MiscUtils.h"
 
 // Selection class
 class NumuCCQESelection : public BasefiTQunAnalysis{
@@ -44,7 +45,9 @@ private:
   // Auxiliary functions
 
   // Run signal selection
-  bool PassSignalSelection(AnafiTQunEvent &event);
+  bool PassSigFullSelection(AnafiTQunEvent &event);
+  bool PassSigSelection_WallRmv(AnafiTQunEvent &event);
+  bool PassSigSelection_MomRmv(AnafiTQunEvent &event);
 
   // Fill output trees
   void FillSelectionTree(AnafiTQunEvent &event); 
@@ -57,10 +60,21 @@ private:
   int cate_type;
 
   // Selection tree
-  
+  double towall_reco;
+  double dwall_reco;
+
+  double nu_energy_reco;
+  double nu_energy_true;
 
   // Truth tree (for signal only)
-  int passed;
+  int pass_full;
+  int pass_wall_rmv;
+  int pass_mom_rmv;
+
+  double towall_true;
+  double dwall_true;
+
+  double lep_mom_true;
 
 };
 
