@@ -18,7 +18,7 @@ namespace GeomUtils{
   const double IDCenterY = WCDetCentre.Y();
 
   // Beam (neutrino parent) decay point
-  const TVector3 BeamDecayPos(0,-2.675413*100.,42.28534*100.);
+  const TVector3 BeamDecayPos(0,-2.675413*100.,-42.28534*100.);
   // On-axis neutrino beam direction
   const TVector3 OnAxisNuDir(0,-1.0*TMath::Sin(0.063478),TMath::Cos(0.063478));
 
