@@ -5,7 +5,8 @@
 Option=${1}
 
 # Input file path
-InputPath="/vols/hyperk/hk-neut.5.6.4.4-1_p7c1/IWCD_geom_v3_hz4930_r4640/wcsim_v1.12.35_cwcs1.1.1.1/fitqun_6.4.4_cfqni.1.1.1.1.2/ID/flux23av1_p320_nd25/rfqn"
+InputWCSimPath="/vols/hyperk/hk-neut.5.6.4.4-1_p7c1/IWCD_geom_v3_hz4930_r4640/wcsim_v1.12.35_cwcs1.1.1.1/ID/flux23av1_p320_nd25/rwcs"
+InputfiTQunPath="/vols/hyperk/hk-neut.5.6.4.4-1_p7c1/IWCD_geom_v3_hz4930_r4640/wcsim_v1.12.35_cwcs1.1.1.1/fitqun_6.4.4_cfqni.1.1.1.1.2/ID/flux23av1_p320_nd25/rfqn"
 FileListPath="/vols/hyperk/users/xzhao/HK/IWCD/SelectionScript/scripts/selection/file_list"
 
 # Create file list directory if not exist
@@ -26,6 +27,15 @@ OutIndex=0
 for File in ${InputPath}/*.root
 do
 
+  # Extract the common pattern
+  BaseName="${File##*/}"
+  CorrFile="${InputWCSimPath}/${BaseName%_rfqn.root}_rwcs.root"
+  if [ ! -f "${CorrFile}" ]
+  then
+    echo "WARNING: no matching file ${CorrFile}, skipping ${File}"
+    continue
+  fi
+
   # Update file count
   FileCount=$(($FileCount + 1))
 
@@ -37,7 +47,7 @@ do
   fi
 
   # Save the input file path to the file list
-  echo "${File}" >> ${FileListPath}/${OutIndex}.txt
+  echo "${CorrFile} ${File}" >> ${FileListPath}/${OutIndex}.txt
 
 done
 
