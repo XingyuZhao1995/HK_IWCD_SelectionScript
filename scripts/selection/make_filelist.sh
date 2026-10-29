@@ -24,7 +24,7 @@ NFilePerList=500
 # Loop over input files
 FileCount=0
 OutIndex=0
-for File in ${InputPath}/*.root
+for File in ${InputfiTQunPath}/*.root
 do
 
   # Extract the common pattern
