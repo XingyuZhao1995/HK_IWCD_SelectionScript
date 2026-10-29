@@ -224,7 +224,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   subeve_max_pri = event.reco_subeve_max_pri;
 
   // Ring counting information
-  nring_reco = SelectionUtils::GetNRecoRing(event,par_index);
+  nring_reco = SelectionUtils::GetNRecoRingRef(event,par_index);
   nllh_1ring_reco = SelectionUtils::GetMinNegLLH1Ring(event,par_index);
   nllh_2ring_reco = SelectionUtils::GetMinNegLLH2Ring(event);
   nllh_3ring_reco = SelectionUtils::GetMinNegLLH3Ring(event);
