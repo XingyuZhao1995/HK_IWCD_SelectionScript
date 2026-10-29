@@ -93,27 +93,22 @@ bool NumuCCQESelection::PassSignalSelection(AnafiTQunEvent &event){
   if(!event.reco_tag) return false;
 
   // OD veto
-
+  if(!SelectionUtils::PassODVetoNumuCCQE(event)) return false;
   
   // Number of reconstructed ring cut
-  int n_ring = SelectionUtils::GetNRecoRing(event,PIDCate::kMuon);  
-  if(n_ring != 1) return false;
+  if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
 
   // Number of subevent cut
-  if(!(event.reco_nsubeve == 1 || event.reco_nsubeve == 2)) return false;
+  if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
 
   // FV cut
-  double towall = GeomUtils::CalcToWallDis(
-                  event.reco_1r_pos[PIDCate::kMuon],event.reco_1r_dir[PIDCate::kMuon]);
-  double dwall = GeomUtils::CalcDWallDis(event.reco_1r_pos[PIDCate::kMuon]);
-  if(!(towall > 200 && dwall > 100)) return false;
+  if(!SelectionUtils::PassFVCutNumuCCQE(event)) return false;
 
   // Momentum cut
-  if(event.reco_1r_mom[PIDCate::kMuon] < 200) return false;
+  if(!SelectionUtils::PassMomCutNumuCCQE(event)) return false;
 
   // e/mu PID cut
-  double PID_emu = SelectionUtils::ComputePIDemuRatio(event);
-  if(PID_emu > 0) return false;
+  if(!SelectionUtils::PassPIDemuCutNumuCCQE(event)) return false;
 
   // Mark the event as selection passed
   event.passed_selection = true;

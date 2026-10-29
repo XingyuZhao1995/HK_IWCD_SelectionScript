@@ -18,10 +18,10 @@ namespace SelectionUtils{
   bool IsTrueNueCCQESignal(AnafiTQunEvent &event);
 
   // ----------------------------------------
-  // PID cut
+  // OD cut
 
-  // Compute PID likelihood ratio
-  double ComputePIDemuRatio(AnafiTQunEvent &event);
+  // Apply cut
+  bool PassODVetoNumuCCQE(AnafiTQunEvent &event);
 
   // ----------------------------------------
   // Ring cut
@@ -32,7 +32,38 @@ namespace SelectionUtils{
   double GetMinNegLLH3Ring(AnafiTQunEvent &event);
 
   // Get number of reconstructed rings
-  int GetNRecoRing(AnafiTQunEvent &event, PIDCate par_type);
+  int GetNRecoRingRef(AnafiTQunEvent &event, PIDCate par_type);
+  int GetNRecoRingNumuCCQE(AnafiTQunEvent &event);
+
+  // Apply cut
+  bool PassRingCutNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // Subevent cut
+
+  // Apply cut
+  bool PassSubeventCutNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // FV cut
+
+  // Apply cut
+  bool PassFVCutNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // Momentum cut
+
+  // Apply cut
+  bool PassMomCutNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // PID cut
+
+  // Compute PID likelihood ratio
+  double ComputePIDemuRatio(AnafiTQunEvent &event);
+
+  // Apply cut
+  bool PassPIDemuCutNumuCCQE(AnafiTQunEvent &event);
 
 };
 

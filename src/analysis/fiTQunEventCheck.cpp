@@ -201,9 +201,9 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   lep_dir_reco[1] = event.reco_1r_dir[par_index].Y();
   lep_dir_reco[2] = event.reco_1r_dir[par_index].Z();
 
-  lep_costheta_true = GeomUtils::CalcIncludedAngle( 
+  lep_costheta_true = GeomUtils::CalcIncludedCosAng( 
                       event.trk_pri_lep_dir,event.nu_dir);
-  lep_costheta_reco = GeomUtils::CalcIncludedAngle( 
+  lep_costheta_reco = GeomUtils::CalcIncludedCosAng( 
                       event.reco_1r_dir[par_index],event.reco_1r_pos[par_index]-GeomUtils::BeamDecayPos);
 
   lep_PID_emu_reco = SelectionUtils::ComputePIDemuRatio(event);

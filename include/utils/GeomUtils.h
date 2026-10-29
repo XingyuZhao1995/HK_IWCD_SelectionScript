@@ -36,6 +36,7 @@ namespace GeomUtils{
 
   // General angle between two directions
   double CalcIncludedAngle(TVector3 dir_1, TVector3 dir_2);
+  double CalcIncludedCosAng(TVector3 dir_1, TVector3 dir_2);
 
   // ----------------------------------------
   // Distance utils

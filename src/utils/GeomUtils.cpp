@@ -33,6 +33,17 @@ double GeomUtils::CalcIncludedAngle(TVector3 dir_1, TVector3 dir_2){
 }
 
 // ********************************************************
+double GeomUtils::CalcIncludedCosAng(TVector3 dir_1, TVector3 dir_2){
+// ********************************************************
+
+  dir_1 = dir_1.Unit();
+  dir_2 = dir_2.Unit();
+
+  return dir_1.Dot(dir_2);
+
+}
+
+// ********************************************************
 double GeomUtils::CalcToWallDis(TVector3 pos, TVector3 dir){
 // ********************************************************
 
