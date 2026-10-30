@@ -38,6 +38,17 @@ void NumuCCQESelection::OverallInitialization(){
   // (Selection tree)
   tout_sele.Branch("cate_type",&cate_type,"cate_type/I");
 
+  tout_sele.Branch("trk_npri_lep",&trk_npri_lep,"trk_npri_lep/I");
+  tout_sele.Branch("trk_npri_lep_thres",&trk_npri_lep_thres,"trk_npri_lep_thres/I");
+  tout_sele.Branch("trk_npri_p",&trk_npri_p,"trk_npri_p/I");
+  tout_sele.Branch("trk_npri_n",&trk_npri_n,"trk_npri_n/I");
+  tout_sele.Branch("trk_npri_piplus",&trk_npri_piplus,"trk_npri_piplus/I");
+  tout_sele.Branch("trk_npri_piplus_thres",&trk_npri_piplus_thres,"trk_npri_piplus_thres/I");
+  tout_sele.Branch("trk_npri_piminus",&trk_npri_piminus,"trk_npri_piminus/I");
+  tout_sele.Branch("trk_npri_piminus_thres",&trk_npri_piminus_thres,"trk_npri_piminus_thres/I");
+  tout_sele.Branch("trk_npri_pi0",&trk_npri_pi0,"trk_npri_pi0/I");
+  tout_sele.Branch("trk_npri_other",&trk_npri_other,"trk_npri_other/I");
+
   tout_sele.Branch("towall_reco",&towall_reco,"towall_reco/D");
   tout_sele.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
 
@@ -197,6 +208,17 @@ void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
 // ********************************************************
 
   cate_type = event.cate_type;
+
+  trk_npri_lep = event.trk_npri_lep;
+  trk_npri_lep_thres = event.trk_npri_lep_thres;
+  trk_npri_p = event.trk_npri_p;
+  trk_npri_n = event.trk_npri_n;
+  trk_npri_piplus = event.trk_npri_piplus;
+  trk_npri_piplus_thres = event.trk_npri_piplus_thres;
+  trk_npri_piminus = event.trk_npri_piminus;
+  trk_npri_piminus_thres = event.trk_npri_piminus_thres;
+  trk_npri_pi0 = event.trk_npri_pi0;
+  trk_npri_other = event.trk_npri_other;
 
   towall_reco = GeomUtils::CalcToWallDis(
                 event.reco_1r_pos[PIDCate::kMuon],event.reco_1r_dir[PIDCate::kMuon]);

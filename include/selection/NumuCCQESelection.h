@@ -60,6 +60,17 @@ private:
   int cate_type;
 
   // Selection tree
+  int trk_npri_lep;
+  int trk_npri_lep_thres;
+  int trk_npri_p;
+  int trk_npri_n;
+  int trk_npri_piplus;
+  int trk_npri_piplus_thres;
+  int trk_npri_piminus;
+  int trk_npri_piminus_thres;
+  int trk_npri_pi0;
+  int trk_npri_other;  
+
   double towall_reco;
   double dwall_reco;
 
