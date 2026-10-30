@@ -61,11 +61,11 @@ private:
   int pass_wall_rmv;
   int pass_mom_rmv;
 
+  double nu_energy_true;
   int nu_neut_code;
   int cate_type;
   int sig_index;
 
-  // Selection tree
   int trk_npri_lep;
   int trk_npri_lep_thres;
   int trk_npri_p;
@@ -77,19 +77,21 @@ private:
   int trk_npri_pi0;
   int trk_npri_other;  
 
-  double towall_reco;
-  double dwall_reco;
+  int lep_ID_stop;
+  double lep_mom_true;
 
-  double lep_mom_reco;
-
-  double nu_energy_reco;
-  double nu_energy_true;
-
-  // Truth tree (for signal only)
   double towall_true;
   double dwall_true;
 
-  double lep_mom_true;
+  // Selection tree only
+  double nu_energy_reco;
+
+  double lep_mom_reco;
+
+  double towall_reco;
+  double dwall_reco;
+
+  // Truth tree only (for signal only)
 
 };
 

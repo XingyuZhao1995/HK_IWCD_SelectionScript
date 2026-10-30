@@ -40,6 +40,8 @@ void NumuCCQESelection::OverallInitialization(){
   tout_sele.Branch("pass_wall_rmv",&pass_wall_rmv,"pass_wall_rmv/I");
   tout_sele.Branch("pass_mom_rmv",&pass_mom_rmv,"pass_mom_rmv/I");
 
+  tout_sele.Branch("nu_energy_true",&nu_energy_true,"nu_energy_true/D");
+  tout_sele.Branch("nu_energy_reco",&nu_energy_reco,"nu_energy_reco/D");
   tout_sele.Branch("nu_neut_code",&nu_neut_code,"nu_neut_code/I");
   tout_sele.Branch("cate_type",&cate_type,"cate_type/I");
   tout_sele.Branch("sig_index",&sig_index,"sig_index/I");
@@ -55,27 +57,41 @@ void NumuCCQESelection::OverallInitialization(){
   tout_sele.Branch("trk_npri_pi0",&trk_npri_pi0,"trk_npri_pi0/I");
   tout_sele.Branch("trk_npri_other",&trk_npri_other,"trk_npri_other/I");
 
-  tout_sele.Branch("towall_reco",&towall_reco,"towall_reco/D");
-  tout_sele.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
-
+  tout_sele.Branch("lep_ID_stop",&lep_ID_stop,"lep_ID_stop/I");
+  tout_sele.Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
   tout_sele.Branch("lep_mom_reco",&lep_mom_reco,"lep_mom_reco/D");
 
-  tout_sele.Branch("nu_energy_reco",&nu_energy_reco,"nu_energy_reco/D");
-  tout_sele.Branch("nu_energy_true",&nu_energy_true,"nu_energy_true/D");
+  tout_sele.Branch("towall_true",&towall_true,"towall_true/D");
+  tout_sele.Branch("dwall_true",&dwall_true,"dwall_true/D");
+  tout_sele.Branch("towall_reco",&towall_reco,"towall_reco/D");
+  tout_sele.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
 
   // (Truth tree)
   tout_true.Branch("pass_full",&pass_full,"pass_full/I");
   tout_true.Branch("pass_wall_rmv",&pass_wall_rmv,"pass_wall_rmv/I");
   tout_true.Branch("pass_mom_rmv",&pass_mom_rmv,"pass_mom_rmv/I");
 
+  tout_true.Branch("nu_energy_true",&nu_energy_true,"nu_energy_true/D");
   tout_true.Branch("nu_neut_code",&nu_neut_code,"nu_neut_code/I");
   tout_true.Branch("cate_type",&cate_type,"cate_type/I");
   tout_true.Branch("sig_index",&sig_index,"sig_index/I");
 
+  tout_true.Branch("trk_npri_lep",&trk_npri_lep,"trk_npri_lep/I");
+  tout_true.Branch("trk_npri_lep_thres",&trk_npri_lep_thres,"trk_npri_lep_thres/I");
+  tout_true.Branch("trk_npri_p",&trk_npri_p,"trk_npri_p/I");
+  tout_true.Branch("trk_npri_n",&trk_npri_n,"trk_npri_n/I");
+  tout_true.Branch("trk_npri_piplus",&trk_npri_piplus,"trk_npri_piplus/I");
+  tout_true.Branch("trk_npri_piplus_thres",&trk_npri_piplus_thres,"trk_npri_piplus_thres/I");
+  tout_true.Branch("trk_npri_piminus",&trk_npri_piminus,"trk_npri_piminus/I");
+  tout_true.Branch("trk_npri_piminus_thres",&trk_npri_piminus_thres,"trk_npri_piminus_thres/I");
+  tout_true.Branch("trk_npri_pi0",&trk_npri_pi0,"trk_npri_pi0/I");
+  tout_true.Branch("trk_npri_other",&trk_npri_other,"trk_npri_other/I");
+
+  tout_true.Branch("lep_ID_stop",&lep_ID_stop,"lep_ID_stop/I");
+  tout_true.Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
+
   tout_true.Branch("towall_true",&towall_true,"towall_true/D");
   tout_true.Branch("dwall_true",&dwall_true,"dwall_true/D");
-
-  tout_true.Branch("lep_mom_true",&lep_mom_true,"lep_mom_true/D");
 
 }
 
@@ -221,6 +237,8 @@ void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
   pass_wall_rmv = event.pass_numuCCQE_wall_rmv ? 1 : 0;
   pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
 
+  nu_energy_true = event.nu_energy;  
+  nu_energy_reco = MiscUtils::CalcEnuNumuCCQE(event);
   nu_neut_code = event.nu_neut_code;
   cate_type = event.cate_type;
   sig_index = SelectionUtils::GetSignalIndex(event);
@@ -236,14 +254,15 @@ void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
   trk_npri_pi0 = event.trk_npri_pi0;
   trk_npri_other = event.trk_npri_other;
 
+  lep_ID_stop = event.trk_pri_lep_stop_ID ? 1 : 0;
+  lep_mom_true = event.trk_pri_lep_mom;
+  lep_mom_reco = event.reco_1r_mom[PIDCate::kMuon];
+
+  towall_true = event.trk_pri_lep_towall;
+  dwall_true = event.trk_pri_lep_dwall;
   towall_reco = GeomUtils::CalcToWallDis(
                 event.reco_1r_pos[PIDCate::kMuon],event.reco_1r_dir[PIDCate::kMuon]);
   dwall_reco = GeomUtils::CalcDWallDis(event.reco_1r_pos[PIDCate::kMuon]);
-
-  lep_mom_reco = event.reco_1r_mom[PIDCate::kMuon];
-
-  nu_energy_reco = MiscUtils::CalcEnuNumuCCQE(event);
-  nu_energy_true = event.nu_energy;
   
   tout_sele.Fill();
 
@@ -257,14 +276,27 @@ void NumuCCQESelection::FillTruthTree(AnafiTQunEvent &event){
   pass_wall_rmv = event.pass_numuCCQE_wall_rmv ? 1 : 0;
   pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
 
+  nu_energy_true = event.nu_energy;  
   nu_neut_code = event.nu_neut_code;
   cate_type = event.cate_type;
   sig_index = SelectionUtils::GetSignalIndex(event);
 
+  trk_npri_lep = event.trk_npri_lep;
+  trk_npri_lep_thres = event.trk_npri_lep_thres;
+  trk_npri_p = event.trk_npri_p;
+  trk_npri_n = event.trk_npri_n;
+  trk_npri_piplus = event.trk_npri_piplus;
+  trk_npri_piplus_thres = event.trk_npri_piplus_thres;
+  trk_npri_piminus = event.trk_npri_piminus;
+  trk_npri_piminus_thres = event.trk_npri_piminus_thres;
+  trk_npri_pi0 = event.trk_npri_pi0;
+  trk_npri_other = event.trk_npri_other;
+
+  lep_ID_stop = event.trk_pri_lep_stop_ID ? 1 : 0;
+  lep_mom_true = event.trk_pri_lep_mom;
+
   towall_true = event.trk_pri_lep_towall;
   dwall_true = event.trk_pri_lep_dwall;
-
-  lep_mom_true = event.trk_pri_lep_mom;
 
   tout_true.Fill();
 
