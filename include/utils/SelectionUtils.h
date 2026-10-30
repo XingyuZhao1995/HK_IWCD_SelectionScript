@@ -17,6 +17,9 @@ namespace SelectionUtils{
   bool IsTrueNumuCCQESignal(AnafiTQunEvent &event);
   bool IsTrueNueCCQESignal(AnafiTQunEvent &event);
 
+  // Get signal index
+  int GetSignalIndex(AnafiTQunEvent &event);
+
   // ----------------------------------------
   // OD cut
 

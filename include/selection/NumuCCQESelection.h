@@ -58,6 +58,7 @@ private:
 
   // Common variables shared by both trees
   int cate_type;
+  int sig_index;
 
   // Selection tree
   int trk_npri_lep;

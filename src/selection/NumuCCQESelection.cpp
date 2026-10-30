@@ -37,6 +37,7 @@ void NumuCCQESelection::OverallInitialization(){
   // Create output tree branches
   // (Selection tree)
   tout_sele.Branch("cate_type",&cate_type,"cate_type/I");
+  tout_sele.Branch("sig_index",&sig_index,"sig_index/I");
 
   tout_sele.Branch("trk_npri_lep",&trk_npri_lep,"trk_npri_lep/I");
   tout_sele.Branch("trk_npri_lep_thres",&trk_npri_lep_thres,"trk_npri_lep_thres/I");
@@ -61,6 +62,7 @@ void NumuCCQESelection::OverallInitialization(){
   tout_true.Branch("pass_mom_rmv",&pass_mom_rmv,"pass_mom_rmv/I");
 
   tout_true.Branch("cate_type",&cate_type,"cate_type/I");
+  tout_true.Branch("sig_index",&sig_index,"sig_index/I");
 
   tout_true.Branch("towall_true",&towall_true,"towall_true/D");
   tout_true.Branch("dwall_true",&dwall_true,"dwall_true/D");
@@ -208,6 +210,7 @@ void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
 // ********************************************************
 
   cate_type = event.cate_type;
+  sig_index = SelectionUtils::GetSignalIndex(event);
 
   trk_npri_lep = event.trk_npri_lep;
   trk_npri_lep_thres = event.trk_npri_lep_thres;
@@ -240,6 +243,7 @@ void NumuCCQESelection::FillTruthTree(AnafiTQunEvent &event){
   pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
 
   cate_type = event.cate_type;
+  sig_index = SelectionUtils::GetSignalIndex(event);
 
   towall_true = event.trk_pri_lep_towall;
   dwall_true = event.trk_pri_lep_dwall;

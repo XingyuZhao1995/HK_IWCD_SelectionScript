@@ -153,9 +153,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
 
   // Event category
   cate_type = event.cate_type;
-  if(SelectionUtils::IsTrueNumuCCQESignal(event)) sig_index = 0;
-  else if(SelectionUtils::IsTrueNueCCQESignal(event)) sig_index = 1;
-  else sig_index = -1;
+  sig_index = SelectionUtils::GetSignalIndex(event);
 
   // Neutrino information
   nu_energy = event.nu_energy;

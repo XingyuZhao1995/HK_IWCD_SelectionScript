@@ -41,6 +41,19 @@ bool SelectionUtils::IsTrueNueCCQESignal(AnafiTQunEvent &event){
 }
 
 // ********************************************************
+int SelectionUtils::GetSignalIndex(AnafiTQunEvent &event){
+// ********************************************************
+
+  // Numu CCQE
+  if(IsTrueNumuCCQESignal(event)) return 0;
+  // Nue CCQE
+  else if(IsTrueNueCCQESignal(event)) return 1;
+
+  return -1;
+
+}
+
+// ********************************************************
 bool SelectionUtils::PassODVetoNumuCCQE(AnafiTQunEvent &event){
 // ********************************************************
 
