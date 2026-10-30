@@ -36,6 +36,10 @@ void NumuCCQESelection::OverallInitialization(){
 
   // Create output tree branches
   // (Selection tree)
+  tout_sele.Branch("pass_full",&pass_full,"pass_full/I");
+  tout_sele.Branch("pass_wall_rmv",&pass_wall_rmv,"pass_wall_rmv/I");
+  tout_sele.Branch("pass_mom_rmv",&pass_mom_rmv,"pass_mom_rmv/I");
+
   tout_sele.Branch("nu_neut_code",&nu_neut_code,"nu_neut_code/I");
   tout_sele.Branch("cate_type",&cate_type,"cate_type/I");
   tout_sele.Branch("sig_index",&sig_index,"sig_index/I");
@@ -53,6 +57,8 @@ void NumuCCQESelection::OverallInitialization(){
 
   tout_sele.Branch("towall_reco",&towall_reco,"towall_reco/D");
   tout_sele.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
+
+  tout_sele.Branch("lep_mom_reco",&lep_mom_reco,"lep_mom_reco/D");
 
   tout_sele.Branch("nu_energy_reco",&nu_energy_reco,"nu_energy_reco/D");
   tout_sele.Branch("nu_energy_true",&nu_energy_true,"nu_energy_true/D");
@@ -82,14 +88,14 @@ void NumuCCQESelection::RunEventAnalysis(AnafiTQunEvent &event){
   // ---------------------------------------
 
   // Perform the full selection
-  bool pass_full = PassSigFullSelection(event);
+  bool ok = PassSigFullSelection(event);
 
   // Perform additional selections
   // Some cuts are removed in these selections
-  bool pass_part = PassSigSelection_WallRmv(event);
-  pass_part = PassSigSelection_MomRmv(event);
+  ok = PassSigSelection_WallRmv(event);
+  ok = PassSigSelection_MomRmv(event);
 
-  if(pass_full){
+  if(event.reco_tag){
     FillSelectionTree(event);
   }  
 
@@ -211,6 +217,10 @@ bool NumuCCQESelection::PassSigSelection_MomRmv(AnafiTQunEvent &event){
 void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
 // ********************************************************
 
+  pass_full = event.pass_numuCCQE_full ? 1 : 0;
+  pass_wall_rmv = event.pass_numuCCQE_wall_rmv ? 1 : 0;
+  pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
+
   nu_neut_code = event.nu_neut_code;
   cate_type = event.cate_type;
   sig_index = SelectionUtils::GetSignalIndex(event);
@@ -229,6 +239,8 @@ void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
   towall_reco = GeomUtils::CalcToWallDis(
                 event.reco_1r_pos[PIDCate::kMuon],event.reco_1r_dir[PIDCate::kMuon]);
   dwall_reco = GeomUtils::CalcDWallDis(event.reco_1r_pos[PIDCate::kMuon]);
+
+  lep_mom_reco = event.reco_1r_mom[PIDCate::kMuon];
 
   nu_energy_reco = MiscUtils::CalcEnuNumuCCQE(event);
   nu_energy_true = event.nu_energy;

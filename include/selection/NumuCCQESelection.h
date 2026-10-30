@@ -57,6 +57,10 @@ private:
   // Output tree branch variables
 
   // Common variables shared by both trees
+  int pass_full;
+  int pass_wall_rmv;
+  int pass_mom_rmv;
+
   int nu_neut_code;
   int cate_type;
   int sig_index;
@@ -76,14 +80,12 @@ private:
   double towall_reco;
   double dwall_reco;
 
+  double lep_mom_reco;
+
   double nu_energy_reco;
   double nu_energy_true;
 
   // Truth tree (for signal only)
-  int pass_full;
-  int pass_wall_rmv;
-  int pass_mom_rmv;
-
   double towall_true;
   double dwall_true;
 
