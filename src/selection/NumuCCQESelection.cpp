@@ -36,6 +36,7 @@ void NumuCCQESelection::OverallInitialization(){
 
   // Create output tree branches
   // (Selection tree)
+  tout_sele.Branch("nu_neut_code",&nu_neut_code,"nu_neut_code/I");
   tout_sele.Branch("cate_type",&cate_type,"cate_type/I");
   tout_sele.Branch("sig_index",&sig_index,"sig_index/I");
 
@@ -61,6 +62,7 @@ void NumuCCQESelection::OverallInitialization(){
   tout_true.Branch("pass_wall_rmv",&pass_wall_rmv,"pass_wall_rmv/I");
   tout_true.Branch("pass_mom_rmv",&pass_mom_rmv,"pass_mom_rmv/I");
 
+  tout_true.Branch("nu_neut_code",&nu_neut_code,"nu_neut_code/I");
   tout_true.Branch("cate_type",&cate_type,"cate_type/I");
   tout_true.Branch("sig_index",&sig_index,"sig_index/I");
 
@@ -98,7 +100,7 @@ void NumuCCQESelection::RunEventAnalysis(AnafiTQunEvent &event){
   // Check if event should be filled in truth tree
   // Usually only signals are filled
   bool fill_truth = (event.cate_type == 0 && event.trk_pri_lep_stop_ID);
-\
+
   if(fill_truth){
     FillTruthTree(event);
   }
@@ -209,6 +211,7 @@ bool NumuCCQESelection::PassSigSelection_MomRmv(AnafiTQunEvent &event){
 void NumuCCQESelection::FillSelectionTree(AnafiTQunEvent &event){
 // ********************************************************
 
+  nu_neut_code = event.nu_neut_code;
   cate_type = event.cate_type;
   sig_index = SelectionUtils::GetSignalIndex(event);
 
@@ -242,6 +245,7 @@ void NumuCCQESelection::FillTruthTree(AnafiTQunEvent &event){
   pass_wall_rmv = event.pass_numuCCQE_wall_rmv ? 1 : 0;
   pass_mom_rmv = event.pass_numuCCQE_mom_rmv ? 1 : 0;
 
+  nu_neut_code = event.nu_neut_code;
   cate_type = event.cate_type;
   sig_index = SelectionUtils::GetSignalIndex(event);
 

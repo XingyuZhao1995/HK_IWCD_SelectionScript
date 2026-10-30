@@ -57,6 +57,7 @@ private:
   // Output tree branch variables
 
   // Common variables shared by both trees
+  int nu_neut_code;
   int cate_type;
   int sig_index;
 
