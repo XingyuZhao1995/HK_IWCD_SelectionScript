@@ -93,8 +93,8 @@ int MiscUtils::GetG4TrkParInterInfo(WCSimRootTrack *track){
   // Non-primary track
   if(std::abs(track->fIpnu) == 11){
     // Electron, produced by muon decay
-    // To be more precise this should be checked with fCreatorProcess,
-    // but need to check first if this is the same process code from Geant4
+    // To be more precise this should be checked with fCreatorProcess
+    std::cout << "fCreatorProcess = " << track->fCreatorProcess << std::endl;
     if(std::abs(track->fParenttype) == 13) return 2;
     // Others
     else return 3;

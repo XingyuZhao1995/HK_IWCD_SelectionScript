@@ -14,6 +14,17 @@ AnafiTQunEvent::AnafiTQunEvent(){
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
 
+  trk_pri_lep = nullptr;
+
+  trk_pri_p.clear();
+  trk_pri_n.clear();
+  trk_pri_piplus.clear();
+  trk_pri_piminus.clear();
+  trk_pri_pi0.clear();
+  trk_pri_other.clear();
+
+  trk_ME_pri_lep = nullptr;
+
   reco_1r_flag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
@@ -42,6 +53,17 @@ AnafiTQunEvent::~AnafiTQunEvent(){
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
 
+  trk_pri_lep = nullptr;
+
+  trk_pri_p.clear();
+  trk_pri_n.clear();
+  trk_pri_piplus.clear();
+  trk_pri_piminus.clear();
+  trk_pri_pi0.clear();
+  trk_pri_other.clear();
+
+  trk_ME_pri_lep = nullptr;
+
   reco_1r_flag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
@@ -69,6 +91,17 @@ void AnafiTQunEvent::Reset(){
 
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
+
+  trk_pri_lep = nullptr;
+
+  trk_pri_p.clear();
+  trk_pri_n.clear();
+  trk_pri_piplus.clear();
+  trk_pri_piminus.clear();
+  trk_pri_pi0.clear();
+  trk_pri_other.clear();
+
+  trk_ME_pri_lep = nullptr;
 
   reco_1r_flag.clear();
   reco_1r_mom.clear();

@@ -60,7 +60,7 @@ void FillInfoUtils::FillG4TrkInfo(AnafiTQunEvent &event){
   event.trk_npri_pi0 = 0;
   event.trk_npri_other = 0;
 
-  // Loop over Geant4 tracks
+  // Loop over Geant4 tracks to find out primary tracks
   for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
 
     // Get the track
@@ -73,9 +73,11 @@ void FillInfoUtils::FillG4TrkInfo(AnafiTQunEvent &event){
 
     // Primary lepton
     if(std::abs(track->fIpnu) == 11 || std::abs(track->fIpnu) == 13 || std::abs(track->fIpnu) == 15){
+      event.trk_pri_lep = track;
+
       event.trk_npri_lep += 1;
-      if(std::abs(track->fIpnu) == 11 && track->fP > 0.58) event.trk_npri_lep_thres += 1;
-      else if(std::abs(track->fIpnu) == 13 && track->fP > 120) event.trk_npri_lep_thres += 1;
+      if(std::abs(track->fIpnu) == 11 && track->fP > MiscUtils::EleMomCheThres) event.trk_npri_lep_thres += 1;
+      else if(std::abs(track->fIpnu) == 13 && track->fP > MiscUtils::MuonMomCheThres) event.trk_npri_lep_thres += 1;
 
       event.trk_pri_lep_pdg = track->fIpnu;
       event.trk_pri_lep_mom = track->fP;
@@ -92,23 +94,49 @@ void FillInfoUtils::FillG4TrkInfo(AnafiTQunEvent &event){
     // Other primary particles
     else if(track->fIpnu == 2212){
       event.trk_npri_p += 1;
+      event.trk_pri_p.push_back(track);
     }
     else if(track->fIpnu == 2112){
       event.trk_npri_n += 1;
+      event.trk_pri_n.push_back(track);
     }    
     else if(track->fIpnu == 211){
       event.trk_npri_piplus += 1;
-      if(track->fP > 160) event.trk_npri_piplus_thres += 1;
+      if(track->fP > MiscUtils::PionMomCheThres) event.trk_npri_piplus_thres += 1;
+      event.trk_pri_piplus.push_back(track);
     }       
     else if(track->fIpnu == -211){
       event.trk_npri_piminus += 1;
-      if(track->fP > 160) event.trk_npri_piminus_thres += 1;
+      if(track->fP > MiscUtils::PionMomCheThres) event.trk_npri_piminus_thres += 1;
+      event.trk_pri_piminus.push_back(track);
     } 
     else if(track->fIpnu == 111){
       event.trk_npri_pi0 += 1;
+      event.trk_pri_pi0.push_back(track);
     }  
     else{
       event.trk_npri_other += 1;
+      event.trk_pri_other.push_back(track);
+    }
+
+  } // End of track loop
+
+  // Loop over Geant4 tracks again to find out secondary tracks (e.g. Michel electron)
+  for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
+
+    // Get the track
+    WCSimRootTrack *track = (WCSimRootTrack*)(event.wcsim_ID_event->fTracks->At(i));
+    if(!track) continue;
+
+    // Skip primary tracks
+    if(track->fFlag < 0) continue;
+    if(track->fParenttype == 0) continue;
+
+    // Michel electron from lepton decay
+    if(event.trk_pri_lep){
+      if(track->fParentId == event.trk_pri_lep->fId && std::abs(track->fIpnu) == 11){
+        event.trk_ME_pri_lep = track;
+      }
     }
 
   } // End of track loop

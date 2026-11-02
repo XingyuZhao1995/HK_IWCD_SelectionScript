@@ -54,15 +54,19 @@ private:
   // ----------------------------------------------
   // Output tree branch variables
 
+  // Interaction
   int cate_type;
   int sig_index; // 0 = numu CCQE, 1 = nue CCQE, -1 = other
 
+  // Neutrino
   double nu_energy;
   double nu_offang;
 
+  // Vertex
   double vtx_pos_true[3];
   double vtx_pos_reco[3];
 
+  // Primary track
   int trk_npri_lep;
   int trk_npri_lep_thres;
   int trk_npri_p;
@@ -72,11 +76,15 @@ private:
   int trk_npri_piminus;
   int trk_npri_piminus_thres;
   int trk_npri_pi0;
-  int trk_npri_other;  
+  int trk_npri_other; 
+  
+  double trk_openang_pri_lep_pi;
 
+  // OD PMT hit
   int OD_nhit;
   double OD_charge_tot;
 
+  // Lepton
   double lep_mom_true;
   double lep_mom_reco;
   double lep_mom_reco_hypo[2]; // 0 = electron, 1 = muon
@@ -87,16 +95,22 @@ private:
   double lep_PID_emu_reco;
   int lep_ID_stop;
 
+  // Geometry
   double towall_true;
   double towall_reco;
   double dwall_true;
   double dwall_reco;
 
+  double towall_lepstop_true;
+  double dwall_lepstop_true;
+
+  // Subevent
   int nsubeve_reco;
   int subeve_max_index;
   std::vector<int> subeve_max_PDG;
   std::vector<int> subeve_max_pri;
 
+  // Ring counting
   int nring_reco;
   double nllh_1ring_reco;
   double nllh_2ring_reco;

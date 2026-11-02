@@ -5,6 +5,7 @@
 #include "base/AnafiTQunEvent.h"
 #include "utils/GeomUtils.h"
 #include "utils/CategoryUtils.h"
+#include "utils/MiscUtils.h"
 
 namespace FillInfoUtils{
 

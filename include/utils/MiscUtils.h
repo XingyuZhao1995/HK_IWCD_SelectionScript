@@ -10,6 +10,7 @@ using namespace CategoryUtils;
 
 namespace MiscUtils{
 
+  // Mass constants
   // All units in MeV/c2
   const double MuonMass = 105.658;
   const double ElectronMass = 0.511;
@@ -18,6 +19,13 @@ namespace MiscUtils{
   const double NeutronMass = 939.565;
 
   const double Eb_Neutron_O = 26; // Mean approx.
+
+  // Momentum Cherenkov threshold
+  // Give 30 MeV/c margin above the normal threshold
+  // All units in MeV/c
+  const double MuonMomCheThres = 150;
+  const double EleMomCheThres = 30;
+  const double PionMomCheThres = 190;
 
   // ----------------------------------------
   // Geant4 utils

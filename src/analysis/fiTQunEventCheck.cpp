@@ -55,6 +55,8 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("trk_npri_pi0",&trk_npri_pi0,"trk_npri_pi0/I");
   tout.Branch("trk_npri_other",&trk_npri_other,"trk_npri_other/I");
 
+  tout.Branch("trk_openang_pri_lep_pi",&trk_openang_pri_lep_pi,"trk_openang_pri_lep_pi/D");
+
   tout.Branch("OD_nhit",&OD_nhit,"OD_nhit/I");
   tout.Branch("OD_charge_tot",&OD_charge_tot,"OD_charge_tot/D");
 
@@ -72,6 +74,9 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("towall_reco",&towall_reco,"towall_reco/D");
   tout.Branch("dwall_true",&dwall_true,"dwall_true/D");
   tout.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
+
+  tout.Branch("towall_lepstop_true",&towall_lepstop_true,"towall_lepstop_true/D");
+  tout.Branch("dwall_lepstop_true",&dwall_lepstop_true,"dwall_lepstop_true/D");
 
   tout.Branch("nsubeve_reco",&nsubeve_reco,"nsubeve_reco/I");
   tout.Branch("subeve_max_index",&subeve_max_index,"subeve_max_index/I");
@@ -181,6 +186,14 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   trk_npri_pi0 = event.trk_npri_pi0;
   trk_npri_other = event.trk_npri_other;
 
+  // (Opening angle between primary lepton and pi+)
+  if(event.trk_npri_lep > 0 && event.trk_npri_piplus > 0){
+    TVector3 pi_dir(event.trk_pri_piplus[0]->fDir[0],
+                    event.trk_pri_piplus[0]->fDir[1],
+                    event.trk_pri_piplus[0]->fDir[2]);
+    trk_openang_pri_lep_pi = GeomUtils::CalcIncludedAngle(event.trk_pri_lep_dir,pi_dir);
+  }
+
   // OD information
   OD_nhit = event.OD_nhit;
   OD_charge_tot = event.OD_charge_tot;
@@ -214,6 +227,14 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
                 event.reco_1r_pos[par_index],event.reco_1r_dir[par_index]);
   dwall_true = event.trk_pri_lep_dwall;
   dwall_reco = GeomUtils::CalcDWallDis(event.reco_1r_pos[par_index]);
+
+  // (At lepton stopping point)
+  if(event.trk_pri_lep){
+    TVector3 stop_pos(event.trk_pri_lep->fStop[0],event.trk_pri_lep->fStop[1],event.trk_pri_lep->fStop[2]);
+    towall_lepstop_true = GeomUtils::CalcToWallDis(
+                          stop_pos,event.trk_pri_lep_dir);
+    dwall_lepstop_true = GeomUtils::CalcDWallDis(stop_pos);
+  }
 
   // Subevent information
   nsubeve_reco = event.reco_nsubeve;

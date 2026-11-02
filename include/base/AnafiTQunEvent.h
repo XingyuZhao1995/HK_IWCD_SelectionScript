@@ -42,6 +42,7 @@ public:
   WCSimRootTrigger *wcsim_OD_event;
 
   // Primary lepton information
+  WCSimRootTrack *trk_pri_lep;
   int trk_pri_lep_pdg = 0;
   double trk_pri_lep_mom = -999; // In MeV
   TVector3 trk_pri_lep_dir;  
@@ -53,14 +54,26 @@ public:
   // (_thres means above water Cherenkov threshold)
   int trk_npri_lep = -1;
   int trk_npri_lep_thres = -1;
+
   int trk_npri_p = -1;
+  std::vector<WCSimRootTrack*> trk_pri_p;
   int trk_npri_n = -1;
+  std::vector<WCSimRootTrack*> trk_pri_n;
+
   int trk_npri_piplus = -1;
   int trk_npri_piplus_thres = -1;
+  std::vector<WCSimRootTrack*> trk_pri_piplus;
   int trk_npri_piminus = -1;
   int trk_npri_piminus_thres = -1;
+  std::vector<WCSimRootTrack*> trk_pri_piminus;
   int trk_npri_pi0 = -1;
+  std::vector<WCSimRootTrack*> trk_pri_pi0;
+
   int trk_npri_other = -1;
+  std::vector<WCSimRootTrack*> trk_pri_other;
+
+  // Michel electron information
+  WCSimRootTrack *trk_ME_pri_lep; // From primary lepton decay
 
   // ----------------------------------------
   // PMT hit information
