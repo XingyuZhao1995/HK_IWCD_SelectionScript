@@ -132,9 +132,10 @@ void FillInfoUtils::FillG4TrkInfo(AnafiTQunEvent &event){
     if(track->fFlag < 0) continue;
     if(track->fParenttype == 0) continue;
 
-    // Michel electron from lepton decay
+    // Michel electron from muon decay
     if(event.trk_pri_lep){
-      if(track->fParentId == event.trk_pri_lep->fId && std::abs(track->fIpnu) == 11){
+      if(MiscUtils::IsG4MichelElectronTrk(track) &&
+        track->fParentId == event.trk_pri_lep->fId){
         event.trk_ME_pri_lep = track;
       }
     }

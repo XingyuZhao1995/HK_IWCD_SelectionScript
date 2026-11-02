@@ -1,12 +1,13 @@
 #include "utils/MiscUtils.h"
 
 // ********************************************************
-int MiscUtils::GetSubeventMaxG4TrkID(double peak_t0, AnafiTQunEvent &event){
+int MiscUtils::GetSubeventMaxG4TrkIDs(double peak_t0, AnafiTQunEvent &event){
 // ********************************************************
 
   std::map<int,int> G4_trk_count;
 
   // Define a 50 ns time window
+  // This only looks at the contribution to the peak
   double t_min = peak_t0 - 50;
   double t_max = peak_t0 + 50;
 
@@ -91,17 +92,51 @@ int MiscUtils::GetG4TrkParInterInfo(WCSimRootTrack *track){
   if(track->fParenttype == 0) return 1;
 
   // Non-primary track
+  // For the moment only look at electron
   if(std::abs(track->fIpnu) == 11){
-    // Electron, produced by muon decay
-    // To be more precise this should be checked with fCreatorProcess
-    std::cout << "fCreatorProcess = " << track->fCreatorProcess << std::endl;
-    if(std::abs(track->fParenttype) == 13) return 2;
+    // Produced by muon decay
+    if(IsG4MichelElectronTrk(track)) return 2;
     // Others
     else return 3;
   }
   
   // Others
   return 4;
+
+}
+
+// ********************************************************
+bool MiscUtils::IsG4MichelElectronTrk(WCSimRootTrack *track){
+// ********************************************************
+
+  // For enumerate of fCreatorProcess check WCSim/include/WCSimEnumerations.hh
+  // Some useful values for electron production:
+  // 4 = Compton, 10 = gamma conversion
+  // 13 = mu- capture at rest, 16 = decay
+
+  // Should be electron
+  if(std::abs(track->fIpnu) != 11) return false;
+
+  // Electron case
+  if(track->fIpnu == 11){
+    // Parent should muon and with same charge
+    if(track->fParenttype != 13) return false;
+    // Should be produced by decay or mu- capture at rest
+    if(track->fCreatorProcess != 13 && track->fCreatorProcess != 16) return false;
+    // Then it is Michel electron
+    return true;
+  }
+  // Positron case
+  else{
+    // Parent should muon and with same charge
+    if(track->fParenttype != -13) return false; 
+    // Should be produced by decay (no capture here) 
+    if(track->fCreatorProcess != 16) return false;
+    // Then it is Michel electron
+    return true;    
+  }
+
+  return false;
 
 }
 

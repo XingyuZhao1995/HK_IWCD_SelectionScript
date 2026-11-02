@@ -94,7 +94,11 @@ private:
   double lep_costheta_reco;
   double lep_PID_emu_reco;
   int lep_ID_stop;
+  double lep_time_true;
 
+  // Michel electron
+  double ME_time_true;
+  
   // Geometry
   double towall_true;
   double towall_reco;

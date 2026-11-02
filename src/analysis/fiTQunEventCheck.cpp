@@ -69,6 +69,9 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("lep_costheta_reco",&lep_costheta_reco,"lep_costheta_reco/D");
   tout.Branch("lep_PID_emu_reco",&lep_PID_emu_reco,"lep_PID_emu_reco/D");
   tout.Branch("lep_ID_stop",&lep_ID_stop,"lep_ID_stop/I");
+  tout.Branch("lep_time_true",&lep_time_true,"lep_time_true/D");
+
+  tout.Branch("ME_time_true",&ME_time_true,"ME_time_true/D");
 
   tout.Branch("towall_true",&towall_true,"towall_true/D");
   tout.Branch("towall_reco",&towall_reco,"towall_reco/D");
@@ -220,6 +223,14 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   lep_PID_emu_reco = SelectionUtils::ComputePIDemuRatio(event);
 
   lep_ID_stop = event.trk_pri_lep_stop_ID ? 1 : 0;
+  if(event.trk_pri_lep){
+    lep_time_true = event.trk_pri_lep->fTime;
+  }
+
+  // Michel electron information
+  if(event.trk_ME_pri_lep){
+    ME_time_true = event.trk_ME_pri_lep->fTime;
+  }
 
   // Geometry information
   towall_true = event.trk_pri_lep_towall;
