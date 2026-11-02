@@ -1,7 +1,7 @@
 #include "utils/MiscUtils.h"
 
 // ********************************************************
-int MiscUtils::GetSubeventMaxG4TrkIDs(double peak_t0, AnafiTQunEvent &event){
+int MiscUtils::GetSubeventMaxG4TrkID(double peak_t0, AnafiTQunEvent &event){
 // ********************************************************
 
   std::map<int,int> G4_trk_count;

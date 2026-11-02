@@ -31,7 +31,7 @@ namespace MiscUtils{
   // Geant4 utils
 
   // Get ID of the G4 track that contributes most PMT charges in a subevent
-  int GetSubeventMaxG4TrkIDs(double peak_t0, AnafiTQunEvent &event);
+  int GetSubeventMaxG4TrkID(double peak_t0, AnafiTQunEvent &event);
 
   // Get G4 track by ID
   WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event);
