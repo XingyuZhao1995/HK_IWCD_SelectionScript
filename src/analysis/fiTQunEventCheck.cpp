@@ -71,6 +71,7 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("lep_ID_stop",&lep_ID_stop,"lep_ID_stop/I");
   tout.Branch("lep_time_true",&lep_time_true,"lep_time_true/D");
 
+  tout.Branch("ME_exist_true",&ME_exist_true,"ME_exist_true/I");
   tout.Branch("ME_time_true",&ME_time_true,"ME_time_true/D");
 
   tout.Branch("towall_true",&towall_true,"towall_true/D");
@@ -78,8 +79,8 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("dwall_true",&dwall_true,"dwall_true/D");
   tout.Branch("dwall_reco",&dwall_reco,"dwall_reco/D");
 
-  tout.Branch("towall_lepstop_true",&towall_lepstop_true,"towall_lepstop_true/D");
-  tout.Branch("dwall_lepstop_true",&dwall_lepstop_true,"dwall_lepstop_true/D");
+  tout.Branch("towall_ME_true",&towall_ME_true,"towall_ME_true/D");
+  tout.Branch("dwall_ME_true",&dwall_ME_true,"dwall_ME_true/D");
 
   tout.Branch("nsubeve_reco",&nsubeve_reco,"nsubeve_reco/I");
   tout.Branch("subeve_max_index",&subeve_max_index,"subeve_max_index/I");
@@ -229,7 +230,11 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
 
   // Michel electron information
   if(event.trk_ME_pri_lep){
+    ME_exist_true = 1;
     ME_time_true = event.trk_ME_pri_lep->fTime;
+  }
+  else{
+    ME_exist_true = 0;
   }
 
   // Geometry information
@@ -239,12 +244,12 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   dwall_true = event.trk_pri_lep_dwall;
   dwall_reco = GeomUtils::CalcDWallDis(event.reco_1r_pos[par_index]);
 
-  // (At lepton stopping point)
-  if(event.trk_pri_lep){
-    TVector3 stop_pos(event.trk_pri_lep->fStop[0],event.trk_pri_lep->fStop[1],event.trk_pri_lep->fStop[2]);
-    towall_lepstop_true = GeomUtils::CalcToWallDis(
-                          stop_pos,event.trk_pri_lep_dir);
-    dwall_lepstop_true = GeomUtils::CalcDWallDis(stop_pos);
+  // (For Michel electron)
+  if(event.trk_ME_pri_lep){
+    TVector3 pos(event.trk_ME_pri_lep->fStart[0],event.trk_ME_pri_lep->fStart[1],event.trk_ME_pri_lep->fStart[2]);
+    TVector3 dir(event.trk_ME_pri_lep->fDir[0],event.trk_ME_pri_lep->fDir[1],event.trk_ME_pri_lep->fDir[2]);
+    towall_ME_true = GeomUtils::CalcToWallDis(pos,dir);
+    dwall_ME_true = GeomUtils::CalcDWallDis(pos);
   }
 
   // Subevent information

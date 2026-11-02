@@ -97,6 +97,7 @@ private:
   double lep_time_true;
 
   // Michel electron
+  int ME_exist_true;
   double ME_time_true;
   
   // Geometry
@@ -105,8 +106,8 @@ private:
   double dwall_true;
   double dwall_reco;
 
-  double towall_lepstop_true;
-  double dwall_lepstop_true;
+  double towall_ME_true;
+  double dwall_ME_true;
 
   // Subevent
   int nsubeve_reco;
