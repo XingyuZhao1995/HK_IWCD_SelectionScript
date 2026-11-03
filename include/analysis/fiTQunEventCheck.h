@@ -98,6 +98,7 @@ private:
 
   // Michel electron
   int ME_exist_true;
+  int ME_cret_process;
   double ME_time_true;
   
   // Geometry
@@ -114,6 +115,7 @@ private:
   int subeve_max_index;
   std::vector<int> subeve_max_PDG;
   std::vector<int> subeve_max_pri;
+  std::vector<int> subeve_max_cretproc;
 
   // Ring counting
   int nring_reco;

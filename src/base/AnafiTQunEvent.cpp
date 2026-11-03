@@ -13,6 +13,7 @@ AnafiTQunEvent::AnafiTQunEvent(){
 
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
+  reco_subeve_max_cretproc.clear();
 
   trk_pri_lep = nullptr;
 
@@ -52,6 +53,7 @@ AnafiTQunEvent::~AnafiTQunEvent(){
 
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
+  reco_subeve_max_cretproc.clear();
 
   trk_pri_lep = nullptr;
 
@@ -91,6 +93,7 @@ void AnafiTQunEvent::Reset(){
 
   reco_subeve_max_PDG.clear();
   reco_subeve_max_pri.clear();
+  reco_subeve_max_cretproc.clear();
 
   trk_pri_lep = nullptr;
 

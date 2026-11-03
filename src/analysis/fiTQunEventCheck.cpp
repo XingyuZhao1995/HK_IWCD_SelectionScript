@@ -72,6 +72,7 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("lep_time_true",&lep_time_true,"lep_time_true/D");
 
   tout.Branch("ME_exist_true",&ME_exist_true,"ME_exist_true/I");
+  tout.Branch("ME_cret_process",&ME_cret_process,"ME_cret_process/I");
   tout.Branch("ME_time_true",&ME_time_true,"ME_time_true/D");
 
   tout.Branch("towall_true",&towall_true,"towall_true/D");
@@ -86,6 +87,7 @@ void fiTQunEventCheck::OverallInitialization(){
   tout.Branch("subeve_max_index",&subeve_max_index,"subeve_max_index/I");
   tout.Branch("subeve_max_PDG",&subeve_max_PDG);
   tout.Branch("subeve_max_pri",&subeve_max_pri);
+  tout.Branch("subeve_max_cretproc",&subeve_max_cretproc);
 
   tout.Branch("nring_reco",&nring_reco,"nring_reco/I");
   tout.Branch("nllh_1ring_reco",&nllh_1ring_reco,"nllh_1ring_reco/D");
@@ -159,6 +161,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
 
   subeve_max_PDG.clear();
   subeve_max_pri.clear();
+  subeve_max_cretproc.clear();
 
   // Event category
   cate_type = event.cate_type;
@@ -231,6 +234,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   // Michel electron information
   if(event.trk_ME_pri_lep){
     ME_exist_true = 1;
+    ME_cret_process = event.trk_ME_pri_lep->fCreatorProcess;
     ME_time_true = event.trk_ME_pri_lep->fTime;
   }
   else{
@@ -257,6 +261,7 @@ void fiTQunEventCheck::FillOutputTree(AnafiTQunEvent &event){
   subeve_max_index = event.reco_subeve_max_index;
   subeve_max_PDG = event.reco_subeve_max_PDG;
   subeve_max_pri = event.reco_subeve_max_pri;
+  subeve_max_cretproc = event.reco_subeve_max_cretproc;
 
   // Ring counting information
   nring_reco = SelectionUtils::GetNRecoRingRef(event,par_index);
