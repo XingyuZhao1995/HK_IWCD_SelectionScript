@@ -19,6 +19,13 @@ public:
   void Reset();  
 
   // ----------------------------------------
+  // General information
+
+  int run = -1;
+  int subrun = -1;
+  int event_id = -1;
+
+  // ----------------------------------------
   // True vertex information
 
   // General pointer

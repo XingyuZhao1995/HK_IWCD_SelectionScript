@@ -157,3 +157,19 @@ double MiscUtils::CalcEnuNumuCCQE(AnafiTQunEvent &event){
   return numerator / denominator;
 
 }
+
+// ********************************************************
+void MiscUtils::ReadRunNumberFromFileName(std::string file_name, int &run, int &subrun){
+// ********************************************************
+
+  std::size_t slash = file_name.find_last_of('/');
+  std::string base = (slash == std::string::npos) ? file_name : file_name.substr(slash + 1);
+
+  std::regex re("(\\d+)-(\\d+)");
+  std::smatch m;
+  if(!std::regex_search(base, m, re)) return;
+
+  run = std::stoi(m[1].str());
+  subrun = std::stoi(m[2].str());
+
+}

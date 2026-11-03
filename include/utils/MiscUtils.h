@@ -1,6 +1,8 @@
 #ifndef MISCUTILS_H
 #define MISCUTILS_H
 
+#include <regex>
+
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
 #include "utils/CategoryUtils.h"
@@ -46,6 +48,12 @@ namespace MiscUtils{
 
   // Calculate neutrino energy
   double CalcEnuNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // Other utils
+
+  // Read run and subrun numbers from file name
+  void ReadRunNumberFromFileName(std::string file_name, int &run, int &subrun);
 
 };
 

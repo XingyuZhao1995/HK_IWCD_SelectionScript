@@ -241,6 +241,10 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
 
   }
 
+  // Extract run and subrun numbers
+  int run, subrun;
+  MiscUtils::ReadRunNumberFromFileName(file_WCSim_name,run,subrun);
+
   // ---------------------------------------
   // Event loop
   // ---------------------------------------
@@ -263,7 +267,10 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     // Fill event
     // ---------------------------------------
 
-    AnafiTQunEvent event;    
+    AnafiTQunEvent event;   
+    event.run = run;
+    event.subrun = subrun;
+    event.event_id = nevt - 1;
 
     // NEUT RooTracker tree
     event.nrootrackervtx = NRooTrackerVtx;
