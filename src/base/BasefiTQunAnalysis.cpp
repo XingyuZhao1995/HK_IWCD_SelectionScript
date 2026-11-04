@@ -201,6 +201,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   tin_fiTQun->SetBranchAddress("fqtwnd_npeak",&fqtwnd_npeak);
   tin_fiTQun->SetBranchAddress("fqtwnd",&fqtwnd);
   tin_fiTQun->SetBranchAddress("fqtwnd_peakt0",&fqtwnd_peakt0);
+  tin_fiTQun->SetBranchAddress("fqtwnd_prftpos",&fqtwnd_prftpos);
 
   tin_fiTQun->SetBranchAddress("fqnse",&fqnse);
   tin_fiTQun->SetBranchAddress("fqnhitpmt",&fqnhitpmt);
@@ -230,6 +231,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   // ---------------------------------------
 
   AnaFile file;
+
+  // Record geometry
+  tin_geom->GetEntry(0);
 
   // Record settings
   for(int n = 0; n < tin_set->GetEntries(); n++){
@@ -271,6 +275,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     event.run = run;
     event.subrun = subrun;
     event.event_id = nevt - 1;
+    event.wcsim_geom = WCSim_geom;
 
     // NEUT RooTracker tree
     event.nrootrackervtx = NRooTrackerVtx;
@@ -307,7 +312,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
       event.reco_subeve_max_index = max_index;
       for(int i = 0; i < fqnse; i++){
         double peak_t0 = fqtwnd_peakt0[fqitwnd[i]][fqipeak[i]];
-        int G4_trk_id = MiscUtils::GetSubeventMaxG4TrkID(peak_t0,event);
+        TVector3 vtx_prefit(fqtwnd_prftpos[fqitwnd[i]][0],fqtwnd_prftpos[fqitwnd[i]][1],fqtwnd_prftpos[fqitwnd[i]][2]);
+
+        int G4_trk_id = MiscUtils::GetSubeventMaxG4TrkID(event,peak_t0,vtx_prefit);
         WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event);
         if(G4_track){
           event.reco_subeve_max_PDG.push_back(G4_track->fIpnu);

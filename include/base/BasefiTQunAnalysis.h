@@ -107,6 +107,7 @@ private:
   int fqtwnd_npeak[NMAXTIMEWIN];
   float fqtwnd[NMAXTIMEWIN][2];
   float fqtwnd_peakt0[NMAXTIMEWIN][NMAXPEAK];  
+  float fqtwnd_prftpos[NMAXTIMEWIN][3];
 
   int fqnse;
   int fqnhitpmt[NMAXSUBEVE];

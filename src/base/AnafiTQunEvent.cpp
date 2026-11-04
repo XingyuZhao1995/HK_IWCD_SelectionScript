@@ -6,6 +6,8 @@
 AnafiTQunEvent::AnafiTQunEvent(){
 // ********************************************************
 
+  wcsim_geom = nullptr;
+
   nrootrackervtx = nullptr;
 
   wcsim_ID_event = nullptr;
@@ -46,6 +48,8 @@ AnafiTQunEvent::AnafiTQunEvent(){
 AnafiTQunEvent::~AnafiTQunEvent(){
 // ********************************************************
 
+  wcsim_geom = nullptr;
+
   nrootrackervtx = nullptr;
 
   wcsim_ID_event = nullptr;
@@ -85,6 +89,8 @@ AnafiTQunEvent::~AnafiTQunEvent(){
 // ********************************************************
 void AnafiTQunEvent::Reset(){
 // ********************************************************  
+
+  wcsim_geom = nullptr;
 
   nrootrackervtx = nullptr;
 

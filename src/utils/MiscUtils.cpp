@@ -1,15 +1,18 @@
 #include "utils/MiscUtils.h"
 
 // ********************************************************
-int MiscUtils::GetSubeventMaxG4TrkID(double peak_t0, AnafiTQunEvent &event){
+int MiscUtils::GetSubeventMaxG4TrkID(AnafiTQunEvent &event, double peak_t0, TVector3 vtx_prefit){
 // ********************************************************
 
   std::map<int,int> G4_trk_count;
 
-  // Define a 50 ns time window
+  // Define a 90 ns time window
   // This only looks at the contribution to the peak
-  double t_min = peak_t0 - 50;
-  double t_max = peak_t0 + 50;
+  // Checked from fiTQun, in principle the first peak in a time window should use all hits
+  // except the hits used by later peaks ([-30,60] ns for each), but for simplicity here
+  // uses the same interval for the first peak as well
+  double t_min = peak_t0 - 30;
+  double t_max = peak_t0 + 60;
 
   // Loop over PMT hits
   for(int i = 0; i < event.wcsim_ID_event->fNcherenkovdigihits; i++){
@@ -18,8 +21,13 @@ int MiscUtils::GetSubeventMaxG4TrkID(double peak_t0, AnafiTQunEvent &event){
     WCSimRootCherenkovDigiHit *hit = (WCSimRootCherenkovDigiHit*)(event.wcsim_ID_event->fCherenkovDigiHits->At(i));
     if(!hit) continue;
 
+    // Hit time has to be TOF corrected
+    WCSimRootPMT *hit_PMT = (WCSimRootPMT*)(event.wcsim_geom)->fPMTArray->At(hit->fTubeId-1);
+    TVector3 hit_pos(hit_PMT->fPosition[0],hit_PMT->fPosition[1],hit_PMT->fPosition[2]);
+    double hit_time = hit->fT - (hit_pos - vtx_prefit).Mag() * 1.38 / 29.9792458; // Formula copied from fiTQun
+
     // Only look at hit within the time window
-    if(hit->fT < t_min || hit->fT > t_max) continue;
+    if(hit_time < t_min || hit_time > t_max) continue;
 
     // Loop over photon hits attached to this PMT hit
     for(int j : hit->fPhotonIds){

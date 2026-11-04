@@ -25,6 +25,9 @@ public:
   int subrun = -1;
   int event_id = -1;
 
+  // General pointer
+  WCSimRootGeom *wcsim_geom;
+
   // ----------------------------------------
   // True vertex information
 
