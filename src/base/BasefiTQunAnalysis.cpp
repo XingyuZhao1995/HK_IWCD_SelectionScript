@@ -331,7 +331,7 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
       // Max subevent
       // (Single ring)
       for(int i = 0; i < NPIDHYPO; i++){
-        event.reco_1r_flag.push_back(fq1rpcflg[max_index][i]);
+        event.reco_1r_pcflag.push_back(fq1rpcflg[max_index][i]);
         event.reco_1r_mom.push_back(fq1rmom[max_index][i]);
         event.reco_1r_nllh.push_back(fq1rnll[max_index][i]);
 

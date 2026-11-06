@@ -170,6 +170,8 @@ bool NumuCCQESelection::PassSigFullSelection(AnafiTQunEvent &event){
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
   // FV cut
   if(!SelectionUtils::PassFVCutNumuCCQE(event)) return false;
+  // Containment cut
+  if(!SelectionUtils::PassContCutNumuCCQE(event)) return false;
   // Momentum cut
   if(!SelectionUtils::PassMomCutNumuCCQE(event)) return false;
   // e/mu PID cut
@@ -194,6 +196,8 @@ bool NumuCCQESelection::PassSigSelection_WallRmv(AnafiTQunEvent &event){
   if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
   // Number of subevent cut
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
+  // Containment cut
+  if(!SelectionUtils::PassContCutNumuCCQE(event)) return false;  
   // Momentum cut
   if(!SelectionUtils::PassMomCutNumuCCQE(event)) return false;
   // e/mu PID cut
@@ -220,6 +224,8 @@ bool NumuCCQESelection::PassSigSelection_MomRmv(AnafiTQunEvent &event){
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
   // FV cut
   if(!SelectionUtils::PassFVCutNumuCCQE(event)) return false;
+  // Containment cut
+  if(!SelectionUtils::PassContCutNumuCCQE(event)) return false;  
   // e/mu PID cut
   if(!SelectionUtils::PassPIDemuCutNumuCCQE(event)) return false;
 

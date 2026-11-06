@@ -181,6 +181,14 @@ bool SelectionUtils::PassFVCutNumuCCQE(AnafiTQunEvent &event){
 }
 
 // ********************************************************
+bool SelectionUtils::PassContCutNumuCCQE(AnafiTQunEvent &event){
+// ********************************************************
+
+  return event.reco_1r_pcflag[PIDCate::kMuon] == 0;
+
+}
+
+// ********************************************************
 bool SelectionUtils::PassMomCutNumuCCQE(AnafiTQunEvent &event){
 // ********************************************************
 

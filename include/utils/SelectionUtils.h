@@ -54,6 +54,12 @@ namespace SelectionUtils{
   bool PassFVCutNumuCCQE(AnafiTQunEvent &event);
 
   // ----------------------------------------
+  // Containment cut
+
+  // Apply cut
+  bool PassContCutNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
   // Momentum cut
 
   // Apply cut

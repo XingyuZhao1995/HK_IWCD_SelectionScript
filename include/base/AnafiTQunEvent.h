@@ -111,7 +111,7 @@ public:
 
   // Information in max subevent
   // (Single ring)
-  std::vector<int> reco_1r_flag;
+  std::vector<int> reco_1r_pcflag;
   std::vector<double> reco_1r_mom; // In MeV/c
   std::vector<double> reco_1r_nllh;
   std::vector<TVector3> reco_1r_pos; // In cm

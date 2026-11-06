@@ -28,7 +28,7 @@ AnafiTQunEvent::AnafiTQunEvent(){
 
   trk_ME_pri_lep = nullptr;
 
-  reco_1r_flag.clear();
+  reco_1r_pcflag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
   reco_1r_pos.clear();
@@ -70,7 +70,7 @@ AnafiTQunEvent::~AnafiTQunEvent(){
 
   trk_ME_pri_lep = nullptr;
 
-  reco_1r_flag.clear();
+  reco_1r_pcflag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
   reco_1r_pos.clear();
@@ -112,7 +112,7 @@ void AnafiTQunEvent::Reset(){
 
   trk_ME_pri_lep = nullptr;
 
-  reco_1r_flag.clear();
+  reco_1r_pcflag.clear();
   reco_1r_mom.clear();
   reco_1r_nllh.clear();
   reco_1r_pos.clear();
