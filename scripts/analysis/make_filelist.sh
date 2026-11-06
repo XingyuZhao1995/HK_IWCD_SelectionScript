@@ -57,6 +57,8 @@ if [ ${Option} = "1" ]
 then
   OutputPath="${OutputPath}/fiTQun_event_check"
 fi
+# (Delete existing output files)
+rm -rf ${OutputPath}/*.root
 
 # A summary file to put input file lists and output files
 SummaryFile="file_list.txt"
