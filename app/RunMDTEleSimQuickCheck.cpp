@@ -12,10 +12,132 @@
 // This script checks the MDT electronics simulation output and compares
 // the results with WCSim
 
-void MergeFiles(std::string fin_list, std::string fout_name){
+template <typename T>
+void AddHistogram(T *&h_base, T *h_source, TFile *fin, TString name, TString fin_name){
 
+  h_source = (T*)fin->Get(name);
+  if(!h_source){
+    std::cout << name << " not found in " << fin_name << std::endl;
+    return;
+  }
+  if(!h_base){
+    h_base = (T*)h_source->Clone(name);
+    h_base->SetDirectory(nullptr);
+  }
+  else{
+    h_base->Add(h_source);
+  }
 
+}
 
+void MergeFiles(std::string fin_list_name, std::string fout_name){
+
+  // Temporary variables
+  std::string fin_name;
+  std::string line;
+  std::string suffix = ".root"; // Input file is ROOT
+  int n_file_count = 0;
+  TH1D *h_temp_1d;
+
+  // Plots to be saved to the output
+  TH1D *h_nhit_ID_MDT = nullptr;
+  TH1D *h_nhit_ID_WCSim = nullptr;
+  TH1D *h_nhit_OD_MDT = nullptr;
+  TH1D *h_nhit_OD_WCSim = nullptr;
+
+  TH1D *h_hitT_ID_MDT = nullptr;
+  TH1D *h_hitT_ID_WCSim = nullptr;
+  TH1D *h_hitT_OD_MDT = nullptr;
+  TH1D *h_hitT_OD_WCSim = nullptr;
+
+  TH1D *h_hitT_red_ID_MDT = nullptr;
+  TH1D *h_hitT_red_ID_WCSim = nullptr;
+  TH1D *h_hitT_red_OD_MDT = nullptr;
+  TH1D *h_hitT_red_OD_WCSim = nullptr;
+
+  TH1D *h_hitQ_ID_MDT = nullptr;
+  TH1D *h_hitQ_ID_WCSim = nullptr;
+  TH1D *h_hitQ_OD_MDT = nullptr;
+  TH1D *h_hitQ_OD_WCSim = nullptr;
+
+  // Create input file list
+  std::ifstream fin_list(fin_list_name);
+  std::cout << "----> Input file list: " << fin_list_name << std::endl;
+
+  // Read input file line by line
+  while(std::getline(fin_list,line)){
+
+    // Update file name
+    fin_name = line;
+
+    // Input file path should end with desired suffix
+    if(fin_name.size() >= suffix.size() &&
+       fin_name.compare(fin_name.size() - suffix.size(),suffix.size(),suffix) == 0){
+
+      // Read input file
+      TFile *fin = new TFile(fin_name.data(),"read");
+
+      // Get plots
+      AddHistogram(h_nhit_ID_MDT,h_temp_1d,fin,"h_nhit_ID_MDT",fin_name);
+      AddHistogram(h_nhit_ID_WCSim,h_temp_1d,fin,"h_nhit_ID_WCSim",fin_name);
+      AddHistogram(h_nhit_OD_MDT,h_temp_1d,fin,"h_nhit_OD_MDT",fin_name);
+      AddHistogram(h_nhit_OD_WCSim,h_temp_1d,fin,"h_nhit_OD_WCSim",fin_name);
+
+      AddHistogram(h_hitT_ID_MDT,h_temp_1d,fin,"h_hitT_ID_MDT",fin_name);
+      AddHistogram(h_hitT_ID_WCSim,h_temp_1d,fin,"h_hitT_ID_WCSim",fin_name);
+      AddHistogram(h_hitT_OD_MDT,h_temp_1d,fin,"h_hitT_OD_MDT",fin_name);
+      AddHistogram(h_hitT_OD_WCSim,h_temp_1d,fin,"h_hitT_OD_WCSim",fin_name);
+
+      AddHistogram(h_hitT_red_ID_MDT,h_temp_1d,fin,"h_hitT_red_ID_MDT",fin_name);
+      AddHistogram(h_hitT_red_ID_WCSim,h_temp_1d,fin,"h_hitT_red_ID_WCSim",fin_name);
+      AddHistogram(h_hitT_red_OD_MDT,h_temp_1d,fin,"h_hitT_red_OD_MDT",fin_name);
+      AddHistogram(h_hitT_red_OD_WCSim,h_temp_1d,fin,"h_hitT_red_OD_WCSim",fin_name);
+
+      AddHistogram(h_hitQ_ID_MDT,h_temp_1d,fin,"h_hitQ_ID_MDT",fin_name);
+      AddHistogram(h_hitQ_ID_WCSim,h_temp_1d,fin,"h_hitQ_ID_WCSim",fin_name);
+      AddHistogram(h_hitQ_OD_MDT,h_temp_1d,fin,"h_hitQ_OD_MDT",fin_name);
+      AddHistogram(h_hitQ_OD_WCSim,h_temp_1d,fin,"h_hitQ_OD_WCSim",fin_name);      
+
+      // Update file counter
+      n_file_count += 1;
+      if(n_file_count % 50 == 0){
+        std::cout << "----> " << n_file_count << " files counted" << std::endl;
+      }
+
+      delete fin;
+
+    }
+
+  } // End of line loop
+  std::cout << "----> All input files processed" << std::endl;
+
+  // Create output file
+  TFile *fout = new TFile(fout_name.data(),"recreate");
+  fout->cd();
+
+  h_nhit_ID_MDT->Write();
+  h_nhit_ID_WCSim->Write();
+  h_nhit_OD_MDT->Write();
+  h_nhit_OD_WCSim->Write();  
+
+  h_hitT_ID_MDT->Write();
+  h_hitT_ID_WCSim->Write();
+  h_hitT_OD_MDT->Write();
+  h_hitT_OD_WCSim->Write();  
+
+  h_hitT_red_ID_MDT->Write();
+  h_hitT_red_ID_WCSim->Write();
+  h_hitT_red_OD_MDT->Write();
+  h_hitT_red_OD_WCSim->Write();    
+
+  h_hitQ_ID_MDT->Write();
+  h_hitQ_ID_WCSim->Write();
+  h_hitQ_OD_MDT->Write();
+  h_hitQ_OD_WCSim->Write();   
+
+  fout->Close();
+
+  delete fout;
 
 }
 
@@ -69,36 +191,59 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   // ----------------------------------  
 
   // Total hit number distribution
+  const int n_bin_hit = 100;
+  const double nhit_min = 0;
+  const double nhit_max = 3000;
+
   TH1D h_nhit_ID_MDT;
   h_nhit_ID_MDT.SetNameTitle("h_nhit_ID_MDT","h_nhit_ID_MDT");
-  h_nhit_ID_MDT.SetBins(100,0,3000);
+  h_nhit_ID_MDT.SetBins(n_bin_hit,nhit_min,nhit_max);
   TH1D h_nhit_ID_WCSim = *((TH1D*)h_nhit_ID_MDT.Clone("h_nhit_ID_WCSim"));
 
   TH1D h_nhit_OD_MDT;
   h_nhit_OD_MDT.SetNameTitle("h_nhit_OD_MDT","h_nhit_OD_MDT");
-  h_nhit_OD_MDT.SetBins(100,0,300);
+  h_nhit_OD_MDT.SetBins(n_bin_hit,nhit_min,nhit_max);
   TH1D h_nhit_OD_WCSim = *((TH1D*)h_nhit_OD_MDT.Clone("h_nhit_OD_WCSim"));  
 
   // Digi hit time distribution
+  const int n_bin_hitT = 100;
+  const double hitT_min = 0;
+  const double hitT_max = 1e4; // In ns
+  const double hitT_red_max = 100;
+
   TH1D h_hitT_ID_MDT;
   h_hitT_ID_MDT.SetNameTitle("h_hitT_ID_MDT","h_hitT_ID_MDT");
-  h_hitT_ID_MDT.SetBins(100,0,10000);
+  h_hitT_ID_MDT.SetBins(n_bin_hitT,hitT_min,hitT_max);
   TH1D h_hitT_ID_WCSim = *((TH1D*)h_hitT_ID_MDT.Clone("h_hitT_ID_WCSim"));
 
   TH1D h_hitT_OD_MDT;
   h_hitT_OD_MDT.SetNameTitle("h_hitT_OD_MDT","h_hitT_OD_MDT");
-  h_hitT_OD_MDT.SetBins(100,0,10000);
+  h_hitT_OD_MDT.SetBins(n_bin_hitT,hitT_min,hitT_max);
   TH1D h_hitT_OD_WCSim = *((TH1D*)h_hitT_OD_MDT.Clone("h_hitT_OD_WCSim"));
 
+  TH1D h_hitT_red_ID_MDT;
+  h_hitT_red_ID_MDT.SetNameTitle("h_hitT_red_ID_MDT","h_hitT_red_ID_MDT");
+  h_hitT_red_ID_MDT.SetBins(n_bin_hitT,hitT_min,hitT_red_max);
+  TH1D h_hitT_red_ID_WCSim = *((TH1D*)h_hitT_red_ID_MDT.Clone("h_hitT_red_ID_WCSim"));
+
+  TH1D h_hitT_red_OD_MDT;
+  h_hitT_red_OD_MDT.SetNameTitle("h_hitT_red_OD_MDT","h_hitT_red_OD_MDT");
+  h_hitT_red_OD_MDT.SetBins(n_bin_hitT,hitT_min,hitT_red_max);
+  TH1D h_hitT_red_OD_WCSim = *((TH1D*)h_hitT_red_OD_MDT.Clone("h_hitT_red_OD_WCSim"));
+
   // Digi hit charge distribution
+  const int n_bin_hitQ = 100;
+  const double hitQ_min = 0;
+  const double hitQ_max = 500; // In arbitrary unit (prop. to p.e.)
+
   TH1D h_hitQ_ID_MDT;
   h_hitQ_ID_MDT.SetNameTitle("h_hitQ_ID_MDT","h_hitQ_ID_MDT");
-  h_hitQ_ID_MDT.SetBins(100,0,10000);
+  h_hitQ_ID_MDT.SetBins(n_bin_hitQ,hitQ_min,hitQ_max);
   TH1D h_hitQ_ID_WCSim = *((TH1D*)h_hitQ_ID_MDT.Clone("h_hitQ_ID_WCSim"));
 
   TH1D h_hitQ_OD_MDT;
   h_hitQ_OD_MDT.SetNameTitle("h_hitQ_OD_MDT","h_hitQ_OD_MDT");
-  h_hitQ_OD_MDT.SetBins(100,0,1000);
+  h_hitQ_OD_MDT.SetBins(n_bin_hitQ,hitQ_min,hitQ_max);
   TH1D h_hitQ_OD_WCSim = *((TH1D*)h_hitQ_OD_MDT.Clone("h_hitQ_OD_WCSim"));
 
   // ----------------------------------
@@ -122,6 +267,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       n_hit_ID_count += 1;
       // Fill plots
       h_hitT_ID_MDT.Fill(hit->fT);
+      h_hitT_red_ID_MDT.Fill(hit->fT);
       h_hitQ_ID_MDT.Fill(hit->fQ);
     }
     h_nhit_ID_MDT.Fill(n_hit_ID_count);
@@ -133,6 +279,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       n_hit_OD_count += 1;
       // Fill plots
       h_hitT_OD_MDT.Fill(hit->fT);
+      h_hitT_red_OD_MDT.Fill(hit->fT);
       h_hitQ_OD_MDT.Fill(hit->fQ);
     }
     h_nhit_OD_MDT.Fill(n_hit_OD_count);
@@ -156,6 +303,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       n_hit_ID_count += 1;
       // Fill plots
       h_hitT_ID_WCSim.Fill(hit->fT);
+      h_hitT_red_ID_WCSim.Fill(hit->fT);
       h_hitQ_ID_WCSim.Fill(hit->fQ);
     }
     h_nhit_ID_WCSim.Fill(n_hit_ID_count);
@@ -167,6 +315,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       n_hit_OD_count += 1;
       // Fill plots
       h_hitT_OD_WCSim.Fill(hit->fT);
+      h_hitT_red_OD_WCSim.Fill(hit->fT);
       h_hitQ_OD_WCSim.Fill(hit->fQ);
     }
     h_nhit_OD_WCSim.Fill(n_hit_OD_count);
@@ -182,19 +331,21 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
 
   h_nhit_ID_MDT.Write();
   h_nhit_ID_WCSim.Write();
-
   h_nhit_OD_MDT.Write();
   h_nhit_OD_WCSim.Write();  
 
   h_hitT_ID_MDT.Write();
   h_hitT_ID_WCSim.Write();
-
   h_hitT_OD_MDT.Write();
   h_hitT_OD_WCSim.Write();  
 
+  h_hitT_red_ID_MDT.Write();
+  h_hitT_red_ID_WCSim.Write();
+  h_hitT_red_OD_MDT.Write();
+  h_hitT_red_OD_WCSim.Write();    
+
   h_hitQ_ID_MDT.Write();
   h_hitQ_ID_WCSim.Write();
-
   h_hitQ_OD_MDT.Write();
   h_hitQ_OD_WCSim.Write(); 
 
@@ -217,7 +368,7 @@ int main(int argc, char **argv){
   int option = std::stoi(argv[1]);
 
   // Other input arguments
-  std::string fin_list, fout_name;
+  std::string fin_list_name, fout_name;
   std::string fin_MDT_name, fin_WCSim_name;
   if(option == 1){
     fin_MDT_name = argv[2];
@@ -225,7 +376,7 @@ int main(int argc, char **argv){
     fout_name = argv[4];
   }
   else{
-    fin_list = argv[2];
+    fin_list_name = argv[2];
     fout_name = argv[3];    
   }
 
@@ -239,7 +390,7 @@ int main(int argc, char **argv){
   }
   // Single file check
   else{
-    MergeFiles(fin_list,fout_name);
+    MergeFiles(fin_list_name,fout_name);
   }
 
   std::cout << "---------------------------------" << std::endl;
