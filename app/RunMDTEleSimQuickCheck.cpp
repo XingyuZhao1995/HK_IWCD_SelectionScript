@@ -12,6 +12,13 @@
 // This script checks the MDT electronics simulation output and compares
 // the results with WCSim
 
+void MergeFiles(std::string fin_list, std::string fout_name){
+
+
+
+
+}
+
 void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::string fout_name){
   
   // ----------------------------------
@@ -54,8 +61,8 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   tin_MDT->SetBranchAddress("wcsimrootevent",&root_event_MDT_ID);
   tin_MDT->SetBranchAddress("wcsimrootevent_OD",&root_event_MDT_OD);
 
-  tin_MDT->SetBranchAddress("wcsimrootevent",&root_event_WCSim_ID);
-  tin_MDT->SetBranchAddress("wcsimrootevent_OD",&root_event_WCSim_OD);
+  tin_WCSim->SetBranchAddress("wcsimrootevent",&root_event_WCSim_ID);
+  tin_WCSim->SetBranchAddress("wcsimrootevent_OD",&root_event_WCSim_OD);
 
   // ----------------------------------
   // Create plots
@@ -199,28 +206,41 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
 
 }
 
-
 int main(int argc, char **argv){
 
-  // Input should have 4 arguments
-  if(argc != 4){
-    std::cout << "Command should include executable, MDT input file, WCSim input file and output file!" << std::endl;
+  if(argc != 4 && argc != 5){
+    std::cout << "Should have 4 or 5 executable + arguments!" << std::endl;
     exit(1);
   }  
 
-  // Read input arguments
-  std::string fin_MDT_name = argv[1];
-  std::string fin_WCSim_name = argv[2];
-  std::string fout_name = argv[3];
+  // Run option
+  int option = std::stoi(argv[1]);
+
+  // Other input arguments
+  std::string fin_list, fout_name;
+  std::string fin_MDT_name, fin_WCSim_name;
+  if(option == 1){
+    fin_MDT_name = argv[2];
+    fin_WCSim_name = argv[3];
+    fout_name = argv[4];
+  }
+  else{
+    fin_list = argv[2];
+    fout_name = argv[3];    
+  }
 
   std::cout << "---------------------------------" << std::endl;
   std::cout << "Start running MDT electroincs sim check" << std::endl;
   std::cout << "---------------------------------" << std::endl;  
 
-
-  RunSingleFile(fin_MDT_name,fin_WCSim_name,fout_name);
-
-
+  // Merge plots together
+  if(option == 1){
+    RunSingleFile(fin_MDT_name,fin_WCSim_name,fout_name);
+  }
+  // Single file check
+  else{
+    MergeFiles(fin_list,fout_name);
+  }
 
   std::cout << "---------------------------------" << std::endl;
   std::cout << "Finish running MDT electroincs sim check" << std::endl;
