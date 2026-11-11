@@ -99,10 +99,12 @@ add_library(selection_script::selection_script_lib ALIAS selection_script_lib)
 
 add_executable(RunfiTQunEventCheck app/RunfiTQunEventCheck.cpp)
 add_executable(RunNumuCCQESelection app/RunNumuCCQESelection.cpp)
+add_executable(RunMDTEleSimQuickCheck app/RunMDTEleSimQuickCheck.cpp)
 
 # Link to the library created above
 target_link_libraries(RunfiTQunEventCheck PRIVATE selection_script_lib)
 target_link_libraries(RunNumuCCQESelection PRIVATE selection_script_lib)
+target_link_libraries(RunMDTEleSimQuickCheck PRIVATE selection_script_lib)
 
 # -------------------------------
 # Install configurations
@@ -142,6 +144,9 @@ install(TARGETS RunfiTQunEventCheck
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(TARGETS RunNumuCCQESelection 
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+install(TARGETS RunMDTEleSimQuickCheck 
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
