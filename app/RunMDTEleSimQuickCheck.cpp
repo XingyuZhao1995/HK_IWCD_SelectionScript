@@ -235,7 +235,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   // Digi hit charge distribution
   const int n_bin_hitQ = 100;
   const double hitQ_min = 0;
-  const double hitQ_max = 50; // In arbitrary unit (prop. to p.e.)
+  const double hitQ_max = 20; // In arbitrary unit (prop. to p.e.)
 
   TH1D h_hitQ_ID_MDT;
   h_hitQ_ID_MDT.SetNameTitle("h_hitQ_ID_MDT","h_hitQ_ID_MDT");
