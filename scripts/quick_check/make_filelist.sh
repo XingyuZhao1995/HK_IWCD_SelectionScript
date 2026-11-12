@@ -39,15 +39,15 @@ do
   # Update file count
   FileCount=$(($FileCount + 1))
 
+  # Save the input file path to the file list
+  echo "${File} ${CorrFile} ${OutputName}" >> ${FileListPath}/${OutIndex}.txt
+
   # For every specific amount of files, put their paths into the same list
   if (($FileCount % $NFilePerList == 0))
   then
     # Update file list index
     OutIndex=$(($OutIndex + 1))
   fi
-
-  # Save the input file path to the file list
-  echo "${File} ${CorrFile} ${OutputName}" >> ${FileListPath}/${OutIndex}.txt
 
 done
 
