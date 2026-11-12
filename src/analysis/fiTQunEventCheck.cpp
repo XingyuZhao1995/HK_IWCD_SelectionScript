@@ -96,6 +96,7 @@ void fiTQunEventCheck::OverallInitialization(){
 
   // (For setting tree only)
   tout_set.Branch("pot",&pot,"pot/D");
+  tout_set.Branch("n_int_tot",&n_int_tot,"n_int_tot/I");
 
 }
 
@@ -118,6 +119,9 @@ void fiTQunEventCheck::RunFileAnalysis(AnaFile &file){
 
   // POT information
   pot = file.POT_tot;  
+
+  // Interaction (event) information
+  n_int_tot = file.n_eve_tot;
 
   tout_set.Fill();
 

@@ -15,6 +15,12 @@ public:
   // Total POT for this file
   double POT_tot = 0;
 
+  // ----------------------------------------
+  // Event information
+
+  // Total number of events (interactions) for this file
+  int n_eve_tot = 0;
+
 };
 
 #endif

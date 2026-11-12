@@ -125,6 +125,7 @@ private:
 
   // (For setting tree only)
   double pot;
+  int n_int_tot;
 
 };
 

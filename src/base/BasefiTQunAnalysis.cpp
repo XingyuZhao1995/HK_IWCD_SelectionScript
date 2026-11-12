@@ -236,14 +236,9 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   tin_geom->GetEntry(0);
 
   // Record settings
-  for(int n = 0; n < tin_set->GetEntries(); n++){
-
-    tin_set->GetEntry(n);
-
-    // POT information
-    file.POT_tot += NPOT;
-
-  }
+  tin_set->GetEntry(0);
+  file.POT_tot += NPOT;
+  file.n_eve_tot += tin_WCSim->GetEntries();
 
   // Extract run and subrun numbers
   int run, subrun;
