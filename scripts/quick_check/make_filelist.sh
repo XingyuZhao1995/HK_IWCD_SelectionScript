@@ -47,7 +47,7 @@ do
   fi
 
   # Save the input file path to the file list
-  echo "${File} ${FilCorrFilee} ${OutputName}" >> ${FileListPath}/${OutIndex}.txt
+  echo "${File} ${CorrFile} ${OutputName}" >> ${FileListPath}/${OutIndex}.txt
 
 done
 
