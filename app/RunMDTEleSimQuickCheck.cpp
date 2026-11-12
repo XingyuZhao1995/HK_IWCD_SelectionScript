@@ -194,6 +194,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   const int n_bin_hit = 100;
   const double nhit_min = 0;
   const double nhit_max = 3000;
+  const double nhit_red_max = 500;
 
   TH1D h_nhit_ID_MDT;
   h_nhit_ID_MDT.SetNameTitle("h_nhit_ID_MDT","h_nhit_ID_MDT");
@@ -202,14 +203,14 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
 
   TH1D h_nhit_OD_MDT;
   h_nhit_OD_MDT.SetNameTitle("h_nhit_OD_MDT","h_nhit_OD_MDT");
-  h_nhit_OD_MDT.SetBins(n_bin_hit,nhit_min,nhit_max);
+  h_nhit_OD_MDT.SetBins(n_bin_hit,nhit_min,nhit_red_max);
   TH1D h_nhit_OD_WCSim = *((TH1D*)h_nhit_OD_MDT.Clone("h_nhit_OD_WCSim"));  
 
   // Digi hit time distribution
   const int n_bin_hitT = 100;
   const double hitT_min = 0;
   const double hitT_max = 1e4; // In ns
-  const double hitT_red_max = 100;
+  const double hitT_red_max = 200;
 
   TH1D h_hitT_ID_MDT;
   h_hitT_ID_MDT.SetNameTitle("h_hitT_ID_MDT","h_hitT_ID_MDT");
@@ -234,7 +235,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   // Digi hit charge distribution
   const int n_bin_hitQ = 100;
   const double hitQ_min = 0;
-  const double hitQ_max = 500; // In arbitrary unit (prop. to p.e.)
+  const double hitQ_max = 50; // In arbitrary unit (prop. to p.e.)
 
   TH1D h_hitQ_ID_MDT;
   h_hitQ_ID_MDT.SetNameTitle("h_hitQ_ID_MDT","h_hitQ_ID_MDT");
