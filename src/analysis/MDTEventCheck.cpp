@@ -177,6 +177,15 @@ int MDTEventCheck::FindOneMEOneIntBunchIdx(AnaMDTEvent &event){
 // ********************************************************
 bool MDTEventCheck::TrueInteractionCut(AnaMDTEvent &event, int int_index){
 // ********************************************************
+  
+  int lep = 0;
+  if(event.vec_trk_pri_lep[int_index]) lep = 1;
+
+  std::cout << "[Int " << int_index << "]: ";
+  std::cout << "PDG = " << event.vec_nu_pdg[int_index]
+            << ", code = " << event.vec_nu_neut_code[int_index]
+            << ", lep = " << lep
+            << std::endl;
 
   // Should be numu or nue
   if(std::abs(event.vec_nu_pdg[int_index]) != 12 && std::abs(event.vec_nu_pdg[int_index]) != 14) return false;
