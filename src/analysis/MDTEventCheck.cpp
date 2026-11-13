@@ -104,11 +104,14 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
 
   // Not just select random two interactions, require some additional
   // cuts on the interactions to have "good" event qualities
-  
+  // At least one interaction should pass the cuts
+
   // Loop over true interactions
+  bool has_good_int = false;
   for(int index : vec_bunch_int_index){
-    if(!TrueInteractionCut(event,index)) return -1;
+    if(TrueInteractionCut(event,index)) has_good_int = true;
   }
+  if(!has_good_int) return -1;
 
   // -------- PMT hits requirement --------
 
