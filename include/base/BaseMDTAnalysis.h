@@ -73,21 +73,21 @@ private:
   WCSimRootTrigger *WCSim_OD_trigger = nullptr;  
 
   // Pile-up info tree
-  int NNuIntTot;
-  int NIDNuInt;
-  int NBeamBkg;
-  int FileIdNum[NMAXINT];
-  int EventIdNum[NMAXINT];
+  UInt_t NNuIntTot;
+  UInt_t NIDNuInt;
+  UInt_t NBeamBkg;
+  UInt_t FileIdNum[NMAXINT];
+  UInt_t EventIdNum[NMAXINT];
   int NeutCode[NMAXINT];
   float NuDir[NMAXINT][3];
   float NuEne[NMAXINT];
-  int NuIntBunch[NMAXINT];
+  UInt_t NuIntBunch[NMAXINT];
   float NuIntTime[NMAXINT];
   int NuPDG[NMAXINT];
   float NuPos[NMAXINT][3];
 
-  int NTracks;
-  int TrackNuIntIdx[NMAXTRACKS];
+  UInt_t NTracks;
+  UInt_t TrackNuIntIdx[NMAXTRACKS];
 
   std::vector<int> *PENuIntIdx = 0;
   std::vector<int> *PENuIntIdx_OD = 0;  
