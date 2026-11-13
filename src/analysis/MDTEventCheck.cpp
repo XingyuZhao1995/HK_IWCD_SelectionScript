@@ -75,19 +75,14 @@ void MDTEventCheck::SaveOutputFile(){
 int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
 // ********************************************************
 
-  std::cout << "Event " << event.event_id << std::endl;
-
   // -------- Basic selection --------
 
   // Collect bunch -> interaction mapping using true information
   std::map<int,std::vector<int>> map_bunch_int_idx;
   for(int i = 0; i < event.n_int; i++){
-    std::cout << "(" << i << ", " << event.vec_nu_bunch_idx[i] << ") ";
-
     map_bunch_int_idx[event.vec_nu_bunch_idx[i]].push_back(i);
   }
-  std::cout << std::endl;
-  
+
   // Find out if there is a bunch with exactly two interactions
   // In principle there exists cases where more than one bunch having
   // two interactions, but given the mean number of spill interactions,
@@ -102,10 +97,10 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
     }
   }
 
-  std::cout << "bunch_index = " << bunch_index << std::endl;
-
   // Not found
   if(bunch_index < 0) return -1;
+
+  std::cout << "Has bunch pile-up" << std::endl;
 
   // -------- Interaction requirement --------
 
@@ -116,6 +111,8 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
   for(int index : vec_bunch_int_index){
     if(!TrueInteractionCut(event,index)) return -1;
   }
+
+  std::cout << "Passed true interaction cut" << std::endl;
 
   // -------- PMT hits requirement --------
 
