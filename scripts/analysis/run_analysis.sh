@@ -7,4 +7,7 @@ source /vols/hyperk/users/xzhao/HK/IWCD/SelectionScript/scripts/setup/setup_ICL_
 if [ ${1} = "1" ]
 then
   RunfiTQunEventCheck ${2} ${3}
+elif [ ${1} = "2" ]
+then
+  RunMDTEventCheck ${2} ${3}
 fi

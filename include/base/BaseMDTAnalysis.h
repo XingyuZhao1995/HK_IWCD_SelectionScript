@@ -25,6 +25,8 @@ const int NMAXTRACKS = 20000;
 // Base class to analyze MDT output file
 class BaseMDTAnalysis{
 
+public:
+
   // Constructor
   BaseMDTAnalysis(std::string in_list_name);
   // Destructor
