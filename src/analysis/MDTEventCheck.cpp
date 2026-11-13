@@ -102,6 +102,8 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
     }
   }
 
+  std::cout << "bunch_index = " << bunch_index << std::endl;
+
   // Not found
   if(bunch_index < 0) return -1;
 
