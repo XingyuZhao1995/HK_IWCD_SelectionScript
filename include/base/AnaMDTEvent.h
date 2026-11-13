@@ -49,7 +49,7 @@ public:
   // True track information
 
   int n_trk = 0;
-  int *trk_int_idx;
+  UInt_t *trk_int_idx;
 
   // Primary lepton information
   std::vector<WCSimRootTrack*> vec_trk_pri_lep;
