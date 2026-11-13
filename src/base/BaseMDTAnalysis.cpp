@@ -204,6 +204,10 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
     event.trk_int_idx = TrackNuIntIdx;
     FillInfoUtils::FillMDTG4TrkInfo(event);
 
+    std::cout << "NTracks = " << NTracks
+              << ", fNtrack = " << event.wcsim_ID_event->fNtrack
+              << std::endl;
+
     // (Fill true hit information)
     event.vec_pe_int_idx = PENuIntIdx;
     event.vec_pe_OD_int_idx = PENuIntIdx_OD;

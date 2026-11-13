@@ -100,8 +100,6 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
   // Not found
   if(bunch_index < 0) return -1;
 
-  std::cout << "Has bunch pile-up" << std::endl;
-
   // -------- Interaction requirement --------
 
   // Not just select random two interactions, require some additional
@@ -111,8 +109,6 @@ int MDTEventCheck::FindTwoIntBunchIdx(AnaMDTEvent &event){
   for(int index : vec_bunch_int_index){
     if(!TrueInteractionCut(event,index)) return -1;
   }
-
-  std::cout << "Passed true interaction cut" << std::endl;
 
   // -------- PMT hits requirement --------
 
@@ -178,15 +174,6 @@ int MDTEventCheck::FindOneMEOneIntBunchIdx(AnaMDTEvent &event){
 bool MDTEventCheck::TrueInteractionCut(AnaMDTEvent &event, int int_index){
 // ********************************************************
   
-  int lep = 0;
-  if(event.vec_trk_pri_lep[int_index]) lep = 1;
-
-  std::cout << "[Int " << int_index << "]: ";
-  std::cout << "PDG = " << event.vec_nu_pdg[int_index]
-            << ", code = " << event.vec_nu_neut_code[int_index]
-            << ", lep = " << lep
-            << std::endl;
-
   // Should be numu or nue
   if(std::abs(event.vec_nu_pdg[int_index]) != 12 && std::abs(event.vec_nu_pdg[int_index]) != 14) return false;
 
