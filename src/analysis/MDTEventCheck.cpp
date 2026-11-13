@@ -341,9 +341,12 @@ void MDTEventCheck::GetPMTHitTrueInfo(AnaMDTEvent &event, WCSimRootCherenkovDigi
   std::map<int,int> int_idx_count;
   std::map<int,int> true_PDG_count;
 
+  // Photon IDs of a digitized hit index the photon hit array of its own (ID or OD) trigger
+  WCSimRootTrigger *trigger = is_ID ? event.wcsim_ID_event : event.wcsim_OD_event;
+
   // Loop over photon hit contributions
   for(int i : digi_hit->fPhotonIds){
-    WCSimRootCherenkovHitTime *photon_hit = (WCSimRootCherenkovHitTime*)(event.wcsim_ID_event->fCherenkovHitTimes->At(i));
+    WCSimRootCherenkovHitTime *photon_hit = (WCSimRootCherenkovHitTime*)(trigger->fCherenkovHitTimes->At(i));
     if(!photon_hit) continue;
 
     // Count interaction index

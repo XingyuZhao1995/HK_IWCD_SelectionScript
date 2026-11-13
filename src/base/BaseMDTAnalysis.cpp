@@ -128,7 +128,20 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
   if(tin_MDT->GetEntries() != tin_pileup->GetEntries()){
     std::cout << "ERROR: wcsimT and pupspillT do not have same number of entries" << std::endl;
     return;
-  } 
+  }
+
+  // Array size checks
+  // ROOT writes NNuIntTot / NTracks elements into the variable-length array buffers
+  // without bounds checking, so the buffers must hold the largest entry in the file
+  // (otherwise neighbouring members get overwritten and the program crashes)
+  Long64_t max_n_int = (Long64_t)tin_pileup->GetMaximum("NNuIntTot");
+  if(max_n_int > NMAXINT){
+    std::cout << "ERROR: NNuIntTot = " << max_n_int << " exceeds NMAXINT = " << NMAXINT
+              << ", skip file " << file_name << std::endl;
+    return;
+  }
+  Long64_t max_n_trk = (Long64_t)tin_pileup->GetMaximum("NTracks");
+  TrackNuIntIdx.assign(std::max<Long64_t>(max_n_trk,1),0);
 
   // ---------------------------------------
   // Link tree branches
@@ -156,7 +169,7 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
   tin_pileup->SetBranchAddress("NuPos",&NuPos);
 
   tin_pileup->SetBranchAddress("NTracks",&NTracks);
-  tin_pileup->SetBranchAddress("TrackNuIntIdx",&TrackNuIntIdx);
+  tin_pileup->SetBranchAddress("TrackNuIntIdx",TrackNuIntIdx.data());
 
   tin_pileup->SetBranchAddress("PENuIntIdx",&PENuIntIdx);
   tin_pileup->SetBranchAddress("PENuIntIdx_OD",&PENuIntIdx_OD);
@@ -219,7 +232,7 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
 
     // (Fill track information)
     event.n_trk = NTracks;
-    event.trk_int_idx = TrackNuIntIdx;
+    event.trk_int_idx = TrackNuIntIdx.data();
     FillInfoUtils::FillMDTG4TrkInfo(event);
 
     // (Fill true hit information)

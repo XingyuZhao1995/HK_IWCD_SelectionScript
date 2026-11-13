@@ -20,7 +20,6 @@
 #include "utils/MiscUtils.h"
 
 const int NMAXINT = 20;
-const int NMAXTRACKS = 20000;
 
 // Base class to analyze MDT output file
 class BaseMDTAnalysis{
@@ -90,7 +89,9 @@ private:
   float NuPos[NMAXINT][3];
 
   UInt_t NTracks;
-  UInt_t TrackNuIntIdx[NMAXTRACKS];
+  // Variable-length array TrackNuIntIdx[NTracks]: sized per input file to the
+  // largest NTracks in that file (a fixed-size array can overflow)
+  std::vector<UInt_t> TrackNuIntIdx;
 
   std::vector<int> *PENuIntIdx = 0;
   std::vector<int> *PENuIntIdx_OD = 0;  
