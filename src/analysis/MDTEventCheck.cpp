@@ -34,6 +34,20 @@ void MDTEventCheck::OverallInitialization(){
   // (Tree branches)
   tout.Branch("type",&type,"type/I");
 
+  tout.Branch("hits_ID_posX",&hits_ID_posX);
+  tout.Branch("hits_ID_posY",&hits_ID_posY);
+  tout.Branch("hits_ID_posZ",&hits_ID_posZ);
+  tout.Branch("hits_ID_charge",&hits_ID_charge);
+  tout.Branch("hits_ID_intidx",&hits_ID_intidx);
+  tout.Branch("hits_ID_PDG",&hits_ID_PDG);
+
+  tout.Branch("hits_OD_posX",&hits_OD_posX);
+  tout.Branch("hits_OD_posY",&hits_OD_posY);
+  tout.Branch("hits_OD_posZ",&hits_OD_posZ);
+  tout.Branch("hits_OD_charge",&hits_OD_charge);
+  tout.Branch("hits_OD_intidx",&hits_OD_intidx);
+  tout.Branch("hits_OD_PDG",&hits_OD_PDG);
+
 }
 
 // ********************************************************
@@ -210,6 +224,7 @@ bool MDTEventCheck::PrevMEExistCut(AnaMDTEvent &event, int bunch_index){
   // The vector should be already filled
   for(auto *digi_hit : vec_PMT_hit_ID){
 
+    bool is_ME_hit = false;
     // Loop over true photon hits contributed to this PMT hit
     for(int i : digi_hit->fPhotonIds){
       WCSimRootCherenkovHitTime *photon_hit = (WCSimRootCherenkovHitTime*)(event.wcsim_ID_event->fCherenkovHitTimes->At(i));
@@ -227,8 +242,10 @@ bool MDTEventCheck::PrevMEExistCut(AnaMDTEvent &event, int bunch_index){
       int ME_bunch = event.vec_nu_bunch_idx[event.vec_pe_int_idx->at(i)];
       if(ME_bunch >= bunch_index) continue;
 
-      n_count_ME_hit += 1;
+      is_ME_hit = true;
     }
+
+    if(is_ME_hit) n_count_ME_hit += 1;
 
   } // End of hit loop
 
@@ -245,7 +262,121 @@ void MDTEventCheck::FillOutputTree(AnaMDTEvent &event, int event_type){
   // 1 = two interaction, 2 = one ME + one interaction
   type = event_type;
 
+  // ID PMT hits
+  hits_ID_posX.clear();
+  hits_ID_posY.clear();
+  hits_ID_posZ.clear();
+  hits_ID_charge.clear();
+  hits_ID_intidx.clear();
+  hits_ID_PDG.clear();
+  for(auto *digi_hit : vec_PMT_hit_ID){
+
+    // Position
+    WCSimRootPMT *hit_PMT = (WCSimRootPMT*)(event.wcsim_geom)->fPMTArray->At(digi_hit->fTubeId-1);
+    if(hit_PMT){
+      hits_ID_posX.push_back(hit_PMT->fPosition[0]);
+      hits_ID_posY.push_back(hit_PMT->fPosition[1]);
+      hits_ID_posZ.push_back(hit_PMT->fPosition[2]);
+    }
+    else{
+      hits_ID_posX.push_back(-1e6);
+      hits_ID_posY.push_back(-1e6);
+      hits_ID_posZ.push_back(-1e6);
+    }
+
+    // Charge
+    hits_ID_charge.push_back(digi_hit->fQ);
+
+    // Interaction index and PDG
+    int int_index, true_pdg;
+    GetPMTHitTrueInfo(event,digi_hit,true,int_index,true_pdg);
+    hits_ID_intidx.push_back(int_index);
+    hits_ID_PDG.push_back(true_pdg);
+    
+  } // End of hit loop
+
+  // OD PMT hits
+  hits_OD_posX.clear();
+  hits_OD_posY.clear();
+  hits_OD_posZ.clear();
+  hits_OD_charge.clear();
+  hits_OD_intidx.clear();
+  hits_OD_PDG.clear();
+  for(auto *digi_hit : vec_PMT_hit_OD){
+
+    // Position
+    WCSimRootPMT *hit_PMT = (WCSimRootPMT*)(event.wcsim_geom)->fODPMTArray->At(digi_hit->fTubeId-1);
+    if(hit_PMT){
+      hits_OD_posX.push_back(hit_PMT->fPosition[0]);
+      hits_OD_posY.push_back(hit_PMT->fPosition[1]);
+      hits_OD_posZ.push_back(hit_PMT->fPosition[2]);
+    }
+    else{
+      hits_OD_posX.push_back(-1e6);
+      hits_OD_posY.push_back(-1e6);
+      hits_OD_posZ.push_back(-1e6);
+    }
+
+    // Charge
+    hits_OD_charge.push_back(digi_hit->fQ);
+
+    // Interaction index and PDG
+    int int_index, true_pdg;
+    GetPMTHitTrueInfo(event,digi_hit,false,int_index,true_pdg);
+    hits_OD_intidx.push_back(int_index);
+    hits_OD_PDG.push_back(true_pdg);
+    
+  } // End of hit loop
+
   // Fill the tree
   tout.Fill();
+
+}
+
+// ********************************************************
+void MDTEventCheck::GetPMTHitTrueInfo(AnaMDTEvent &event, WCSimRootCherenkovDigiHit *digi_hit,
+                                      bool is_ID, int &int_index, int &true_pdg){
+// ********************************************************
+
+  std::map<int,int> int_idx_count;
+  std::map<int,int> true_PDG_count;
+
+  // Loop over photon hit contributions
+  for(int i : digi_hit->fPhotonIds){
+    WCSimRootCherenkovHitTime *photon_hit = (WCSimRootCherenkovHitTime*)(event.wcsim_ID_event->fCherenkovHitTimes->At(i));
+    if(!photon_hit) continue;
+
+    // Count interaction index
+    if(is_ID) int_idx_count[event.vec_pe_int_idx->at(i)] += 1;
+    else int_idx_count[event.vec_pe_OD_int_idx->at(i)] += 1;
+
+    // Count true PDG
+    int G4_trk_id = photon_hit->fParentSavedTrackID;
+    if(G4_trk_id < 0){
+      true_PDG_count[-1] += 1; // Dark count
+    }
+    else{
+      WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event,is_ID);
+      if(G4_track) true_PDG_count[G4_track->fIpnu] += 1;
+    }
+  } // End of hit loop
+
+  // Interaction that gives maximum contribution
+  int max_count = 0;
+  for(auto element : int_idx_count){
+    if(element.second > max_count){
+      max_count = element.second;
+      int_index = element.first;
+    }
+  }
+
+  // True PDG that gives maximum contribution
+  max_count = 0;
+  for(auto element : true_PDG_count){
+    if(element.second > max_count){
+      max_count = element.second;
+      true_pdg = element.first;
+    }
+  }
 
 }

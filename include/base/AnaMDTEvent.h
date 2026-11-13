@@ -26,6 +26,8 @@ public:
   int event_id = -1;
 
   // General pointer
+  WCSimRootGeom *wcsim_geom;
+
   WCSimRootTrigger *wcsim_ID_event;
   WCSimRootTrigger *wcsim_OD_event;
 

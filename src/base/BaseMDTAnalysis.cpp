@@ -9,6 +9,8 @@ BaseMDTAnalysis::BaseMDTAnalysis(std::string in_list_name){
   fin_list_name = in_list_name;
     
   // Branch objects are owned by this class and reused for every input file
+  WCSim_geom = new WCSimRootGeom();
+
   WCSim_ID_event = new WCSimRootEvent();
   WCSim_OD_event = new WCSimRootEvent();
 
@@ -17,6 +19,8 @@ BaseMDTAnalysis::BaseMDTAnalysis(std::string in_list_name){
 // ********************************************************
 BaseMDTAnalysis::~BaseMDTAnalysis(){
 // ********************************************************
+
+  delete WCSim_geom; 
 
   delete WCSim_ID_event;
   delete WCSim_OD_event;
@@ -99,6 +103,13 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
     return;
   }
 
+  // (Geometry)
+  TTree *tin_geom = (TTree*)fin_MDT->Get("wcsimGeoT");
+  if(!tin_geom){
+    std::cout << "ERROR: tree wcsimGeoT not exist" << std::endl;
+    return;    
+  }  
+
   // (WCSim-like tree)
   TTree *tin_MDT = (TTree*)fin_MDT->Get("wcsimT");
   if(!tin_MDT){
@@ -122,6 +133,9 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
   // ---------------------------------------
   // Link tree branches
   // ---------------------------------------  
+
+  // Geometry tree
+  tin_geom->SetBranchAddress("wcsimrootgeom",&WCSim_geom);
 
   // WCSim-like tree
   tin_MDT->SetBranchAddress("wcsimrootevent",&WCSim_ID_event);
@@ -151,6 +165,9 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
   // File level analysis
   // ---------------------------------------
 
+  // Record geometry
+  tin_geom->GetEntry(0);
+
   // Extract run and subrun numbers
   int run, subrun;
   MiscUtils::ReadRunNumberFromFileName(file_name,run,subrun);
@@ -177,6 +194,7 @@ void BaseMDTAnalysis::RunSingleFile(std::string file_name){
     event.run = run;
     event.subrun = subrun;
     event.event_id = WCSim_ID_trigger->fEvtHdr.fEvtNum;
+    event.wcsim_geom = WCSim_geom;
 
     event.wcsim_ID_event = WCSim_ID_trigger;
     event.wcsim_OD_event = WCSim_OD_trigger;

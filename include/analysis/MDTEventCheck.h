@@ -50,6 +50,10 @@ private:
   // Fill output tree
   void FillOutputTree(AnaMDTEvent &event, int event_type);
 
+  // Some tools
+  void GetPMTHitTrueInfo(AnaMDTEvent &event, WCSimRootCherenkovDigiHit *digi_hit,
+                         bool is_ID, int &int_index, int &true_pdg);
+
   // ----------------------------------------------
   // Auxiliary variables
 
@@ -61,6 +65,20 @@ private:
   // Output tree branch variables
 
   int type;
+
+  std::vector<double> hits_ID_posX;
+  std::vector<double> hits_ID_posY;
+  std::vector<double> hits_ID_posZ;
+  std::vector<double> hits_ID_charge;
+  std::vector<double> hits_ID_intidx;
+  std::vector<double> hits_ID_PDG;
+
+  std::vector<double> hits_OD_posX;
+  std::vector<double> hits_OD_posY;
+  std::vector<double> hits_OD_posZ;
+  std::vector<double> hits_OD_charge;
+  std::vector<double> hits_OD_intidx;
+  std::vector<double> hits_OD_PDG;
 
 };
 

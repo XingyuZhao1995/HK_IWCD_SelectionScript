@@ -91,19 +91,20 @@ WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event){
 }
 
 // ********************************************************
-WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event){
+WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event, bool is_ID){
 // ********************************************************
 
   WCSimRootTrack *track_need = nullptr;
+  WCSimRootTrigger *trigger = is_ID ? event.wcsim_ID_event : event.wcsim_OD_event;
 
   // Invalid track ID
   if(G4_trk_id < 0) return track_need;
 
   // Loop over G4 tracks
-  for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
+  for(int i = 0; i < trigger->fNtrack; i++){
 
     // Get the track
-    WCSimRootTrack *track = (WCSimRootTrack*)(event.wcsim_ID_event->fTracks->At(i));
+    WCSimRootTrack *track = (WCSimRootTrack*)(trigger->fTracks->At(i));
     if(!track) continue;
 
     // Whether ID matches

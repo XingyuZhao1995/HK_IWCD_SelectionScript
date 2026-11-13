@@ -6,6 +6,8 @@
 AnaMDTEvent::AnaMDTEvent(){
 // ********************************************************
 
+  wcsim_geom = nullptr;
+
   wcsim_ID_event = nullptr;
   wcsim_OD_event = nullptr;  
 
@@ -33,6 +35,8 @@ AnaMDTEvent::AnaMDTEvent(){
 AnaMDTEvent::~AnaMDTEvent(){
 // ********************************************************
 
+  wcsim_geom = nullptr;
+
   wcsim_ID_event = nullptr;
   wcsim_OD_event = nullptr;  
 
@@ -59,6 +63,8 @@ AnaMDTEvent::~AnaMDTEvent(){
 // ********************************************************
 void AnaMDTEvent::Reset(){
 // ********************************************************
+
+  wcsim_geom = nullptr;
 
   wcsim_ID_event = nullptr;
   wcsim_OD_event = nullptr;  

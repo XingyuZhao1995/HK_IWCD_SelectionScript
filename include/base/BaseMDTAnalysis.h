@@ -66,6 +66,9 @@ private:
   // ----------------------------------------------
   // Input tree branch variables
 
+  // Geometry tree
+  WCSimRootGeom *WCSim_geom = nullptr;
+
   // WCSim-like tree
   WCSimRootEvent *WCSim_ID_event = nullptr;
   WCSimRootTrigger *WCSim_ID_trigger = nullptr;
