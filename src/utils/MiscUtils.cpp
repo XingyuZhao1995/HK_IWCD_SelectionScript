@@ -95,7 +95,8 @@ WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event, bool 
 // ********************************************************
 
   WCSimRootTrack *track_need = nullptr;
-  WCSimRootTrigger *trigger = is_ID ? event.wcsim_ID_event : event.wcsim_OD_event;
+  //WCSimRootTrigger *trigger = is_ID ? event.wcsim_ID_event : event.wcsim_OD_event;
+  WCSimRootTrigger *trigger = event.wcsim_ID_event;
 
   // Invalid track ID
   if(G4_trk_id < 0) return track_need;
