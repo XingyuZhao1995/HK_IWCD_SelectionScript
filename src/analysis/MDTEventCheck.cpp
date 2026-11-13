@@ -356,7 +356,7 @@ void MDTEventCheck::GetPMTHitTrueInfo(AnaMDTEvent &event, WCSimRootCherenkovDigi
       true_PDG_count[-1] += 1; // Dark count
     }
     else{
-      WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event,is_ID);
+      WCSimRootTrack *G4_track = MiscUtils::GetG4TrkByID(G4_trk_id,event);
       if(G4_track) true_PDG_count[G4_track->fIpnu] += 1;
     }
   } // End of hit loop

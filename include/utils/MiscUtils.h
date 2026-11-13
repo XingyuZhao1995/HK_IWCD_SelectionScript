@@ -44,7 +44,7 @@ namespace MiscUtils{
 
   // Get G4 track by ID
   WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event);
-  WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event, bool is_ID = true);
+  WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event);
 
   // Get parent interaction information
   int GetG4TrkParInterInfo(WCSimRootTrack *track);

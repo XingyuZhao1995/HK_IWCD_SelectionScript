@@ -66,6 +66,8 @@ int MiscUtils::GetSubeventMaxG4TrkID(AnafiTQunEvent &event, double peak_t0, TVec
 WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event){
 // ********************************************************
 
+  // NOTE: The true track array for ID event is shared by both ID and OD hits
+
   WCSimRootTrack *track_need = nullptr;
 
   // Invalid track ID
@@ -91,21 +93,21 @@ WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event){
 }
 
 // ********************************************************
-WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event, bool is_ID){
+WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event){
 // ********************************************************
 
+  // NOTE: The true track array for ID event is shared by both ID and OD hits
+
   WCSimRootTrack *track_need = nullptr;
-  //WCSimRootTrigger *trigger = is_ID ? event.wcsim_ID_event : event.wcsim_OD_event;
-  WCSimRootTrigger *trigger = event.wcsim_ID_event;
 
   // Invalid track ID
   if(G4_trk_id < 0) return track_need;
 
   // Loop over G4 tracks
-  for(int i = 0; i < trigger->fNtrack; i++){
+  for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
 
     // Get the track
-    WCSimRootTrack *track = (WCSimRootTrack*)(trigger->fTracks->At(i));
+    WCSimRootTrack *track = (WCSimRootTrack*)(event.wcsim_ID_event->fTracks->At(i));
     if(!track) continue;
 
     // Whether ID matches
