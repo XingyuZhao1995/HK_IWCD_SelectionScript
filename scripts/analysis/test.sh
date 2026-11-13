@@ -13,6 +13,7 @@ then
   echo "${InputWCSimFile} ${InputfiTQunFile}" >> ${TmpFile}
   RunfiTQunEventCheck ${TmpFile} test.root
 elif [ ${Option} = "2" ]
+then
   echo "${InputMDTFile}" >> ${TmpFile}
   RunMDTEventCheck ${TmpFile} test.root
 fi

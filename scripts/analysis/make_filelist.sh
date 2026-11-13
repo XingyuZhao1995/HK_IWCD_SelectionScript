@@ -25,6 +25,7 @@ if [ ${Option} = "1" ]
 then
   NFilePerList=500
 elif [ ${Option} = "2" ]
+then
   NFilePerList=2
 fi
 
