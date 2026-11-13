@@ -5,6 +5,7 @@
 
 #include "fiTQun_project/fiTQun_projectProjectHeaders.h"
 #include "base/AnafiTQunEvent.h"
+#include "base/AnaMDTEvent.h"
 #include "utils/CategoryUtils.h"
 #include "utils/GeomUtils.h"
 
@@ -29,6 +30,12 @@ namespace MiscUtils{
   const double EleMomCheThres = 30;
   const double PionMomCheThres = 190;
 
+  // Bunch timing constants
+  const int NBunch = 8;
+  const double BunchT0 = 0; // In ns
+  const double BunchTIntv = 560;
+  const double BunchTSeleIntv = 125; // For selection
+
   // ----------------------------------------
   // Geant4 utils
 
@@ -37,6 +44,7 @@ namespace MiscUtils{
 
   // Get G4 track by ID
   WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event);
+  WCSimRootTrack* GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event);
 
   // Get parent interaction information
   int GetG4TrkParInterInfo(WCSimRootTrack *track);
@@ -48,6 +56,14 @@ namespace MiscUtils{
 
   // Calculate neutrino energy
   double CalcEnuNumuCCQE(AnafiTQunEvent &event);
+
+  // ----------------------------------------
+  // Bunch utils
+
+  // Collect all PMT hits in a bunch
+  void CollectBunchPMTHits(AnaMDTEvent &event, int bunch_index, 
+                           std::vector<WCSimRootCherenkovDigiHit*> &vec_PMT_hit_ID,
+                           std::vector<WCSimRootCherenkovDigiHit*> &vec_PMT_hit_OD);
 
   // ----------------------------------------
   // Other utils

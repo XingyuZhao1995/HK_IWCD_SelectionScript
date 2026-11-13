@@ -91,6 +91,34 @@ WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnafiTQunEvent &event){
 }
 
 // ********************************************************
+WCSimRootTrack* MiscUtils::GetG4TrkByID(int G4_trk_id, AnaMDTEvent &event){
+// ********************************************************
+
+  WCSimRootTrack *track_need = nullptr;
+
+  // Invalid track ID
+  if(G4_trk_id < 0) return track_need;
+
+  // Loop over G4 tracks
+  for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
+
+    // Get the track
+    WCSimRootTrack *track = (WCSimRootTrack*)(event.wcsim_ID_event->fTracks->At(i));
+    if(!track) continue;
+
+    // Whether ID matches
+    if(track->fId == G4_trk_id){
+      track_need = track;
+      break;
+    }
+
+  } // End of track loop
+
+  return track_need;
+
+}
+
+// ********************************************************
 int MiscUtils::GetG4TrkParInterInfo(WCSimRootTrack *track){
 // ********************************************************
 
@@ -163,6 +191,53 @@ double MiscUtils::CalcEnuNumuCCQE(AnafiTQunEvent &event){
   double denominator = 2 * (E_mu - p_mu * cos_mu - mn_eff);
 
   return numerator / denominator;
+
+}
+
+// ********************************************************
+void MiscUtils::CollectBunchPMTHits(AnaMDTEvent &event, int bunch_index, 
+                         std::vector<WCSimRootCherenkovDigiHit*> &vec_PMT_hit_ID,
+                         std::vector<WCSimRootCherenkovDigiHit*> &vec_PMT_hit_OD){
+// ********************************************************
+
+  vec_PMT_hit_ID.clear();
+  vec_PMT_hit_OD.clear();
+
+  // Calculate time interval
+  double t_min = BunchT0 + bunch_index * BunchTIntv - BunchTSeleIntv;
+  double t_max = BunchT0 + bunch_index * BunchTIntv + BunchTSeleIntv;
+
+  // Loop over ID digitized hits
+  for(int i = 0; i < event.wcsim_ID_event->fNcherenkovdigihits; i++){
+
+    // Get the hit
+    WCSimRootCherenkovDigiHit *hit = (WCSimRootCherenkovDigiHit*)(event.wcsim_ID_event)->fCherenkovDigiHits->At(i);
+    if(!hit) continue;
+
+    // Check hit time
+    if(hit->fT < t_min || hit->fT > t_max) continue;
+
+    // Record hit
+    vec_PMT_hit_ID.push_back(hit);
+
+  } // End of hit loop
+
+  // Loop over OD digitized hits
+  for(int i = 0; i < event.wcsim_OD_event->fNcherenkovdigihits; i++){
+
+    // Get the hit
+    WCSimRootCherenkovDigiHit *hit = (WCSimRootCherenkovDigiHit*)(event.wcsim_OD_event)->fCherenkovDigiHits->At(i);
+    if(!hit) continue;
+
+    // Check hit time
+    // NOTE: OD hits usually have larger time delays, maybe the timing cut
+    // should be larger for OD hits
+    if(hit->fT < t_min || hit->fT > t_max) continue;
+
+    // Record hit
+    vec_PMT_hit_OD.push_back(hit);
+
+  } // End of hit loop
 
 }
 

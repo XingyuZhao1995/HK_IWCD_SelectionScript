@@ -145,6 +145,62 @@ void FillInfoUtils::FillG4TrkInfo(AnafiTQunEvent &event){
 }
 
 // ********************************************************
+void FillInfoUtils::FillMDTG4TrkInfo(AnaMDTEvent &event){
+// ********************************************************
+
+  if(event.n_trk != event.wcsim_ID_event->fNtrack){
+    std::cout << "[FillInfoUtils::FillMDTG4TrkInfo] "
+              << "ERROR: pile-up recorded tracks " << event.n_trk
+              << " not equal to WCSim " << event.wcsim_ID_event->fNtrack
+              << std::endl;
+    return;
+  }
+
+  // Initialization
+  for(int i = 0; i < event.n_int; i++){
+    event.vec_trk_pri_lep.push_back(nullptr);
+    event.vec_trk_pri_lep_pdg.push_back(0);
+    event.vec_trk_pri_lep_mom.push_back(-999);
+    event.vec_trk_pri_lep_dir.push_back(TVector3(0,0,0));
+    event.vec_trk_pri_lep_stop_ID.push_back(false);
+    event.vec_trk_pri_lep_towall.push_back(-999);
+    event.vec_trk_pri_lep_dwall.push_back(-999);
+  }
+
+  // Loop over Geant4 tracks
+  for(int i = 0; i < event.wcsim_ID_event->fNtrack; i++){
+
+    // Get the track
+    WCSimRootTrack *track = (WCSimRootTrack*)(event.wcsim_ID_event->fTracks->At(i));
+    if(!track) continue;
+
+    // Only look at primary tracks
+    if(track->fFlag < 0) continue;
+    if(track->fParenttype != 0) continue;
+
+    // Primary lepton
+    if(std::abs(track->fIpnu) == 11 || std::abs(track->fIpnu) == 13 || std::abs(track->fIpnu) == 15){
+      int int_idx = event.trk_int_idx[i];
+
+      event.vec_trk_pri_lep[int_idx] = track;
+      event.vec_trk_pri_lep_pdg[int_idx] = track->fIpnu;
+      event.vec_trk_pri_lep_mom[int_idx] = track->fP;
+      event.vec_trk_pri_lep_dir[int_idx].SetXYZ(track->fDir[0],track->fDir[1],track->fDir[2]);
+
+      // If track stops in ID
+      TVector3 stop_pos(track->fStop[0],track->fStop[1],track->fStop[2]);
+      event.vec_trk_pri_lep_stop_ID[int_idx] = GeomUtils::IsPointIDContained(stop_pos);    
+      
+      TVector3 start_pos(track->fStart[0],track->fStart[1],track->fStart[2]);
+      event.vec_trk_pri_lep_towall[int_idx] = GeomUtils::CalcToWallDis(start_pos,event.vec_trk_pri_lep_dir[int_idx]);
+      event.vec_trk_pri_lep_dwall[int_idx] = GeomUtils::CalcDWallDis(start_pos);      
+    }
+
+  } // End of track loop
+
+}
+
+// ********************************************************
 void FillInfoUtils::FillODHitsInfo(AnafiTQunEvent &event){
 // ********************************************************
 
