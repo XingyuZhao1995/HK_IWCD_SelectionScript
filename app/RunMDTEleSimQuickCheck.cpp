@@ -60,6 +60,11 @@ void MergeFiles(std::string fin_list_name, std::string fout_name){
   TH1D *h_hitQ_OD_MDT = nullptr;
   TH1D *h_hitQ_OD_WCSim = nullptr;
 
+  TH1D *h_hitQ_red_ID_MDT = nullptr;
+  TH1D *h_hitQ_red_ID_WCSim = nullptr;
+  TH1D *h_hitQ_red_OD_MDT = nullptr;
+  TH1D *h_hitQ_red_OD_WCSim = nullptr;
+
   // Create input file list
   std::ifstream fin_list(fin_list_name);
   std::cout << "----> Input file list: " << fin_list_name << std::endl;
@@ -98,6 +103,11 @@ void MergeFiles(std::string fin_list_name, std::string fout_name){
       AddHistogram(h_hitQ_OD_MDT,h_temp_1d,fin,"h_hitQ_OD_MDT",fin_name);
       AddHistogram(h_hitQ_OD_WCSim,h_temp_1d,fin,"h_hitQ_OD_WCSim",fin_name);      
 
+      AddHistogram(h_hitQ_red_ID_MDT,h_temp_1d,fin,"h_hitQ_red_ID_MDT",fin_name);
+      AddHistogram(h_hitQ_red_ID_WCSim,h_temp_1d,fin,"h_hitQ_red_ID_WCSim",fin_name);
+      AddHistogram(h_hitQ_red_OD_MDT,h_temp_1d,fin,"h_hitQ_red_OD_MDT",fin_name);
+      AddHistogram(h_hitQ_red_OD_WCSim,h_temp_1d,fin,"h_hitQ_red_OD_WCSim",fin_name); 
+
       // Update file counter
       n_file_count += 1;
       if(n_file_count % 50 == 0){
@@ -134,6 +144,11 @@ void MergeFiles(std::string fin_list_name, std::string fout_name){
   h_hitQ_ID_WCSim->Write();
   h_hitQ_OD_MDT->Write();
   h_hitQ_OD_WCSim->Write();   
+
+  h_hitQ_red_ID_MDT->Write();
+  h_hitQ_red_ID_WCSim->Write();
+  h_hitQ_red_OD_MDT->Write();
+  h_hitQ_red_OD_WCSim->Write();  
 
   fout->Close();
 
@@ -235,7 +250,8 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   // Digi hit charge distribution
   const int n_bin_hitQ = 100;
   const double hitQ_min = 0;
-  const double hitQ_max = 20; // In arbitrary unit (prop. to p.e.)
+  const double hitQ_max = 30; // In arbitrary unit (prop. to p.e.)
+  const double hitQ_red_max = 10;
 
   TH1D h_hitQ_ID_MDT;
   h_hitQ_ID_MDT.SetNameTitle("h_hitQ_ID_MDT","h_hitQ_ID_MDT");
@@ -246,6 +262,16 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   h_hitQ_OD_MDT.SetNameTitle("h_hitQ_OD_MDT","h_hitQ_OD_MDT");
   h_hitQ_OD_MDT.SetBins(n_bin_hitQ,hitQ_min,hitQ_max);
   TH1D h_hitQ_OD_WCSim = *((TH1D*)h_hitQ_OD_MDT.Clone("h_hitQ_OD_WCSim"));
+
+  TH1D h_hitQ_red_ID_MDT;
+  h_hitQ_red_ID_MDT.SetNameTitle("h_hitQ_red_ID_MDT","h_hitQ_red_ID_MDT");
+  h_hitQ_red_ID_MDT.SetBins(n_bin_hitQ,hitQ_min,hitQ_red_max);
+  TH1D h_hitQ_red_ID_WCSim = *((TH1D*)h_hitQ_red_ID_MDT.Clone("h_hitQ_red_ID_WCSim"));
+
+  TH1D h_hitQ_red_OD_MDT;
+  h_hitQ_red_OD_MDT.SetNameTitle("h_hitQ_red_OD_MDT","h_hitQ_red_OD_MDT");
+  h_hitQ_red_OD_MDT.SetBins(n_bin_hitQ,hitQ_min,hitQ_red_max);
+  TH1D h_hitQ_red_OD_WCSim = *((TH1D*)h_hitQ_red_OD_MDT.Clone("h_hitQ_red_OD_WCSim"));
 
   // ----------------------------------
   // Event loop
@@ -270,6 +296,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       h_hitT_ID_MDT.Fill(hit->fT);
       h_hitT_red_ID_MDT.Fill(hit->fT);
       h_hitQ_ID_MDT.Fill(hit->fQ);
+      h_hitQ_red_ID_MDT.Fill(hit->fQ);
     }
     h_nhit_ID_MDT.Fill(n_hit_ID_count);
 
@@ -282,6 +309,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       h_hitT_OD_MDT.Fill(hit->fT);
       h_hitT_red_OD_MDT.Fill(hit->fT);
       h_hitQ_OD_MDT.Fill(hit->fQ);
+      h_hitQ_red_OD_MDT.Fill(hit->fQ);
     }
     h_nhit_OD_MDT.Fill(n_hit_OD_count);
 
@@ -306,6 +334,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       h_hitT_ID_WCSim.Fill(hit->fT);
       h_hitT_red_ID_WCSim.Fill(hit->fT);
       h_hitQ_ID_WCSim.Fill(hit->fQ);
+      h_hitQ_red_ID_WCSim.Fill(hit->fQ);
     }
     h_nhit_ID_WCSim.Fill(n_hit_ID_count);
 
@@ -318,6 +347,7 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
       h_hitT_OD_WCSim.Fill(hit->fT);
       h_hitT_red_OD_WCSim.Fill(hit->fT);
       h_hitQ_OD_WCSim.Fill(hit->fQ);
+      h_hitQ_red_OD_WCSim.Fill(hit->fQ);
     }
     h_nhit_OD_WCSim.Fill(n_hit_OD_count);
 
@@ -349,6 +379,11 @@ void RunSingleFile(std::string fin_MDT_name, std::string fin_WCSim_name, std::st
   h_hitQ_ID_WCSim.Write();
   h_hitQ_OD_MDT.Write();
   h_hitQ_OD_WCSim.Write(); 
+
+  h_hitQ_red_ID_MDT.Write();
+  h_hitQ_red_ID_WCSim.Write();
+  h_hitQ_red_OD_MDT.Write();
+  h_hitQ_red_OD_WCSim.Write(); 
 
   fout->Close();
 
