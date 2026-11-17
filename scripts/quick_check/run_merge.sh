@@ -21,3 +21,5 @@ done
 
 # Run merging
 RunMDTEleSimQuickCheck 2 ${TmpList} ${OutputPath}/merged_quick_check.root
+
+rm -f ${TmpList}
