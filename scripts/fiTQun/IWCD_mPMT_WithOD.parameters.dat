@@ -10,8 +10,8 @@
  < fiTQun.DoProton1RFit = 0 >
  < fiTQun.DoPDK_MuGammaFit = 0 > 
  Multi-ring parameters not tuned yet, run all fits up to 3-ring by default.
- < fiTQun.DoMRFit = 3 > original is 3
- < fiTQun.DoMoreMRFit = 11 >
+ < fiTQun.DoMRFit = 0 > original is 3
+ < fiTQun.DoMoreMRFit = 0 >
  
  < fiTQun.PeakThrWCSim = 12.7 >
 
