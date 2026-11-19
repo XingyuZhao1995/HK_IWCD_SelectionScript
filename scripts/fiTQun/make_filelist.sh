@@ -19,7 +19,7 @@ rm -rf ${FileListPath}/*.txt
 # How many files to be put in each list
 NFilePerList=1
 # How many jobs to be submitted
-NJobs=200
+NJobs=800
 
 # Loop over input files
 FileCount=0
