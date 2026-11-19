@@ -137,18 +137,18 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
     return;    
   }    
 
+  // (NEUT RooTracker tree)
+  TTree *tin_NRooTrk = (TTree*)fin_WCSim->Get("fRooTrackerOutputTree");
+  if(!tin_NRooTrk){
+    std::cout << "ERROR: tree fRooTrackerOutputTree not exist" << std::endl;
+    return;    
+  }
+
   // Open the fiTQun file and tree
   std::unique_ptr<TFile> fin_fiTQun(TFile::Open(file_fiTQun_name.data(),"read"));
   if(!fin_fiTQun || fin_fiTQun->IsZombie()){
     std::cout << "ERROR: can't open file "<< file_fiTQun_name << std::endl;
     return;
-  }
-
-  // (NEUT RooTracker tree)
-  TTree *tin_NRooTrk = (TTree*)fin_fiTQun->Get("fRooTrackerOutputTree");
-  if(!tin_NRooTrk){
-    std::cout << "ERROR: tree fRooTrackerOutputTree not exist" << std::endl;
-    return;    
   }
 
   // (fiTQun tree)
@@ -159,14 +159,14 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   }
 
   // Tree entries check
+  if(tin_NRooTrk->GetEntries() != tin_WCSim->GetEntries()){
+    std::cout << "ERROR: fRooTrackerOutputTree and wcsimT do not have same number of entries" << std::endl;
+    return;
+  }  
   if(tin_WCSim->GetEntries() != tin_fiTQun->GetEntries()){
     std::cout << "ERROR: WCSim and fiTQun do not have same number of entries" << std::endl;
     return;
   }  
-  if(tin_NRooTrk->GetEntries() != tin_fiTQun->GetEntries()){
-    std::cout << "ERROR: fRooTrackerOutputTree and fiTQun do not have same number of entries" << std::endl;
-    return;
-  }
 
   // ---------------------------------------
   // Link tree branches
@@ -183,10 +183,10 @@ void BasefiTQunAnalysis::RunSingleFile(std::string file_WCSim_name, std::string 
   tin_WCSim->SetBranchAddress("wcsimrootevent",&WCSim_ID_event);
   tin_WCSim->SetBranchAddress("wcsimrootevent_OD",&WCSim_OD_event);
 
-  // fiTQun file
   // (NEUT RooTracker tree)
   tin_NRooTrk->SetBranchAddress("NRooTrackerVtx",&NRooTrackerVtx);
 
+  // fiTQun file
   // (fiTQun tree)
   tin_fiTQun->SetBranchAddress("nevt",&nevt);
 
