@@ -5,6 +5,6 @@ initialdir = /vols/hyperk/users/xzhao/HK/IWCD/OutputFiles/fiTQun_output/logs/
 log = $(CLUSTER).$(PROCESS).log
 output = $(CLUSTER).$(PROCESS).out
 error = $(CLUSTER).$(PROCESS).error
-+MaxRuntime = 32400
++MaxRuntime = 86400
 
 queue file_url from file_list.txt
