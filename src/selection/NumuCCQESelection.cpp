@@ -165,7 +165,7 @@ bool NumuCCQESelection::PassSigFullSelection(AnafiTQunEvent &event){
   // OD veto
   if(!SelectionUtils::PassODVetoNumuCCQE(event)) return false;
   // Number of reconstructed ring cut
-  if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
+  //if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
   // Number of subevent cut
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
   // FV cut
@@ -193,7 +193,7 @@ bool NumuCCQESelection::PassSigSelection_WallRmv(AnafiTQunEvent &event){
   // OD veto
   if(!SelectionUtils::PassODVetoNumuCCQE(event)) return false;
   // Number of reconstructed ring cut
-  if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
+  //if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
   // Number of subevent cut
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
   // Containment cut
@@ -219,7 +219,7 @@ bool NumuCCQESelection::PassSigSelection_MomRmv(AnafiTQunEvent &event){
   // OD veto
   if(!SelectionUtils::PassODVetoNumuCCQE(event)) return false;
   // Number of reconstructed ring cut
-  if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
+  //if(!SelectionUtils::PassRingCutNumuCCQE(event)) return false;
   // Number of subevent cut
   if(!SelectionUtils::PassSubeventCutNumuCCQE(event)) return false;
   // FV cut
